@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MicroFinance Pro — Haïti · Système de Gestion</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --green: #16a97e;
+  --green-dark: #0d7a5c;
+  --green-light: #e6f7f2;
+  --green-text: #0a5c44;
+  --red: #e84040;
+  --red-light: #fdf0f0;
+  --amber: #d97706;
+  --amber-light: #fffbeb;
+  --blue: #2563eb;
+  --blue-light: #eff6ff;
+  --purple: #7c3aed;
+  --purple-light: #f5f3ff;
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --surface2: #f9fafb;
+  --border: #e5e7eb;
+  --border2: #d1d5db;
+  --text: #111827;
+  --text2: #6b7280;
+  --text3: #9ca3af;
+  --sidebar-w: 210px;
+  --topbar-h: 56px;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text); background: var(--bg); overflow: hidden; height: 100vh; }
+
+/* ── Layout ── */
+.layout { display: flex; height: 100vh; }
+.sidebar { width: var(--sidebar-w); background: var(--text); display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden; }
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
+.topbar { height: var(--topbar-h); background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 16px; flex-shrink: 0; }
+.content { flex: 1; overflow-y: auto; padding: 24px; }
+
+/* ── Sidebar ── */
+.logo { padding: 18px 18px 14px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.logo-title { font-size: 15px; font-weight: 600; color: #fff; letter-spacing: -.2px; }
+.logo-sub { font-size: 10px; color: rgba(255,255,255,.4); margin-top: 1px; font-family: 'DM Mono', monospace; letter-spacing: .05em; }
+.logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; margin-right: 5px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+.nav { flex: 1; padding: 10px 10px; overflow-y: auto; }
+.nav-group { font-size: 10px; color: rgba(255,255,255,.3); padding: 10px 8px 4px; letter-spacing: .08em; font-weight: 500; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--radius-sm); cursor: pointer; color: rgba(255,255,255,.55); font-size: 13px; font-weight: 400; transition: all .15s; margin-bottom: 1px; }
+.nav-item:hover { background: rgba(255,255,255,.07); color: #fff; }
+.nav-item.active { background: var(--green); color: #fff; font-weight: 500; }
+.nav-icon { width: 16px; height: 16px; flex-shrink: 0; }
+.sidebar-footer { padding: 14px; border-top: 1px solid rgba(255,255,255,.08); }
+.user-card { display: flex; align-items: center; gap: 9px; }
+.user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #fff; flex-shrink: 0; }
+.user-name { font-size: 12px; color: rgba(255,255,255,.7); font-weight: 500; }
+.user-role { font-size: 10px; color: rgba(255,255,255,.35); }
+
+/* ── Topbar ── */
+.topbar-title { font-size: 15px; font-weight: 600; flex: 1; }
+.topbar-search { flex: 1; max-width: 320px; position: relative; }
+.topbar-search input { width: 100%; padding: 8px 12px 8px 36px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; background: var(--surface2); color: var(--text); font-family: 'DM Sans', sans-serif; }
+.topbar-search input:focus { outline: none; border-color: var(--green); background: #fff; }
+.search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text3); }
+.topbar-date { font-size: 12px; color: var(--text2); font-family: 'DM Mono', monospace; }
+.db-badge { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--green); background: var(--green-light); padding: 4px 10px; border-radius: 99px; font-weight: 500; }
+
+/* ── Buttons ── */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--text); transition: all .15s; font-family: 'DM Sans', sans-serif; }
+.btn:hover { background: var(--surface2); }
+.btn-primary { background: var(--green); border-color: var(--green); color: #fff; }
+.btn-primary:hover { background: var(--green-dark); }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-danger { background: var(--red); border-color: var(--red); color: #fff; }
+.btn-danger:hover { background: #c53030; }
+.btn-ghost { border-color: transparent; background: transparent; color: var(--text2); }
+.btn-ghost:hover { background: var(--surface2); color: var(--text); }
+
+/* ── Metric Cards ── */
+.metrics { display: grid; gap: 14px; margin-bottom: 20px; }
+.mc { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); }
+.mc-label { font-size: 12px; color: var(--text2); font-weight: 500; margin-bottom: 8px; }
+.mc-val { font-size: 24px; font-weight: 600; letter-spacing: -.5px; line-height: 1; }
+.mc-sub { font-size: 11px; color: var(--text3); margin-top: 5px; }
+.mc-up { color: var(--green); } .mc-dn { color: var(--red); }
+.mc-accent { border-left: 3px solid var(--green); }
+
+/* ── Cards ── */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
+.card-header { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--surface2); }
+.card-title { font-size: 13px; font-weight: 600; }
+
+/* ── Tables ── */
+.tbl-wrap { overflow-x: auto; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl th { padding: 9px 16px; text-align: left; font-size: 11px; font-weight: 600; color: var(--text2); border-bottom: 1px solid var(--border); background: var(--surface2); text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
+.tbl td { padding: 10px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tbody tr:hover td { background: var(--surface2); cursor: pointer; }
+.tbl-actions { display: flex; gap: 4px; }
+
+/* ── Badges ── */
+.badge { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 99px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-green { background: var(--green-light); color: var(--green-text); }
+.badge-red { background: var(--red-light); color: #9b1c1c; }
+.badge-amber { background: var(--amber-light); color: #92400e; }
+.badge-blue { background: var(--blue-light); color: #1e40af; }
+.badge-purple { background: var(--purple-light); color: #5b21b6; }
+.badge-gray { background: #f3f4f6; color: #374151; }
+
+/* ── Forms / Inputs ── */
+.form-grid { display: grid; gap: 14px; }
+.form-2 { grid-template-columns: 1fr 1fr; }
+.form-3 { grid-template-columns: 1fr 1fr 1fr; }
+.fg { display: flex; flex-direction: column; gap: 5px; }
+.fg label { font-size: 12px; font-weight: 500; color: var(--text2); }
+.fg input, .fg select, .fg textarea { padding: 9px 12px; border: 1px solid var(--border2); border-radius: var(--radius-sm); font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); background: #fff; transition: border-color .15s; }
+.fg input:focus, .fg select:focus, .fg textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(22,169,126,.1); }
+.fg textarea { resize: vertical; min-height: 70px; }
+.fg select { cursor: pointer; }
+.field-note { font-size: 11px; color: var(--text3); font-style: italic; }
+
+/* ── Modal ── */
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; align-items: center; justify-content: center; backdrop-filter: blur(2px); }
+.modal-bg.open { display: flex; }
+.modal { background: var(--surface); border-radius: var(--radius); width: 520px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-md); }
+.modal-header { padding: 18px 22px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.modal-header h2 { font-size: 15px; font-weight: 600; }
+.modal-close { width: 28px; height: 28px; border-radius: 50%; border: none; background: var(--surface2); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text2); font-size: 16px; }
+.modal-body { padding: 20px 22px; }
+.modal-footer { padding: 14px 22px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; background: var(--surface2); }
+.modal-lg { width: 720px; }
+
+/* ── Progress ── */
+.progress { height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 99px; background: var(--green); transition: width .3s; }
+
+/* ── Toast ── */
+.toast-wrap { position: fixed; bottom: 24px; right: 24px; z-index: 999; display: flex; flex-direction: column; gap: 8px; }
+.toast { background: var(--text); color: #fff; padding: 12px 18px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; box-shadow: var(--shadow-md); transform: translateX(120%); transition: transform .3s; display: flex; align-items: center; gap: 8px; max-width: 320px; }
+.toast.show { transform: translateX(0); }
+.toast-success { border-left: 3px solid var(--green); }
+.toast-error { border-left: 3px solid var(--red); }
+
+/* ── Charts ── */
+.mini-chart { display: flex; align-items: flex-end; gap: 6px; height: 80px; }
+.mini-bar { flex: 1; border-radius: 4px 4px 0 0; transition: opacity .2s; position: relative; }
+.mini-bar:hover { opacity: .8; }
+.mini-bar-label { text-align: center; font-size: 9px; color: var(--text3); margin-top: 4px; }
+
+/* ── Simulator ── */
+.sim-result { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
+.sim-card { background: var(--green-light); border-radius: var(--radius-sm); padding: 12px; text-align: center; }
+.sim-card-label { font-size: 11px; color: var(--green-text); font-weight: 500; }
+.sim-card-val { font-size: 16px; font-weight: 700; color: var(--green-dark); margin-top: 4px; font-family: 'DM Mono', monospace; }
+
+/* ── Amortization ── */
+.amort { width: 100%; border-collapse: collapse; font-size: 12px; font-family: 'DM Mono', monospace; }
+.amort th { padding: 7px 10px; background: var(--surface2); border-bottom: 1px solid var(--border); font-size: 10px; color: var(--text2); text-align: right; font-family: 'DM Sans', sans-serif; text-transform: uppercase; letter-spacing: .04em; }
+.amort th:first-child { text-align: left; }
+.amort td { padding: 6px 10px; border-bottom: 1px solid var(--border); text-align: right; }
+.amort td:first-child { text-align: left; color: var(--text2); }
+.amort tr:last-child td { border-bottom: none; }
+
+/* ── Pages hidden ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── Two-col layout ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+/* ── Detail view ── */
+.client-detail-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.client-avatar-lg { width: 52px; height: 52px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; }
+.detail-row { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.detail-row:nth-child(odd):last-child, .detail-row:nth-child(even):last-child { border-bottom: none; }
+.detail-label { font-size: 11px; color: var(--text2); font-weight: 500; }
+.detail-val { font-size: 13px; font-weight: 500; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+
+/* ── Loading ── */
+.loading-screen { position: fixed; inset: 0; background: #111827; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 99999; transition: opacity .5s; }
+.loading-screen.done { opacity: 0; pointer-events: none; }
+.loading-logo { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.loading-logo span { color: var(--green); }
+.loading-bar { width: 240px; height: 3px; background: rgba(255,255,255,.15); border-radius: 99px; overflow: hidden; margin-top: 24px; }
+.loading-fill { height: 100%; width: 0%; background: var(--green); border-radius: 99px; transition: width .4s; }
+.loading-text { font-size: 12px; color: rgba(255,255,255,.4); margin-top: 10px; font-family: 'DM Mono', monospace; }
+
+/* ── Export bar ── */
+.export-bar { display: flex; gap: 8px; align-items: center; }
+
+/* ── Rapports ── */
+.rapport-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+.rapport-item:last-child { border-bottom: none; }
+.rapport-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* ── KPI row ── */
+.kpi-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.kpi-row:last-child { border-bottom: none; }
+.kpi-label { color: var(--text2); }
+.kpi-val { font-weight: 600; font-family: 'DM Mono', monospace; }
+
+/* ── Params ── */
+.param-section { margin-bottom: 24px; }
+.param-section h3 { font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: .04em; }
+
+/* ── SQL console ── */
+.sql-console { background: #1a1b26; border-radius: var(--radius); padding: 16px; }
+.sql-console textarea { width: 100%; background: transparent; border: none; color: #a9b1d6; font-family: 'DM Mono', monospace; font-size: 12px; resize: none; min-height: 80px; outline: none; }
+.sql-output { margin-top: 12px; background: #0d0e17; border-radius: 6px; padding: 12px; font-family: 'DM Mono', monospace; font-size: 11px; color: #73daca; max-height: 200px; overflow-y: auto; white-space: pre-wrap; word-break: break-all; }
+
+/* ── filter toolbar ── */
+.filter-bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.filter-bar input, .filter-bar select { padding: 7px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; background: var(--surface); color: var(--text); font-family: 'DM Sans', sans-serif; }
+.filter-bar input:focus, .filter-bar select:focus { outline: none; border-color: var(--green); }
+
+/* responsive quick fix */
+@media (max-width: 900px) {
+  .two-col, .three-col, .form-2, .form-3 { grid-template-columns: 1fr; }
+  .sidebar { width: 170px; }
+}
+
+/* ── Login Screen ── */
+.login-screen{position:fixed;inset:0;background:#111827;z-index:9998;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.login-screen.hidden{display:none}
+.login-box{background:#1a1b26;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:36px 40px;width:360px;max-width:92vw}
+.login-logo{font-size:22px;font-weight:700;color:#fff;text-align:center;margin-bottom:4px}
+.login-logo span{color:#16a97e}
+.login-sub{font-size:12px;color:rgba(255,255,255,.35);text-align:center;margin-bottom:28px;font-family:'DM Mono',monospace}
+.login-fg{margin-bottom:14px}
+.login-fg label{display:block;font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.04em;text-transform:uppercase}
+.login-fg input{width:100%;padding:10px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;color:#fff;font-size:13px;font-family:'DM Sans',sans-serif}
+.login-fg input:focus{outline:none;border-color:#16a97e}
+.login-btn{width:100%;padding:11px;background:#16a97e;border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin-top:8px;font-family:'DM Sans',sans-serif}
+.login-btn:hover{background:#0d7a5c}
+.login-error{font-size:12px;color:#f87171;text-align:center;margin-top:10px;min-height:18px}
+.role-bar{display:flex;align-items:center;gap:8px;padding:0 16px;font-size:12px}
+.role-badge{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600}
+.role-directeur{background:#5b21b6;color:#ede9fe}
+.role-agent{background:#1e40af;color:#dbeafe}
+.role-caissier{background:#065f46;color:#d1fae5}
+.role-auditeur{background:#92400e;color:#fef3c7}
+/* Nav item hidden by role */
+.nav-item[data-roles]:not([data-visible]){display:none}
+</style>
+</head>
+<body>
+
+
+<div class="login-screen hidden" id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Micro<span>Finance</span> Pro</div>
+    <div class="login-sub">Système de Gestion · Haïti</div>
+    <div class="login-fg">
+      <label>Nom d'utilisateur</label>
+      <input type="text" id="login-user" placeholder="ex: admin" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div class="login-fg">
+      <label>Mot de passe</label>
+      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Se connecter</button>
+    <div class="login-error" id="login-error"></div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08)">
+      <div style="font-size:10px;color:rgba(255,255,255,.25);text-align:center;margin-bottom:8px">COMPTES DE DÉMONSTRATION</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <button onclick="quickLogin('admin','admin123')" style="padding:6px;background:rgba(91,33,182,.3);border:1px solid rgba(91,33,182,.4);border-radius:6px;color:#ede9fe;font-size:11px;cursor:pointer">Directeur</button>
+        <button onclick="quickLogin('agent1','agent123')" style="padding:6px;background:rgba(30,64,175,.3);border:1px solid rgba(30,64,175,.4);border-radius:6px;color:#dbeafe;font-size:11px;cursor:pointer">Agent crédit</button>
+        <button onclick="quickLogin('caissier1','caisse123')" style="padding:6px;background:rgba(6,95,70,.3);border:1px solid rgba(6,95,70,.4);border-radius:6px;color:#d1fae5;font-size:11px;cursor:pointer">Caissier</button>
+        <button onclick="quickLogin('auditeur1','audit123')" style="padding:6px;background:rgba(146,64,14,.3);border:1px solid rgba(146,64,14,.4);border-radius:6px;color:#fef3c7;font-size:11px;cursor:pointer">Auditeur</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading Screen -->
+<div class="loading-screen" id="loading">
+  <div class="loading-logo">Micro<span>Finance</span> Pro</div>
+  <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:4px;font-family:'DM Mono',monospace">Système de Gestion Intégré</div>
+  <div class="loading-bar"><div class="loading-fill" id="loading-fill"></div></div>
+  <div class="loading-text" id="loading-text">Initialisation de la base de données...</div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<!-- Main Layout -->
+<div class="layout">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-title"><span class="logo-dot"></span>MicroFinance Pro</div>
+      <div class="logo-sub">v2.0 · SQLite intégré</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-group">Principal</div>
+      <div class="nav-item active" data-page="dashboard" onclick="gotoPage('dashboard',this)" data-roles="directeur,agent,caissier,auditeur">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.2" fill="currentColor" opacity=".9"/><rect x="9" y="1" width="6" height="6" rx="1.2" fill="currentColor" opacity=".5"/><rect x="1" y="9" width="6" height="6" rx="1.2" fill="currentColor" opacity=".5"/><rect x="9" y="9" width="6" height="6" rx="1.2" fill="currentColor" opacity=".9"/></svg>
+        Tableau de bord
+      </div>
+      <div class="nav-group">Gestion</div>
+      <div class="nav-item" data-page="clients" onclick="gotoPage('clients',this)" data-roles="directeur,agent">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5.5" r="3" fill="currentColor" opacity=".8"/><path d="M1 13.5c0-2.8 2.2-4.5 5-4.5s5 1.7 5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="12.5" cy="6" r="2" fill="currentColor" opacity=".45"/><path d="M13.5 13.5c0-2-1.2-3-3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Clients
+      </div>
+      <div class="nav-item" data-page="prets" onclick="gotoPage('prets',this)" data-roles="directeur,agent">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="4.5" width="14" height="9" rx="1.5" fill="currentColor" opacity=".55"/><path d="M5 4.5V3.5a3 3 0 016 0v1" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="9" r="2" fill="var(--text)" opacity=".9"/></svg>
+        Prêts
+      </div>
+      <div class="nav-item" data-page="epargne" onclick="gotoPage('epargne',this)" data-roles="directeur,caissier">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><ellipse cx="8" cy="10" rx="6" ry="3.5" fill="currentColor" opacity=".4"/><ellipse cx="8" cy="8" rx="6" ry="3.5" fill="currentColor" opacity=".6"/><ellipse cx="8" cy="6" rx="6" ry="3.5" fill="currentColor" opacity=".85"/></svg>
+        Épargne
+      </div>
+      <div class="nav-item" data-page="remboursements" onclick="gotoPage('remboursements',this)" data-roles="directeur,agent,caissier">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2 8h10M9 5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="2.5" cy="12" r="1.5" fill="currentColor" opacity=".6"/></svg>
+        Remboursements
+      </div>
+      <div class="nav-group">Analyse</div>
+      <div class="nav-item" data-page="rapports" onclick="gotoPage('rapports',this)" data-roles="directeur,auditeur">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="1.5" width="12" height="13" rx="1.5" fill="currentColor" opacity=".45"/><path d="M5 5.5h6M5 8h6M5 10.5h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Rapports
+      </div>
+      <div class="nav-item" data-page="sql" onclick="gotoPage('sql',this)" data-roles="directeur">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="1.5" fill="currentColor" opacity=".4"/><path d="M4 7l2 2-2 2M8 11h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Console SQL
+      </div>
+      <div class="nav-group">Système</div>
+      <div class="nav-item" data-page="parametres" onclick="gotoPage('parametres',this)" data-roles="directeur">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.5" fill="currentColor" opacity=".7"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.1 3.1l1.4 1.4M11.5 11.5l1.4 1.4M3.1 12.9l1.4-1.4M11.5 4.5l1.4-1.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Paramètres
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar">AD</div>
+        <div><div class="user-name">Admin</div><div class="user-role">Directeur</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="page-title">Tableau de bord</div>
+      <div class="topbar-search">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M9.5 9.5L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <input type="text" placeholder="Rechercher client, prêt..." id="global-search" oninput="globalSearch(this.value)"/>
+      </div>
+      <div id="role-bar" class="role-bar"></div><div class="db-badge">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block"></span>
+        SQLite actif
+      </div>
+      <div class="topbar-date" id="topbar-date"></div>
+      <button class="btn btn-sm" onclick="exportDB()">💾 Exporter BD</button><button class="btn btn-sm" onclick="logout()" style="border-color:var(--red,#e84040);color:var(--red,#e84040)">Déconnexion</button>
+    </div>
+    <div class="content">
+
+      <!-- ══ DASHBOARD ══ -->
+      <div id="page-dashboard" class="page active">
+        <div class="metrics" style="grid-template-columns:repeat(4,1fr)" id="dash-metrics">
+          <div class="mc mc-accent"><div class="mc-label">Total clients</div><div class="mc-val" id="m-clients">—</div><div class="mc-sub mc-up" id="m-clients-sub"></div></div>
+          <div class="mc mc-accent"><div class="mc-label">Prêts actifs</div><div class="mc-val" id="m-prets">—</div><div class="mc-sub" id="m-prets-sub"></div></div>
+          <div class="mc mc-accent"><div class="mc-label">Épargne totale</div><div class="mc-val" id="m-epargne-val">—</div><div class="mc-sub mc-up" id="m-epargne-sub"></div></div>
+          <div class="mc mc-accent"><div class="mc-label">Taux remboursement</div><div class="mc-val" id="m-trb">—</div><div class="mc-sub" id="m-trb-sub"></div></div>
+        </div>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-header"><div class="card-title">Répartition par secteur</div></div>
+            <div style="padding:16px" id="dash-secteurs"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Statuts des prêts</div></div>
+            <div style="padding:16px" id="dash-statuts"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">⚠ Alertes — Remboursements en retard</div><span class="badge badge-red" id="alert-count">0</span></div>
+          <div class="tbl-wrap"><table class="tbl" id="dash-alerts-tbl">
+            <thead><tr><th>Client</th><th>N° Prêt</th><th>Montant dû</th><th>Retard</th><th>Statut</th></tr></thead>
+            <tbody id="dash-alerts-body"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ══ CLIENTS ══ -->
+      <div id="page-clients" class="page">
+        <div class="metrics" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px">
+          <div class="mc"><div class="mc-label">Total clients</div><div class="mc-val" id="c-total">0</div></div>
+          <div class="mc"><div class="mc-label">Actifs</div><div class="mc-val mc-up" id="c-actifs">0</div></div>
+          <div class="mc"><div class="mc-label">Avec prêt actif</div><div class="mc-val" id="c-avec-pret">0</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="filter-bar">
+              <input type="text" placeholder="Rechercher..." id="clients-search" oninput="loadClients()"/>
+              <select id="clients-filter-statut" onchange="loadClients()"><option value="">Tous statuts</option><option>Actif</option><option>Inactif</option><option>Retard</option></select>
+              <select id="clients-filter-secteur" onchange="loadClients()"><option value="">Tous secteurs</option><option>Commerce</option><option>Agriculture</option><option>Artisanat</option><option>Services</option></select>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('m-client')">+ Nouveau client</button>
+          </div>
+          <div class="tbl-wrap"><table class="tbl">
+            <thead><tr><th>Nom complet</th><th>Téléphone</th><th>Localité</th><th>Secteur</th><th>Épargne</th><th>Statut</th><th></th></tr></thead>
+            <tbody id="clients-body"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ══ PRÊTS ══ -->
+      <div id="page-prets" class="page">
+        <div class="metrics" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px">
+          <div class="mc"><div class="mc-label">Prêts actifs</div><div class="mc-val" id="p-actifs">0</div></div>
+          <div class="mc"><div class="mc-label">Encours total</div><div class="mc-val" id="p-encours">0</div></div>
+          <div class="mc"><div class="mc-label">PAR 30j</div><div class="mc-val mc-dn" id="p-par">0%</div></div>
+          <div class="mc"><div class="mc-label">Clôturés</div><div class="mc-val" id="p-clos">0</div></div>
+        </div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-header"><div class="card-title">Simulateur de prêt</div><span class="badge badge-blue">Calcul automatique</span></div>
+          <div style="padding:16px">
+            <div class="form-grid form-3" style="margin-bottom:12px">
+              <div class="fg"><label>Montant (HTG)</label><input type="number" id="sim-m" value="20000" oninput="simCalc()"/></div>
+              <div class="fg"><label>Durée (mois)</label><input type="number" id="sim-d" value="12" min="1" max="120" oninput="simCalc()"/></div>
+              <div class="fg"><label>Taux annuel (%)</label><input type="number" id="sim-t" value="18" step="0.5" oninput="simCalc()"/></div>
+            </div>
+            <div class="sim-result" id="sim-result"></div>
+            <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Tableau d'amortissement</div>
+            <div style="max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-sm)">
+              <table class="amort"><thead><tr><th>#</th><th>Échéance</th><th>Principal</th><th>Intérêts</th><th>Solde</th></tr></thead>
+              <tbody id="amort-body"></tbody></table>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="filter-bar">
+              <input type="text" placeholder="Rechercher..." id="prets-search" oninput="loadPrets()"/>
+              <select id="prets-filter-statut" onchange="loadPrets()"><option value="">Tous statuts</option><option>En cours</option><option>En retard</option><option>Critique</option><option>Clôturé</option></select>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('m-pret')">+ Nouveau prêt</button>
+          </div>
+          <div class="tbl-wrap"><table class="tbl">
+            <thead><tr><th>N° Prêt</th><th>Client</th><th>Montant</th><th>Durée</th><th>Taux</th><th>Solde restant</th><th>Avancement</th><th>Statut</th><th></th></tr></thead>
+            <tbody id="prets-body"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ══ ÉPARGNE ══ -->
+      <div id="page-epargne" class="page">
+        <div class="metrics" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px">
+          <div class="mc"><div class="mc-label">Épargnants actifs</div><div class="mc-val" id="e-total">0</div></div>
+          <div class="mc"><div class="mc-label">Épargne totale</div><div class="mc-val" id="e-montant">0</div></div>
+          <div class="mc"><div class="mc-label">Dépôt moyen</div><div class="mc-val" id="e-moy">0</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="filter-bar">
+              <input type="text" placeholder="Rechercher..." id="epargne-search" oninput="loadEpargne()"/>
+              <select id="epargne-filter-type" onchange="loadEpargne()"><option value="">Tous types</option><option>Épargne libre</option><option>Épargne obligatoire</option><option>Épargne groupe</option></select>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('m-epargne')">+ Opération</button>
+          </div>
+          <div class="tbl-wrap"><table class="tbl">
+            <thead><tr><th>N° Compte</th><th>Client</th><th>Type</th><th>Solde</th><th>Dernier mouvement</th><th>Statut</th><th></th></tr></thead>
+            <tbody id="epargne-body"></tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Historique des mouvements</div></div>
+          <div class="tbl-wrap"><table class="tbl">
+            <thead><tr><th>Date</th><th>Client</th><th>Opération</th><th>Montant</th><th>Solde après</th><th>Agent</th></tr></thead>
+            <tbody id="mouvements-body"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ══ REMBOURSEMENTS ══ -->
+      <div id="page-remboursements" class="page">
+        <div class="metrics" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px">
+          <div class="mc"><div class="mc-label">Échéances totales</div><div class="mc-val" id="r-total">0</div></div>
+          <div class="mc"><div class="mc-label">Payées</div><div class="mc-val mc-up" id="r-payees">0</div></div>
+          <div class="mc"><div class="mc-label">En retard</div><div class="mc-val mc-dn" id="r-retard">0</div></div>
+          <div class="mc"><div class="mc-label">Montant collecté</div><div class="mc-val" id="r-collecte">0</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="filter-bar">
+              <input type="text" placeholder="Rechercher..." id="rembours-search" oninput="loadRemboursements()"/>
+              <select id="rembours-filter-statut" onchange="loadRemboursements()"><option value="">Tous statuts</option><option>Payé</option><option>En attente</option><option>Retard</option></select>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('m-rembours')">+ Enregistrer paiement</button>
+          </div>
+          <div class="tbl-wrap"><table class="tbl">
+            <thead><tr><th>N° Échéance</th><th>Client</th><th>Prêt</th><th>Date échéance</th><th>Montant</th><th>Date paiement</th><th>Mode</th><th>Statut</th><th></th></tr></thead>
+            <tbody id="rembours-body"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ══ RAPPORTS ══ -->
+      <div id="page-rapports" class="page">
+        <div class="two-col" style="margin-bottom:16px">
+          <div class="card" style="margin-bottom:0">
+            <div class="card-header"><div class="card-title">Indicateurs clés (KPI)</div></div>
+            <div style="padding:0 16px" id="kpi-body"></div>
+          </div>
+          <div class="card" style="margin-bottom:0">
+            <div class="card-header"><div class="card-title">Générer un rapport</div></div>
+            <div style="padding:8px 0" id="rapports-list">
+              <div class="rapport-item"><div style="display:flex;align-items:center;gap:10px"><div class="rapport-icon" style="background:#e6f7f2"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="#16a97e" stroke-width="1.5" stroke-linecap="round"/></svg></div><div><div style="font-size:13px;font-weight:500">Rapport mensuel remboursements</div><div style="font-size:11px;color:var(--text2)">Analyse des paiements du mois</div></div></div><button class="btn btn-sm" onclick="generateReport('mensuel')">Générer</button></div>
+              <div class="rapport-item"><div style="display:flex;align-items:center;gap:10px"><div class="rapport-icon" style="background:#fdf0f0"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#e84040" stroke-width="1.5"/><path d="M8 5v4M8 11v.5" stroke="#e84040" stroke-width="1.5" stroke-linecap="round"/></svg></div><div><div style="font-size:13px;font-weight:500">Analyse risque portefeuille</div><div style="font-size:11px;color:var(--text2)">PAR30, clients critiques</div></div></div><button class="btn btn-sm" onclick="generateReport('risque')">Générer</button></div>
+              <div class="rapport-item"><div style="display:flex;align-items:center;gap:10px"><div class="rapport-icon" style="background:#eff6ff"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><ellipse cx="8" cy="9" rx="5" ry="3" fill="none" stroke="#2563eb" stroke-width="1.5"/><ellipse cx="8" cy="7" rx="5" ry="3" fill="none" stroke="#2563eb" stroke-width="1.5"/></svg></div><div><div style="font-size:13px;font-weight:500">Rapport épargne & collecte</div><div style="font-size:11px;color:var(--text2)">Évolution des dépôts par client</div></div></div><button class="btn btn-sm" onclick="generateReport('epargne')">Générer</button></div>
+              <div class="rapport-item"><div style="display:flex;align-items:center;gap:10px"><div class="rapport-icon" style="background:#f5f3ff"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="#7c3aed" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div style="font-size:13px;font-weight:500">Bilan financier trimestriel</div><div style="font-size:11px;color:var(--text2)">Produits, charges, résultat net</div></div></div><button class="btn btn-sm" onclick="generateReport('bilan')">Générer</button></div>
+              <div class="rapport-item"><div style="display:flex;align-items:center;gap:10px"><div class="rapport-icon" style="background:#fffbeb"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="#d97706" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="#d97706" stroke-width="1.5" stroke-linecap="round"/></svg></div><div><div style="font-size:13px;font-weight:500">Export données complet (CSV)</div><div style="font-size:11px;color:var(--text2)">Tous les enregistrements</div></div></div><button class="btn btn-sm btn-primary" onclick="exportCSV()">Exporter</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title" id="report-title">Rapport — cliquez sur "Générer" ci-dessus</div></div>
+          <div style="padding:16px" id="report-content"><div style="color:var(--text3);font-size:13px;text-align:center;padding:24px">Sélectionnez un rapport pour l'afficher ici.</div></div>
+        </div>
+      </div>
+
+      <!-- ══ SQL CONSOLE ══ -->
+      <div id="page-sql" class="page">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Console SQL — Base de données SQLite</div><span class="badge badge-purple">Accès direct BD</span></div>
+          <div style="padding:16px">
+            <div style="margin-bottom:10px;font-size:12px;color:var(--text2)">Exécutez des requêtes SQL directement sur la base de données. Tables : <code>clients</code>, <code>prets</code>, <code>echeances</code>, <code>epargne</code>, <code>mouvements</code></div>
+            <div class="sql-console">
+              <textarea id="sql-input" placeholder="SELECT * FROM clients LIMIT 10;">SELECT c.nom_complet, COUNT(p.id) as nb_prets, SUM(e.solde) as epargne
+FROM clients c
+LEFT JOIN prets p ON p.client_id = c.id AND p.statut = 'En cours'
+LEFT JOIN epargne e ON e.client_id = c.id
+GROUP BY c.id
+ORDER BY epargne DESC
+LIMIT 10;</textarea>
+            </div>
+            <div style="display:flex;gap:8px;margin:10px 0">
+              <button class="btn btn-primary btn-sm" onclick="runSQL()">▶ Exécuter</button>
+              <button class="btn btn-sm" onclick="document.getElementById('sql-input').value=''">Effacer</button>
+              <button class="btn btn-sm" onclick="document.getElementById('sql-input').value='SELECT * FROM clients LIMIT 20;'">Voir clients</button>
+              <button class="btn btn-sm" onclick="document.getElementById('sql-input').value='SELECT * FROM prets ORDER BY date_debut DESC LIMIT 20;'">Voir prêts</button>
+              <button class="btn btn-sm" onclick="document.getElementById('sql-input').value='SELECT * FROM echeances WHERE statut != \'Payé\' ORDER BY date_echeance LIMIT 20;'">Retards</button>
+              <button class="btn btn-sm" onclick="document.getElementById('sql-input').value='SELECT name FROM sqlite_master WHERE type=\'table\';'">Tables</button>
+            </div>
+            <div class="sql-output" id="sql-output">-- Résultats s'afficheront ici</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Schéma de la base de données</div></div>
+          <div style="padding:16px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);line-height:1.8" id="schema-display"></div>
+        </div>
+      </div>
+
+      <!-- ══ PARAMÈTRES ══ -->
+      <div id="page-parametres" class="page">
+        <div class="two-col">
+          <div class="card" style="margin-bottom:0">
+            <div class="card-header"><div class="card-title">Institution</div></div>
+            <div style="padding:16px">
+              <div class="param-section">
+                <div class="form-grid">
+                  <div class="fg"><label>Nom de l'institution</label><input type="text" id="p-nom" value="MicroFinance Plus S.A. Haiti"/></div>
+                  <div class="fg"><label>Pays</label><select id="p-pays"><option selected>Haïti</option><option>République Dominicaine</option><option>Cuba</option><option>Sénégal</option><option>Mali</option><option>Burkina Faso</option><option>Cameroun</option><option>Guinée</option><option>Togo</option><option>Bénin</option></select></div>
+                  <div class="fg"><label>Monnaie</label><select id="p-monnaie"><option>HTG (Gourde haïtienne)</option><option>EUR</option><option>USD</option><option>CFA (XOF)</option></select></div>
+                  <div class="fg"><label>Email</label><input type="email" value="admin@microfinanceplus.ht"/></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom:0">
+            <div class="card-header"><div class="card-title">Paramètres prêts</div></div>
+            <div style="padding:16px">
+              <div class="form-grid">
+                <div class="fg"><label>Taux par défaut (%/an)</label><input type="number" value="18" id="p-taux"/></div>
+                <div class="fg"><label>Méthode de calcul</label><select><option>Dégressif (capital restant)</option><option>Flat (capital initial)</option></select></div>
+                <div class="fg"><label>Durée max (mois)</label><input type="number" value="60"/></div>
+                <div class="fg"><label>Seuil alerte retard (jours)</label><input type="number" value="7"/></div>
+                <div class="fg"><label>Seuil PAR critique (%)</label><input type="number" value="5"/></div>
+                <div class="fg"><label>Frais de dossier (%)</label><input type="number" value="1" step="0.1"/></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-header"><div class="card-title">Utilisateurs & accès</div><button class="btn btn-primary btn-sm" onclick="toast('Invitation envoyée !','success')">+ Inviter un agent</button></div>
+          <div class="tbl-wrap"><table class="tbl">
+            <thead><tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Dernière connexion</th><th>Statut</th></tr></thead>
+            <tbody>
+              <tr><td>Admin Principal</td><td>admin@mfplus.ht</td><td><span class="badge badge-purple">Directeur</span></td><td>Aujourd'hui</td><td><span class="badge badge-green">Actif</span></td></tr>
+              <tr><td>Adjoua Nandjui</td><td>a.nandjui@mfplus.ht</td><td><span class="badge badge-blue">Agent crédit</span></td><td>Aujourd'hui</td><td><span class="badge badge-green">Actif</span></td></tr>
+              <tr><td>Kofi Diabaté</td><td>k.diabate@mfplus.ht</td><td><span class="badge badge-blue">Agent crédit</span></td><td>Hier</td><td><span class="badge badge-green">Actif</span></td></tr>
+              <tr><td>Sekou Bah</td><td>s.bah@mfplus.ht</td><td><span class="badge badge-gray">Caissier</span></td><td>22/04/2026</td><td><span class="badge badge-green">Actif</span></td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div style="margin-top:16px;display:flex;gap:8px">
+          <button class="btn btn-primary" onclick="saveParams()">Sauvegarder les paramètres</button>
+          <button class="btn btn-danger" onclick="if(confirm('Réinitialiser toutes les données ?')) initDB()">Réinitialiser la BD</button>
+          <button class="btn" onclick="exportDB()">💾 Exporter BD (.sql)</button>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<!-- ══ MODALS ══ -->
+
+<!-- Client -->
+<div class="modal-bg" id="m-client">
+  <div class="modal">
+    <div class="modal-header"><h2>Nouveau client</h2><button class="modal-close" onclick="closeModal('m-client')">×</button></div>
+    <div class="modal-body">
+      <div class="form-grid form-2">
+        <div class="fg"><label>Prénom *</label><input type="text" id="c-prenom" placeholder="Aminata"/></div>
+        <div class="fg"><label>Nom *</label><input type="text" id="c-nom" placeholder="Koné"/></div>
+        <div class="fg"><label>Téléphone *</label><input type="text" id="c-tel" placeholder="+225 07 000 000"/></div>
+        <div class="fg"><label>Date de naissance</label><input type="date" id="c-ddn"/></div>
+        <div class="fg"><label>Localité *</label><input type="text" id="c-loc" placeholder="Abidjan, Cocody"/></div>
+        <div class="fg"><label>Secteur *</label><select id="c-secteur"><option>Commerce</option><option>Agriculture</option><option>Artisanat</option><option>Services</option><option>Éducation</option><option>Santé</option></select></div>
+        <div class="fg"><label>Type pièce d'identité</label><select id="c-piece"><option>CNI</option><option>Passeport</option><option>Permis de conduire</option></select></div>
+        <div class="fg"><label>N° pièce</label><input type="text" id="c-npiece" placeholder="CI-0000-00000"/></div>
+        <div class="fg"><label>Revenu mensuel estimé (HTG)</label><input type="number" id="c-revenu" placeholder="20000"/></div>
+        <div class="fg"><label>Statut</label><select id="c-statut"><option>Actif</option><option>Inactif</option></select></div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn" onclick="closeModal('m-client')">Annuler</button><button class="btn btn-primary" onclick="saveClient()">Enregistrer</button></div>
+  </div>
+</div>
+
+<!-- Prêt -->
+<div class="modal-bg" id="m-pret">
+  <div class="modal modal-lg">
+    <div class="modal-header"><h2>Nouveau prêt</h2><button class="modal-close" onclick="closeModal('m-pret')">×</button></div>
+    <div class="modal-body">
+      <div class="form-grid form-2">
+        <div class="fg"><label>Client *</label><select id="p-client" onchange="prefillPret()"></select></div>
+        <div class="fg"><label>Objet du prêt *</label><input type="text" id="p-objet" placeholder="Fonds de roulement, équipement..."/></div>
+        <div class="fg"><label>Montant (HTG) *</label><input type="number" id="p-montant" value="50000" oninput="previewPret()"/></div>
+        <div class="fg"><label>Durée (mois) *</label><input type="number" id="p-duree" value="12" min="1" max="120" oninput="previewPret()"/></div>
+        <div class="fg"><label>Taux annuel (%) *</label><input type="number" id="p-taux2" value="18" step="0.5" oninput="previewPret()"/></div>
+        <div class="fg"><label>Méthode</label><select id="p-methode" onchange="previewPret()"><option value="degressif">Dégressif</option><option value="flat">Flat</option></select></div>
+        <div class="fg"><label>Fréquence</label><select id="p-freq"><option>Mensuel</option><option>Hebdomadaire</option><option>Bimensuel</option></select></div>
+        <div class="fg"><label>Date de décaissement *</label><input type="date" id="p-date"/></div>
+        <div class="fg"><label>Garantie</label><select id="p-garantie"><option>Épargne bloquée</option><option>Caution solidaire</option><option>Titre foncier</option><option>Nantissement</option><option>Aval</option></select></div>
+        <div class="fg"><label>Agent responsable</label><select id="p-agent"><option>Adjoua Nandjui</option><option>Kofi Diabaté</option></select></div>
+      </div>
+      <div style="margin-top:14px;padding:12px;background:var(--green-light);border-radius:var(--radius-sm)">
+        <div style="font-size:11px;font-weight:600;color:var(--green-text);margin-bottom:8px">APERÇU DU PRÊT</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12px">
+          <div><div style="color:var(--green-text);font-size:10px">Échéance mensuelle</div><div style="font-weight:700;color:var(--green-dark);font-family:'DM Mono',monospace" id="prev-ech">—</div></div>
+          <div><div style="color:var(--green-text);font-size:10px">Total intérêts</div><div style="font-weight:700;color:var(--green-dark);font-family:'DM Mono',monospace" id="prev-int">—</div></div>
+          <div><div style="color:var(--green-text);font-size:10px">Total à rembourser</div><div style="font-weight:700;color:var(--green-dark);font-family:'DM Mono',monospace" id="prev-tot">—</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn" onclick="closeModal('m-pret')">Annuler</button><button class="btn btn-primary" onclick="savePret()">Créer le prêt + générer échéancier</button></div>
+  </div>
+</div>
+
+<!-- Épargne -->
+<div class="modal-bg" id="m-epargne">
+  <div class="modal">
+    <div class="modal-header"><h2>Opération d'épargne</h2><button class="modal-close" onclick="closeModal('m-epargne')">×</button></div>
+    <div class="modal-body">
+      <div class="form-grid form-2">
+        <div class="fg"><label>Client *</label><select id="e-client"></select></div>
+        <div class="fg"><label>Type d'opération *</label><select id="e-operation"><option>Dépôt</option><option>Retrait</option></select></div>
+        <div class="fg"><label>Type d'épargne *</label><select id="e-type"><option>Épargne libre</option><option>Épargne obligatoire</option><option>Épargne groupe</option></select></div>
+        <div class="fg"><label>Montant (HTG) *</label><input type="number" id="e-montant" placeholder="2500"/></div>
+        <div class="fg"><label>Date *</label><input type="date" id="e-date"/></div>
+        <div class="fg"><label>Mode de paiement</label><select id="e-mode"><option>Espèces</option><option>Mobile Money</option><option>Virement</option><option>Chèque</option></select></div>
+        <div class="fg"><label>Agent</label><select id="e-agent"><option>Adjoua Nandjui</option><option>Kofi Diabaté</option><option>Sekou Bah</option></select></div>
+        <div class="fg"><label>Référence / reçu</label><input type="text" id="e-ref" placeholder="REC-2026-XXXX"/></div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn" onclick="closeModal('m-epargne')">Annuler</button><button class="btn btn-primary" onclick="saveEpargne()">Enregistrer</button></div>
+  </div>
+</div>
+
+<!-- Remboursement -->
+<div class="modal-bg" id="m-rembours">
+  <div class="modal">
+    <div class="modal-header"><h2>Enregistrer un paiement</h2><button class="modal-close" onclick="closeModal('m-rembours')">×</button></div>
+    <div class="modal-body">
+      <div class="form-grid form-2">
+        <div class="fg"><label>Client *</label><select id="r-client" onchange="loadEcheancesClient()"></select></div>
+        <div class="fg"><label>Échéance *</label><select id="r-echeance"></select></div>
+        <div class="fg"><label>Montant reçu (HTG) *</label><input type="number" id="r-montant" placeholder="5000"/></div>
+        <div class="fg"><label>Date de réception *</label><input type="date" id="r-date"/></div>
+        <div class="fg"><label>Mode de paiement</label><select id="r-mode"><option>Espèces</option><option>Mobile Money</option><option>Virement</option><option>Chèque</option></select></div>
+        <div class="fg"><label>Référence</label><input type="text" id="r-ref" placeholder="PAY-2026-XXXX"/></div>
+      </div>
+      <div class="fg" style="margin-top:12px"><label>Observations</label><textarea id="r-obs" placeholder="Paiement partiel, promesse de régularisation..."></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn" onclick="closeModal('m-rembours')">Annuler</button><button class="btn btn-primary" onclick="saveRembours()">Confirmer le paiement</button></div>
+  </div>
+</div>
+
+<!-- Detail modal -->
+<div class="modal-bg" id="m-detail">
+  <div class="modal modal-lg">
+    <div class="modal-header"><h2 id="detail-title">Détail</h2><button class="modal-close" onclick="closeModal('m-detail')">×</button></div>
+    <div class="modal-body" id="detail-body"></div>
+    <div class="modal-footer" id="detail-footer"><button class="btn" onclick="closeModal('m-detail')">Fermer</button></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// DATABASE ENGINE
+// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// BASE DE DONNÉES JS PURE (fonctionne sans serveur)
+// ═══════════════════════════════════════════════════════════
+const DB = {
+  clients:[], prets:[], echeances:[], epargne:[], mouvements:[], parametres:[],
+  _nextId: { clients:1, prets:1, echeances:1, epargne:1, mouvements:1 }
+};
+
+function saveDB() {
+  try { localStorage.setItem('mf_db_v3', JSON.stringify(DB)); } catch(e) {}
+}
+
+function loadDB() {
+  try {
+    const saved = localStorage.getItem('mf_db_v3');
+    if (saved) {
+      const d = JSON.parse(saved);
+      Object.assign(DB, d);
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+function nextId(table) {
+  if (!DB._nextId[table]) DB._nextId[table] = 1;
+  return DB._nextId[table]++;
+}
+
+// ── Query helpers ──────────────────────────────────────────
+function query(table, filterFn=null) {
+  const rows = DB[table] || [];
+  return filterFn ? rows.filter(filterFn) : [...rows];
+}
+
+function queryOne(table, filterFn) {
+  return (DB[table]||[]).find(filterFn) || null;
+}
+
+function insert(table, data) {
+  const id = nextId(table);
+  const row = { id, ...data };
+  DB[table].push(row);
+  saveDB();
+  return row;
+}
+
+function update(table, id, data) {
+  const idx = DB[table].findIndex(r => r.id === id);
+  if (idx === -1) return false;
+  DB[table][idx] = { ...DB[table][idx], ...data };
+  saveDB();
+  return DB[table][idx];
+}
+
+function remove(table, id) {
+  DB[table] = DB[table].filter(r => r.id !== id);
+  saveDB();
+}
+
+// ── Seed data ──────────────────────────────────────────────
+async function initSQLJS() {
+  if (loadDB() && DB.clients.length > 0) {
+    toast('Données restaurées', 'success');
+    return;
+  }
+  seedData();
+  saveDB();
+}
+
+function createSchema() { /* handled by JS objects */ }
+
+function seedData() {
+  const td = today();
+  // Clients
+  const clientsData = [
+    ['Aminata Koné','Aminata','Koné','+509 36 12 3456','1985-03-12','Port-au-Prince','Commerce','CNI','CI-1985-12345',28000,'Actif'],
+    ['Ibrahim Diallo','Ibrahim','Diallo','+509 37 98 7654','1978-07-20','Cap-Haïtien','Agriculture','CNI','CI-1978-54321',15000,'Retard'],
+    ['Fatou Traoré','Fatou','Traoré','+509 48 45 6789','1990-11-05','Gonaïves','Commerce','Passeport','AB-2345678',42000,'Actif'],
+    ['Moussa Coulibaly','Moussa','Coulibaly','+509 36 32 1654','1982-01-30','Les Cayes','Services','CNI','CI-1982-99887',32000,'Actif'],
+    ['Marie Bamba','Marie','Bamba','+509 37 65 4321','1995-06-18','Jacmel','Artisanat','CNI','CI-1995-44556',18000,'Actif'],
+    ['Oumar Sylla','Oumar','Sylla','+509 48 78 9012','1988-09-25','Jérémie','Agriculture','CNI','CI-1988-33221',9000,'Inactif'],
+    ['Aïssatou Barry','Aïssatou','Barry','+509 36 45 6123','1992-04-14','Port-au-Prince','Commerce','CNI','CI-1992-77889',35000,'Actif'],
+    ['Koffi Assouma','Koffi','Assouma','+509 37 32 1987','1975-12-08','Port-au-Prince','Services','CNI','CI-1975-22334',50000,'Actif'],
+  ];
+  clientsData.forEach(([nc,pr,no,tel,ddn,loc,sec,tp,np,rev,stat]) => {
+    insert('clients', {nom_complet:nc,prenom:pr,nom:no,telephone:tel,date_naissance:ddn,localite:loc,secteur:sec,type_piece:tp,num_piece:np,revenu_mensuel:rev,statut:stat,date_adhesion:td});
+  });
+
+  // Prêts + échéances
+  const pretsData = [
+    {cid:1,num:'PRE-2025-0412',montant:50000,duree:12,taux:24,debut:'2025-04-15',solde:32000,objet:'Fonds de roulement',garantie:'Épargne bloquée',agent:'Adjoua Nandjui',statut:'En cours'},
+    {cid:2,num:'PRE-2024-0821',montant:25000,duree:6,taux:24,debut:'2024-08-21',solde:12500,objet:'Intrants agricoles',garantie:'Caution solidaire',agent:'Kofi Diabaté',statut:'En retard'},
+    {cid:3,num:'PRE-2024-0654',montant:80000,duree:24,taux:20,debut:'2024-06-10',solde:34000,objet:'Équipement commerce',garantie:'Titre foncier',agent:'Adjoua Nandjui',statut:'En cours'},
+    {cid:5,num:'PRE-2025-0901',montant:15000,duree:6,taux:24,debut:'2025-09-01',solde:6000,objet:'Outils artisanat',garantie:'Caution solidaire',agent:'Kofi Diabaté',statut:'En cours'},
+    {cid:1,num:'PRE-2024-0310',montant:40000,duree:12,taux:24,debut:'2024-03-10',solde:0,objet:'Stock commerce',garantie:'Épargne bloquée',agent:'Adjoua Nandjui',statut:'Clôturé'},
+    {cid:3,num:'PRE-2025-1102',montant:30000,duree:12,taux:24,debut:'2025-11-02',solde:28000,objet:'Fonds de roulement',garantie:'Caution solidaire',agent:'Kofi Diabaté',statut:'En cours'},
+  ];
+  pretsData.forEach(p => {
+    const pret = insert('prets', {num_pret:p.num,client_id:p.cid,montant:p.montant,duree:p.duree,taux_annuel:p.taux,methode:'degressif',frequence:'Mensuel',date_debut:p.debut,date_fin:addMonths(p.debut,p.duree),solde_restant:p.solde,objet:p.objet,garantie:p.garantie,agent:p.agent,statut:p.statut,nb_retards:0});
+    const rm = p.taux/100/12;
+    const r = calcEcheance(p.montant, p.duree, p.taux);
+    let sol = p.montant;
+    for(let i=1;i<=Math.min(p.duree,6);i++){
+      const int=sol*rm, princ=r.echeance-int; sol=Math.max(0,sol-princ);
+      const de=addMonths(p.debut,i);
+      const eStatut = p.statut==='Clôturé'?'Payé':(de<td&&i<=3?'Payé':'En attente');
+      insert('echeances',{pret_id:pret.id,num_echeance:i,date_echeance:de,montant_du:Math.round(r.echeance),principal:Math.round(princ),interets:Math.round(int),solde_apres:Math.round(sol),date_paiement:eStatut==='Payé'?de:null,montant_paye:eStatut==='Payé'?Math.round(r.echeance):0,mode_paiement:eStatut==='Payé'?'Espèces':null,statut:eStatut});
+    }
+  });
+
+  // Épargne
+  [{cid:1,num:'EPG-001-2024',type:'Épargne libre',solde:4500},{cid:2,num:'EPG-002-2024',type:'Épargne libre',solde:1200},{cid:3,num:'EPG-003-2024',type:'Épargne obligatoire',solde:8900},{cid:4,num:'EPG-004-2024',type:'Épargne libre',solde:23000},{cid:5,num:'EPG-005-2024',type:'Épargne groupe',solde:6700}].forEach(e=>{
+    const ep=insert('epargne',{num_compte:e.num,client_id:e.cid,type_epargne:e.type,solde:e.solde,date_ouverture:td,dernier_mouvement:td,statut:'Actif'});
+    insert('mouvements',{epargne_id:ep.id,type_operation:'Dépôt',montant:e.solde,solde_apres:e.solde,date_operation:td,mode_paiement:'Espèces',agent:'Adjoua Nandjui'});
+  });
+
+  DB.parametres = [{cle:'taux_defaut',valeur:'24'},{cle:'duree_max',valeur:'60'},{cle:'monnaie',valeur:'HTG'}];
+}
+
+// ═══════════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════════
+function calcEcheance(montant, duree, taux) {
+  const r = taux/100/12;
+  const echeance = r === 0 ? montant/duree : montant*r*Math.pow(1+r,duree)/(Math.pow(1+r,duree)-1);
+  const total = echeance * duree;
+  return { echeance, interets: total-montant, total };
+}
+function fmt(n) { return Math.round(n).toLocaleString('fr-FR') + ' HTG'; }
+function fmtM(n) { if(n>=1e9) return (n/1e9).toFixed(1)+'G HTG'; if(n>=1e6) return (n/1e6).toFixed(1)+'M HTG'; return fmt(n); }
+function fmtDate(d) { if(!d) return '—'; const dt=new Date(d); return dt.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}); }
+function today() { return new Date().toISOString().split('T')[0]; }
+function addMonths(dateStr, months) { const d=new Date(dateStr); d.setMonth(d.getMonth()+months); return d.toISOString().split('T')[0]; }
+function uid() { return 'xxxxxxxx'.replace(/x/g,()=>Math.floor(Math.random()*16).toString(16)); }
+function initials(name) { return name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase(); }
+function avatarColor(name) {
+  const colors = ['#16a97e','#2563eb','#7c3aed','#d97706','#e84040','#0891b2'];
+  let h = 0; for(let c of name) h = (h*31 + c.charCodeAt(0)) & 0xffffffff;
+  return colors[Math.abs(h) % colors.length];
+}
+function avatar(name, size=28) {
+  const color = avatarColor(name);
+  return `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};display:inline-flex;align-items:center;justify-content:center;font-size:${Math.round(size*0.38)}px;font-weight:700;color:#fff;flex-shrink:0;vertical-align:middle">${initials(name)}</div>`;
+}
+function statusBadge(s) {
+  const map = {
+    'Actif':'green','En cours':'green','Payé':'green',
+    'En retard':'amber','Retard':'amber','Dormant':'amber','En attente':'blue',
+    'Critique':'red','Inactif':'gray',
+    'Clôturé':'gray','Épargnant':'blue'
+  };
+  const cls = map[s] || 'gray';
+  return `<span class="badge badge-${cls}">${s}</span>`;
+}
+function daysDiff(d1, d2) {
+  return Math.round((new Date(d1)-new Date(d2))/(1000*60*60*24));
+}
+
+// ═══════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════
+const pageTitles = { dashboard:'Tableau de bord', clients:'Clients', prets:'Prêts', epargne:'Épargne', remboursements:'Remboursements', rapports:'Rapports & Analyses', sql:'Console SQL', parametres:'Paramètres' };
+const pageLoaders = { dashboard:loadDashboard, clients:loadClients, prets:loadPrets, epargne:loadEpargne, remboursements:loadRemboursements, rapports:loadRapports, sql:loadSQL, parametres:()=>{} };
+
+function gotoPage(id, el) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+  document.getElementById('page-title').textContent = pageTitles[id] || id;
+  if(pageLoaders[id]) pageLoaders[id]();
+}
+
+// ═══════════════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════════════
+function loadDashboard() {
+  const totalClients = query('SELECT COUNT(*) as n FROM clients')[0]?.n || 0;
+  const pretsActifs = query("SELECT COUNT(*) as n, SUM(solde_restant) as enc FROM prets WHERE statut IN ('En cours','En retard','Critique')")[0];
+  const epTot = query("SELECT SUM(solde) as t FROM epargne")[0]?.t || 0;
+  const payees = query("SELECT COUNT(*) as n FROM echeances WHERE statut='Payé'")[0]?.n || 0;
+  const total_ech = query("SELECT COUNT(*) as n FROM echeances WHERE statut != 'En attente'")[0]?.n || 1;
+  const trb = total_ech>0 ? (payees/total_ech*100).toFixed(1) : 0;
+
+  document.getElementById('m-clients').textContent = totalClients.toLocaleString('fr-FR');
+  document.getElementById('m-clients-sub').textContent = 'Membres actifs de la coopérative';
+  document.getElementById('m-prets').textContent = (pretsActifs?.n || 0).toLocaleString('fr-FR');
+  document.getElementById('m-prets-sub').textContent = 'Encours: ' + fmtM(pretsActifs?.enc || 0);
+  document.getElementById('m-epargne-val').textContent = fmtM(epTot);
+  document.getElementById('m-epargne-sub').textContent = 'Collecte totale';
+  document.getElementById('m-trb').textContent = trb + '%';
+  document.getElementById('m-trb-sub').textContent = payees + ' paiements confirmés';
+
+  // Secteurs
+  const secteurs = query("SELECT secteur, COUNT(*) as n FROM clients GROUP BY secteur ORDER BY n DESC");
+  const totSec = secteurs.reduce((s,r)=>s+r.n, 0);
+  const sColors = ['#16a97e','#2563eb','#7c3aed','#d97706','#e84040','#0891b2'];
+  document.getElementById('dash-secteurs').innerHTML = secteurs.map((r,i)=>`
+    <div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span>${r.secteur}</span><span style="font-weight:600">${r.n} (${Math.round(r.n/totSec*100)}%)</span></div>
+      <div class="progress"><div class="progress-fill" style="width:${r.n/totSec*100}%;background:${sColors[i%sColors.length]}"></div></div>
+    </div>`).join('');
+
+  // Statuts prêts
+  const statuts = query("SELECT statut, COUNT(*) as n FROM prets GROUP BY statut");
+  document.getElementById('dash-statuts').innerHTML = statuts.map(r=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+      <span>${statusBadge(r.statut)}</span>
+      <span style="font-weight:600;font-size:13px">${r.n}</span>
+    </div>`).join('');
+
+  // Alertes
+  const retards = query(`
+    SELECT c.nom_complet, p.num_pret, e.montant_du, e.date_echeance, p.statut
+    FROM echeances e JOIN prets p ON e.pret_id=p.id JOIN clients c ON p.client_id=c.id
+    WHERE e.statut='Retard' OR (e.statut='En attente' AND e.date_echeance < date('now'))
+    ORDER BY e.date_echeance ASC LIMIT 10`);
+  document.getElementById('alert-count').textContent = retards.length;
+  document.getElementById('dash-alerts-body').innerHTML = retards.map(r=>{
+    const jours = daysDiff(today(), r.date_echeance);
+    return `<tr><td>${avatar(r.nom_complet)} <span style="margin-left:8px">${r.nom_complet}</span></td><td><code style="font-family:'DM Mono',monospace;font-size:11px">${r.num_pret}</code></td><td>${fmt(r.montant_du)}</td><td>${Math.abs(jours)} jour${jours!=-1?'s':''}</td><td>${statusBadge(jours<-30?'Critique':'En retard')}</td></tr>`;
+  }).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:20px">Aucun retard détecté</td></tr>';
+}
+
+// ═══════════════════════════════════════════════════════════
+// CLIENTS
+// ═══════════════════════════════════════════════════════════
+function loadClients() {
+  const q = (document.getElementById('clients-search')?.value || '').toLowerCase();
+  const statut = document.getElementById('clients-filter-statut')?.value || '';
+  const secteur = document.getElementById('clients-filter-secteur')?.value || '';
+  let sql = `SELECT c.*, COALESCE(SUM(e.solde),0) as epargne_tot, COUNT(DISTINCT CASE WHEN p.statut IN ('En cours','En retard','Critique') THEN p.id END) as nb_prets FROM clients c LEFT JOIN epargne e ON e.client_id=c.id LEFT JOIN prets p ON p.client_id=c.id WHERE 1=1`;
+  const params = [];
+  if(statut) { sql += ' AND c.statut=?'; params.push(statut); }
+  if(secteur) { sql += ' AND c.secteur=?'; params.push(secteur); }
+  sql += ' GROUP BY c.id ORDER BY c.id DESC';
+  let rows = query(sql, params);
+  if(q) rows = rows.filter(r => r.nom_complet.toLowerCase().includes(q) || (r.telephone||'').includes(q) || (r.localite||'').toLowerCase().includes(q));
+
+  document.getElementById('c-total').textContent = query('SELECT COUNT(*) as n FROM clients')[0]?.n || 0;
+  document.getElementById('c-actifs').textContent = query("SELECT COUNT(*) as n FROM clients WHERE statut='Actif'")[0]?.n || 0;
+  document.getElementById('c-avec-pret').textContent = query("SELECT COUNT(DISTINCT client_id) as n FROM prets WHERE statut IN ('En cours','En retard')")[0]?.n || 0;
+
+  document.getElementById('clients-body').innerHTML = rows.map(r=>`
+    <tr onclick="showClientDetail(${r.id})">
+      <td><div style="display:flex;align-items:center;gap:10px">${avatar(r.nom_complet,30)}<div><div style="font-weight:500">${r.nom_complet}</div><div style="font-size:11px;color:var(--text2)">${r.localite||''}</div></div></div></td>
+      <td>${r.telephone||'—'}</td>
+      <td>${r.localite||'—'}</td>
+      <td>${r.secteur||'—'}</td>
+      <td>${fmtM(r.epargne_tot||0)}</td>
+      <td>${statusBadge(r.statut||'Actif')}</td>
+      <td><div class="tbl-actions">
+        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openModal('m-pret')">+ Prêt</button>
+        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openModal('m-epargne')">+ Épargne</button>
+      </div></td>
+    </tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:20px">Aucun client trouvé</td></tr>';
+}
+
+function showClientDetail(id) {
+  const c = query('SELECT * FROM clients WHERE id=?', [id])[0];
+  if(!c) return;
+  const prets = query('SELECT * FROM prets WHERE client_id=? ORDER BY date_debut DESC', [id]);
+  const ep = query('SELECT * FROM epargne WHERE client_id=?', [id]);
+  const ech = query(`SELECT e.*,p.num_pret FROM echeances e JOIN prets p ON e.pret_id=p.id WHERE p.client_id=? ORDER BY e.date_echeance DESC LIMIT 5`, [id]);
+  document.getElementById('detail-title').textContent = c.nom_complet;
+  document.getElementById('detail-body').innerHTML = `
+    <div class="client-detail-header">
+      ${avatar(c.nom_complet,52)}
+      <div><div style="font-size:18px;font-weight:600">${c.nom_complet}</div>
+        <div style="margin-top:4px;display:flex;gap:8px;align-items:center">${statusBadge(c.statut)}<span style="font-size:12px;color:var(--text2)">${c.secteur||''} · ${c.localite||''}</span></div>
+      </div>
+    </div>
+    <div class="detail-grid" style="margin-bottom:18px">
+      ${[['Téléphone',c.telephone],['Date d\'adhésion',fmtDate(c.date_adhesion)],['Date de naissance',fmtDate(c.date_naissance)],['Pièce d\'identité',c.type_piece+' · '+(c.num_piece||'—')],['Revenu estimé',c.revenu_mensuel?fmt(c.revenu_mensuel):'—'],['Localité',c.localite]].map(([l,v])=>`<div class="detail-row"><div class="detail-label">${l}</div><div class="detail-val">${v||'—'}</div></div>`).join('')}
+    </div>
+    <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Prêts (${prets.length})</div>
+    ${prets.length?`<table class="tbl" style="margin-bottom:14px"><thead><tr><th>N° Prêt</th><th>Montant</th><th>Solde</th><th>Statut</th></tr></thead><tbody>${prets.map(p=>`<tr><td><code style="font-size:11px;font-family:'DM Mono',monospace">${p.num_pret}</code></td><td>${fmt(p.montant)}</td><td>${fmt(p.solde_restant)}</td><td>${statusBadge(p.statut)}</td></tr>`).join('')}</tbody></table>`:'<p style="color:var(--text3);font-size:13px;margin-bottom:14px">Aucun prêt</p>'}
+    <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Épargne</div>
+    ${ep.length?`<table class="tbl"><thead><tr><th>Compte</th><th>Type</th><th>Solde</th><th>Statut</th></tr></thead><tbody>${ep.map(e=>`<tr><td><code style="font-size:11px;font-family:'DM Mono',monospace">${e.num_compte}</code></td><td>${e.type_epargne}</td><td>${fmt(e.solde)}</td><td>${statusBadge(e.statut)}</td></tr>`).join('')}</tbody></table>`:'<p style="color:var(--text3);font-size:13px">Aucun compte d\'épargne</p>'}`;
+  document.getElementById('detail-footer').innerHTML = `<button class="btn" onclick="closeModal('m-detail')">Fermer</button><button class="btn btn-primary" onclick="closeModal('m-detail');openModal('m-pret')">+ Nouveau prêt</button>`;
+  openModal('m-detail');
+}
+
+// ═══════════════════════════════════════════════════════════
+// PRÊTS
+// ═══════════════════════════════════════════════════════════
+function loadPrets() {
+  const q = (document.getElementById('prets-search')?.value || '').toLowerCase();
+  const statut = document.getElementById('prets-filter-statut')?.value || '';
+  let sql = `SELECT p.*, c.nom_complet FROM prets p JOIN clients c ON p.client_id=c.id WHERE 1=1`;
+  const params = [];
+  if(statut){ sql += ' AND p.statut=?'; params.push(statut); }
+  sql += ' ORDER BY p.id DESC';
+  let rows = query(sql, params);
+  if(q) rows = rows.filter(r=>r.num_pret.toLowerCase().includes(q)||r.nom_complet.toLowerCase().includes(q));
+
+  const stats = query(`SELECT COUNT(CASE WHEN statut IN ('En cours','En retard','Critique') THEN 1 END) as actifs, SUM(CASE WHEN statut IN ('En cours','En retard','Critique') THEN solde_restant ELSE 0 END) as encours, COUNT(CASE WHEN statut='Clôturé' THEN 1 END) as clos FROM prets`)[0];
+  const par = query(`SELECT COUNT(*) as n FROM prets WHERE statut IN ('Critique')`)[0]?.n || 0;
+  const totPrets = query(`SELECT COUNT(*) as n FROM prets WHERE statut IN ('En cours','En retard','Critique')`)[0]?.n || 1;
+
+  document.getElementById('p-actifs').textContent = (stats?.actifs||0);
+  document.getElementById('p-encours').textContent = fmtM(stats?.encours||0);
+  document.getElementById('p-par').textContent = (par/totPrets*100).toFixed(1)+'%';
+  document.getElementById('p-clos').textContent = stats?.clos||0;
+
+  document.getElementById('prets-body').innerHTML = rows.map(r=>{
+    const pct = r.montant>0 ? Math.round((r.montant-r.solde_restant)/r.montant*100) : 100;
+    return `<tr onclick="showPretDetail(${r.id})">
+      <td><code style="font-family:'DM Mono',monospace;font-size:11px">${r.num_pret}</code></td>
+      <td><div style="display:flex;align-items:center;gap:8px">${avatar(r.nom_complet,24)}<span>${r.nom_complet}</span></div></td>
+      <td>${fmt(r.montant)}</td><td>${r.duree} mois</td><td>${r.taux_annuel}%</td>
+      <td>${fmt(r.solde_restant)}</td>
+      <td><div style="width:80px"><div class="progress"><div class="progress-fill" style="width:${pct}%"></div></div><div style="font-size:10px;color:var(--text3);margin-top:2px">${pct}%</div></div></td>
+      <td>${statusBadge(r.statut)}</td>
+      <td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPretDetail(${r.id})">Voir</button></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--text3);padding:20px">Aucun prêt trouvé</td></tr>';
+  simCalc();
+}
+
+function showPretDetail(id) {
+  const p = query('SELECT p.*,c.nom_complet FROM prets p JOIN clients c ON p.client_id=c.id WHERE p.id=?',[id])[0];
+  if(!p) return;
+  const echs = query('SELECT * FROM echeances WHERE pret_id=? ORDER BY num_echeance',[id]);
+  const r = calcEcheance(p.montant, p.duree, p.taux_annuel);
+  document.getElementById('detail-title').textContent = p.num_pret + ' — ' + p.nom_complet;
+  document.getElementById('detail-body').innerHTML = `
+    <div class="detail-grid" style="margin-bottom:18px">
+      ${[['Client',p.nom_complet],['Montant',fmt(p.montant)],['Durée',p.duree+' mois'],['Taux',p.taux_annuel+'% /an'],['Solde restant',fmt(p.solde_restant)],['Échéance mensuelle',fmt(r.echeance)],['Total intérêts',fmt(r.interets)],['Total à rembourser',fmt(r.total)],['Date début',fmtDate(p.date_debut)],['Date fin',fmtDate(p.date_fin)],['Objet',p.objet||'—'],['Garantie',p.garantie||'—'],['Agent',p.agent||'—'],['Statut',p.statut]].map(([l,v])=>`<div class="detail-row"><div class="detail-label">${l}</div><div class="detail-val">${v}</div></div>`).join('')}
+    </div>
+    <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Échéancier</div>
+    <div style="max-height:260px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-sm)">
+    <table class="amort"><thead><tr><th>#</th><th>Date</th><th>Échéance</th><th>Principal</th><th>Intérêts</th><th>Solde</th><th>Statut</th></tr></thead>
+    <tbody>${echs.map(e=>`<tr><td>${e.num_echeance}</td><td style="text-align:right">${fmtDate(e.date_echeance)}</td><td>${Math.round(e.montant_du).toLocaleString('fr-FR')}</td><td>${Math.round(e.principal).toLocaleString('fr-FR')}</td><td>${Math.round(e.interets).toLocaleString('fr-FR')}</td><td>${Math.round(e.solde_apres).toLocaleString('fr-FR')}</td><td style="text-align:left">${statusBadge(e.statut)}</td></tr>`).join('')}</tbody>
+    </table></div>`;
+  document.getElementById('detail-footer').innerHTML = `<button class="btn" onclick="closeModal('m-detail')">Fermer</button><button class="btn btn-primary" onclick="closeModal('m-detail');openModal('m-rembours')">Enregistrer paiement</button>`;
+  openModal('m-detail');
+}
+
+function simCalc() {
+  const M = parseFloat(document.getElementById('sim-m')?.value)||0;
+  const D = parseInt(document.getElementById('sim-d')?.value)||1;
+  const T = parseFloat(document.getElementById('sim-t')?.value)||0;
+  if(!M||!D) return;
+  const r = calcEcheance(M,D,T);
+  const el = document.getElementById('sim-result');
+  if(el) el.innerHTML = `
+    <div class="sim-card"><div class="sim-card-label">Échéance mensuelle</div><div class="sim-card-val">${fmt(r.echeance)}</div></div>
+    <div class="sim-card"><div class="sim-card-label">Total intérêts</div><div class="sim-card-val">${fmt(r.interets)}</div></div>
+    <div class="sim-card"><div class="sim-card-label">Total à rembourser</div><div class="sim-card-val">${fmt(r.total)}</div></div>`;
+  let sol=M, rm=T/100/12, rows='';
+  for(let i=1;i<=Math.min(D,12);i++){
+    const int=sol*rm, princ=r.echeance-int; sol=Math.max(0,sol-princ);
+    rows+=`<tr><td>${i}</td><td>${Math.round(r.echeance).toLocaleString('fr-FR')}</td><td>${Math.round(princ).toLocaleString('fr-FR')}</td><td>${Math.round(int).toLocaleString('fr-FR')}</td><td>${Math.round(sol).toLocaleString('fr-FR')}</td></tr>`;
+  }
+  const ab = document.getElementById('amort-body');
+  if(ab) ab.innerHTML = rows;
+}
+
+function previewPret() {
+  const M=parseFloat(document.getElementById('p-montant')?.value)||0;
+  const D=parseInt(document.getElementById('p-duree')?.value)||1;
+  const T=parseFloat(document.getElementById('p-taux2')?.value)||0;
+  const r=calcEcheance(M,D,T);
+  const pe=document.getElementById('prev-ech');
+  const pi=document.getElementById('prev-int');
+  const pt=document.getElementById('prev-tot');
+  if(pe) pe.textContent=fmt(r.echeance);
+  if(pi) pi.textContent=fmt(r.interets);
+  if(pt) pt.textContent=fmt(r.total);
+}
+
+// ═══════════════════════════════════════════════════════════
+// ÉPARGNE
+// ═══════════════════════════════════════════════════════════
+function loadEpargne() {
+  const q = (document.getElementById('epargne-search')?.value || '').toLowerCase();
+  const type = document.getElementById('epargne-filter-type')?.value || '';
+  let sql = `SELECT e.*,c.nom_complet FROM epargne e JOIN clients c ON e.client_id=c.id WHERE 1=1`;
+  const params=[];
+  if(type){sql+=' AND e.type_epargne=?';params.push(type);}
+  sql+=' ORDER BY e.solde DESC';
+  let rows=query(sql,params);
+  if(q) rows=rows.filter(r=>r.nom_complet.toLowerCase().includes(q)||r.num_compte.toLowerCase().includes(q));
+
+  const stats=query('SELECT COUNT(*) as n, SUM(solde) as t, AVG(solde) as moy FROM epargne WHERE statut="Actif"')[0];
+  document.getElementById('e-total').textContent=stats?.n||0;
+  document.getElementById('e-montant').textContent=fmtM(stats?.t||0);
+  document.getElementById('e-moy').textContent=fmtM(stats?.moy||0);
+
+  document.getElementById('epargne-body').innerHTML=rows.map(r=>`
+    <tr><td><code style="font-family:'DM Mono',monospace;font-size:11px">${r.num_compte}</code></td>
+    <td><div style="display:flex;align-items:center;gap:8px">${avatar(r.nom_complet,24)}<span>${r.nom_complet}</span></div></td>
+    <td>${r.type_epargne}</td><td>${fmt(r.solde)}</td>
+    <td>${fmtDate(r.dernier_mouvement)}</td><td>${statusBadge(r.statut)}</td>
+    <td><button class="btn btn-ghost btn-sm" onclick="openModal('m-epargne')">Opération</button></td></tr>`).join('')||'<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:20px">Aucun compte trouvé</td></tr>';
+
+  const mouvs=query(`SELECT m.*,c.nom_complet FROM mouvements m JOIN epargne e ON m.epargne_id=e.id JOIN clients c ON e.client_id=c.id ORDER BY m.id DESC LIMIT 20`);
+  document.getElementById('mouvements-body').innerHTML=mouvs.map(r=>`
+    <tr><td>${fmtDate(r.date_operation)}</td>
+    <td>${r.nom_complet}</td>
+    <td>${r.type_operation==='Dépôt'?'<span class="badge badge-green">Dépôt</span>':'<span class="badge badge-amber">Retrait</span>'}</td>
+    <td style="font-weight:500;color:${r.type_operation==='Dépôt'?'var(--green)':'var(--red)'}">${r.type_operation==='Dépôt'?'+':'-'}${fmt(r.montant)}</td>
+    <td>${fmt(r.solde_apres)}</td><td>${r.agent||'—'}</td></tr>`).join('')||'<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:20px">Aucun mouvement</td></tr>';
+}
+
+// ═══════════════════════════════════════════════════════════
+// REMBOURSEMENTS
+// ═══════════════════════════════════════════════════════════
+function loadRemboursements() {
+  const q=(document.getElementById('rembours-search')?.value||'').toLowerCase();
+  const statut=document.getElementById('rembours-filter-statut')?.value||'';
+  let sql=`SELECT e.*,p.num_pret,c.nom_complet FROM echeances e JOIN prets p ON e.pret_id=p.id JOIN clients c ON p.client_id=c.id WHERE 1=1`;
+  const params=[];
+  if(statut){sql+=' AND e.statut=?';params.push(statut);}
+  sql+=' ORDER BY e.date_echeance DESC';
+  let rows=query(sql,params);
+  if(q) rows=rows.filter(r=>r.nom_complet.toLowerCase().includes(q)||r.num_pret.toLowerCase().includes(q));
+
+  document.getElementById('r-total').textContent=rows.length;
+  document.getElementById('r-payees').textContent=rows.filter(r=>r.statut==='Payé').length;
+  document.getElementById('r-retard').textContent=rows.filter(r=>r.statut==='Retard').length;
+  document.getElementById('r-collecte').textContent=fmtM(rows.filter(r=>r.statut==='Payé').reduce((s,r)=>s+r.montant_paye,0));
+
+  document.getElementById('rembours-body').innerHTML=rows.map(r=>`
+    <tr><td style="font-family:'DM Mono',monospace;font-size:11px">ECH-${String(r.id).padStart(4,'0')}</td>
+    <td>${r.nom_complet}</td>
+    <td><code style="font-size:11px;font-family:'DM Mono',monospace">${r.num_pret}</code></td>
+    <td>${fmtDate(r.date_echeance)}</td><td>${fmt(r.montant_du)}</td>
+    <td>${r.date_paiement?fmtDate(r.date_paiement):'—'}</td>
+    <td>${r.mode_paiement||'—'}</td><td>${statusBadge(r.statut)}</td>
+    <td>${r.statut!=='Payé'?`<button class="btn btn-ghost btn-sm" onclick="payerEcheance(${r.id})">Payer</button>`:''}</td></tr>`).join('')||'<tr><td colspan="9" style="text-align:center;color:var(--text3);padding:20px">Aucune échéance trouvée</td></tr>';
+}
+
+function payerEcheance(id) {
+  const e=query('SELECT e.*,p.num_pret,c.nom_complet FROM echeances e JOIN prets p ON e.pret_id=p.id JOIN clients c ON p.client_id=c.id WHERE e.id=?',[id])[0];
+  if(!e) return;
+  if(confirm(`Confirmer le paiement de ${fmt(e.montant_du)} pour ${e.nom_complet} (${e.num_pret}) ?`)) {
+    run(`UPDATE echeances SET statut='Payé', date_paiement=?, montant_paye=?, mode_paiement='Espèces' WHERE id=?`,[today(),e.montant_du,id]);
+    run(`UPDATE prets SET solde_restant=MAX(0,solde_restant-?) WHERE id=?`,[e.principal,e.pret_id]);
+    loadRemboursements();
+    toast('Paiement enregistré avec succès', 'success');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// RAPPORTS
+// ═══════════════════════════════════════════════════════════
+function loadRapports() {
+  const kpis = [
+    ['Taux de remboursement (TRB)', computeTRB()+'%', 'green'],
+    ['Portefeuille à risque PAR30', computePAR()+'%', computePAR()>5?'red':'amber'],
+    ['Clients actifs', query("SELECT COUNT(*) as n FROM clients WHERE statut='Actif'")[0]?.n||0, 'green'],
+    ['Prêts actifs', query("SELECT COUNT(*) as n FROM prets WHERE statut IN ('En cours','En retard','Critique')"  )[0]?.n||0, 'blue'],
+    ['Encours total', fmtM(query("SELECT SUM(solde_restant) as s FROM prets WHERE statut IN ('En cours','En retard','Critique')"  )[0]?.s||0), 'blue'],
+    ['Épargne totale', fmtM(query('SELECT SUM(solde) as s FROM epargne')[0]?.s||0), 'green'],
+    ['Taux clôture', query("SELECT COUNT(*) as n FROM prets WHERE statut='Clôturé'"  )[0]?.n + '/' + query('SELECT COUNT(*) as n FROM prets')[0]?.n, 'gray'],
+    ['Retards > 30j (Critique)', query("SELECT COUNT(*) as n FROM prets WHERE statut='Critique'"  )[0]?.n||0, 'red'],
+  ];
+  document.getElementById('kpi-body').innerHTML = kpis.map(([l,v,c])=>`
+    <div class="kpi-row"><span class="kpi-label">${l}</span><span class="kpi-val" style="color:var(--${c==='green'?'green':c==='red'?'red':c==='blue'?'blue':'text'})">${v}</span></div>`).join('');
+}
+
+function computeTRB() {
+  const p=query("SELECT COUNT(*) as n FROM echeances WHERE statut='Payé'"  )[0]?.n||0;
+  const t=query("SELECT COUNT(*) as n FROM echeances WHERE statut!='En attente'"  )[0]?.n||1;
+  return (p/t*100).toFixed(1);
+}
+function computePAR() {
+  const crit=query("SELECT COUNT(*) as n FROM prets WHERE statut='Critique'"  )[0]?.n||0;
+  const tot=query("SELECT COUNT(*) as n FROM prets WHERE statut IN ('En cours','En retard','Critique')"  )[0]?.n||1;
+  return (crit/tot*100).toFixed(1);
+}
+
+function generateReport(type) {
+  loadRapports();
+  const titles={mensuel:'Rapport mensuel — Remboursements avril 2026',risque:'Analyse du risque portefeuille',epargne:'Rapport épargne & collecte',bilan:'Bilan financier trimestriel Q1 2026'};
+  document.getElementById('report-title').textContent = titles[type]||'Rapport';
+  let html='';
+  if(type==='mensuel'){
+    const data=query(`SELECT c.nom_complet, p.num_pret, e.date_echeance, e.montant_du, e.statut, e.date_paiement FROM echeances e JOIN prets p ON e.pret_id=p.id JOIN clients c ON p.client_id=c.id ORDER BY e.statut, e.date_echeance`);
+    const payees=data.filter(r=>r.statut==='Payé');
+    const retards=data.filter(r=>r.statut==='Retard'||r.statut==='En retard');
+    html=`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">
+      <div class="mc" style="margin:0"><div class="mc-label">Échéances</div><div class="mc-val">${data.length}</div></div>
+      <div class="mc" style="margin:0"><div class="mc-label">Payées</div><div class="mc-val mc-up">${payees.length}</div></div>
+      <div class="mc" style="margin:0"><div class="mc-label">En retard</div><div class="mc-val mc-dn">${retards.length}</div></div>
+    </div>
+    <table class="tbl"><thead><tr><th>Client</th><th>Prêt</th><th>Échéance</th><th>Montant</th><th>Paiement</th><th>Statut</th></tr></thead><tbody>
+    ${data.slice(0,20).map(r=>`<tr><td>${r.nom_complet}</td><td><code style="font-size:10px;font-family:'DM Mono',monospace">${r.num_pret}</code></td><td>${fmtDate(r.date_echeance)}</td><td>${fmt(r.montant_du)}</td><td>${r.date_paiement?fmtDate(r.date_paiement):'—'}</td><td>${statusBadge(r.statut)}</td></tr>`).join('')}
+    </tbody></table>`;
+  } else if(type==='risque'){
+    const critiques=query(`SELECT c.nom_complet, p.num_pret, p.solde_restant, p.statut FROM prets p JOIN clients c ON p.client_id=c.id WHERE p.statut IN ('En retard','Critique') ORDER BY p.solde_restant DESC`);
+    html=`<div style="margin-bottom:12px;padding:12px;background:var(--red-light);border-radius:var(--radius-sm);border-left:3px solid var(--red)">
+      <div style="font-weight:600;color:#9b1c1c;margin-bottom:4px">PAR 30j : ${computePAR()}% — ${computePAR()>5?'⚠ Au-dessus du seuil critique (5%)':'Dans les normes'}</div>
+      <div style="font-size:12px;color:#7f1d1d">${critiques.length} prêt(s) à risque pour un encours de ${fmtM(critiques.reduce((s,r)=>s+r.solde_restant,0))}</div>
+    </div>
+    <table class="tbl"><thead><tr><th>Client</th><th>N° Prêt</th><th>Solde à risque</th><th>Statut</th></tr></thead><tbody>
+    ${critiques.map(r=>`<tr><td>${r.nom_complet}</td><td><code style="font-size:10px;font-family:'DM Mono',monospace">${r.num_pret}</code></td><td>${fmt(r.solde_restant)}</td><td>${statusBadge(r.statut)}</td></tr>`).join('')||'<tr><td colspan="4" style="text-align:center;color:var(--text3)">Aucun prêt critique</td></tr>'}
+    </tbody></table>`;
+  } else if(type==='epargne'){
+    const comptes=query(`SELECT e.*,c.nom_complet FROM epargne e JOIN clients c ON e.client_id=c.id ORDER BY e.solde DESC`);
+    html=`<table class="tbl"><thead><tr><th>Client</th><th>Type épargne</th><th>Solde</th><th>Dernier mouvement</th><th>Statut</th></tr></thead><tbody>
+    ${comptes.map(r=>`<tr><td>${r.nom_complet}</td><td>${r.type_epargne}</td><td>${fmt(r.solde)}</td><td>${fmtDate(r.dernier_mouvement)}</td><td>${statusBadge(r.statut)}</td></tr>`).join('') }
+    </tbody></table>`;
+  } else if(type==='bilan'){
+    const encours=query("SELECT SUM(solde_restant) as s FROM prets WHERE statut IN ('En cours','En retard','Critique')"  )[0]?.s||0;
+    const epTot=query('SELECT SUM(solde) as s FROM epargne')[0]?.s||0;
+    html=`<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+      <div><div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px">PRODUITS</div>
+        <div class="kpi-row"><span class="kpi-label">Intérêts sur prêts (estimés)</span><span class="kpi-val mc-up">${fmtM(encours*0.18/4)}</span></div>
+        <div class="kpi-row"><span class="kpi-label">Frais de dossier</span><span class="kpi-val mc-up">${fmtM(encours*0.01)}</span></div>
+        <div class="kpi-row" style="border-top:2px solid var(--green)"><span class="kpi-label" style="font-weight:600">Total produits</span><span class="kpi-val mc-up" style="font-size:16px">${fmtM(encours*0.18/4+encours*0.01)}</span></div>
+      </div>
+      <div><div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px">BILAN</div>
+        <div class="kpi-row"><span class="kpi-label">Encours total prêts</span><span class="kpi-val">${fmtM(encours)}</span></div>
+        <div class="kpi-row"><span class="kpi-label">Épargne totale mobilisée</span><span class="kpi-val">${fmtM(epTot)}</span></div>
+        <div class="kpi-row"><span class="kpi-label">TRB</span><span class="kpi-val mc-up">${computeTRB()}%</span></div>
+        <div class="kpi-row"><span class="kpi-label">PAR 30j</span><span class="kpi-val ${computePAR()>5?'mc-dn':'mc-up'}">${computePAR()}%</span></div>
+      </div>
+    </div>`;
+  }
+  document.getElementById('report-content').innerHTML=html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// SQL CONSOLE
+// ═══════════════════════════════════════════════════════════
+function loadSQL() {
+  const tables = {
+    clients:'id, nom_complet, prenom, nom, telephone, date_naissance, localite, secteur, type_piece, num_piece, revenu_mensuel, statut, date_adhesion',
+    prets:'id, num_pret, client_id, montant, duree, taux_annuel, methode, frequence, date_debut, date_fin, solde_restant, objet, garantie, agent, statut',
+    echeances:'id, pret_id, num_echeance, date_echeance, montant_du, principal, interets, solde_apres, date_paiement, montant_paye, mode_paiement, statut',
+    epargne:'id, num_compte, client_id, type_epargne, solde, date_ouverture, dernier_mouvement, statut',
+    mouvements:'id, epargne_id, type_operation, montant, solde_apres, date_operation, mode_paiement, agent',
+  };
+  document.getElementById('schema-display').innerHTML = Object.entries(tables).map(([t,cols])=>
+    `<div style="margin-bottom:12px"><span style="color:var(--green);font-weight:600">TABLE ${t.toUpperCase()}</span> <span style="color:rgba(255,255,255,.3);font-size:10px">(${(DB[t]||[]).length} enregistrements)</span><br><span style="color:rgba(255,255,255,.45);font-size:11px">${cols}</span></div>`
+  ).join('');
+}
+
+function runSQL() {
+  const sql = document.getElementById('sql-input').value.trim().toLowerCase();
+  if(!sql) return;
+  try {
+    // Parse simple SELECT queries against JS DB
+    const tableMatch = sql.match(/from\s+(\w+)/);
+    if(!tableMatch) { document.getElementById('sql-output').textContent='-- Tables: clients, prets, echeances, epargne, mouvements'; return; }
+    const tbl = tableMatch[1];
+    const tableMap = {clients:'clients',prets:'prets',echeances:'echeances',epargne:'epargne',mouvements:'mouvements'};
+    const realTable = tableMap[tbl];
+    if(!realTable) { document.getElementById('sql-output').textContent='-- Table inconnue: '+tbl+'\n-- Tables disponibles: clients, prets, echeances, epargne, mouvements'; return; }
+    let rows = [...DB[realTable]];
+    // Apply LIMIT
+    const limitMatch = sql.match(/limit\s+(\d+)/);
+    if(limitMatch) rows = rows.slice(0, parseInt(limitMatch[1]));
+    if(!rows.length) { document.getElementById('sql-output').textContent='-- 0 ligne(s)'; return; }
+    const cols = Object.keys(rows[0]);
+    let out = cols.join(' | ')+'\n'+cols.map(()=>'---').join('-+-')+'\n';
+    rows.forEach(r=>{ out+=cols.map(c=>r[c]===null||r[c]===undefined?'NULL':String(r[c])).join(' | ')+'\n'; });
+    out += `\n-- ${rows.length} ligne(s)`;
+    document.getElementById('sql-output').textContent=out;
+  } catch(e) {
+    document.getElementById('sql-output').textContent='-- ERREUR: '+e.message;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// SAVE ACTIONS
+// ═══════════════════════════════════════════════════════════
+function saveClient() {
+  const prenom=document.getElementById('c-prenom').value.trim();
+  const nom=document.getElementById('c-nom').value.trim();
+  const tel=document.getElementById('c-tel').value.trim();
+  const loc=document.getElementById('c-loc').value.trim();
+  const secteur=document.getElementById('c-secteur').value;
+  if(!prenom||!nom||!tel) { toast('Remplissez les champs obligatoires (*)','error'); return; }
+  const nomComplet=prenom+' '+nom;
+  const ddn=document.getElementById('c-ddn').value;
+  const piece=document.getElementById('c-piece').value;
+  const npiece=document.getElementById('c-npiece').value;
+  const revenu=parseFloat(document.getElementById('c-revenu').value)||0;
+  const statut=document.getElementById('c-statut').value;
+  run(`INSERT INTO clients (nom_complet,prenom,nom,telephone,date_naissance,localite,secteur,type_piece,num_piece,revenu_mensuel,statut) VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
+    [nomComplet,prenom,nom,tel,ddn,loc,secteur,piece,npiece,revenu,statut]);
+  closeModal('m-client');
+  document.getElementById('c-prenom').value='';document.getElementById('c-nom').value='';document.getElementById('c-tel').value='';document.getElementById('c-loc').value='';document.getElementById('c-revenu').value='';
+  loadClients();
+  toast('Client '+nomComplet+' enregistré', 'success');
+}
+
+function savePret() {
+  const cid=document.getElementById('p-client').value;
+  const montant=parseFloat(document.getElementById('p-montant').value);
+  const duree=parseInt(document.getElementById('p-duree').value);
+  const taux=parseFloat(document.getElementById('p-taux2').value);
+  const objet=document.getElementById('p-objet').value;
+  const date=document.getElementById('p-date').value || today();
+  const methode=document.getElementById('p-methode').value;
+  const freq=document.getElementById('p-freq').value;
+  const garantie=document.getElementById('p-garantie').value;
+  const agent=document.getElementById('p-agent').value;
+  if(!cid||!montant||!duree||!taux) { toast('Remplissez tous les champs obligatoires','error'); return; }
+  const num='PRE-'+new Date().getFullYear()+'-'+String(Math.floor(Math.random()*9000)+1000);
+  const dateD=new Date(date); dateD.setMonth(dateD.getMonth()+duree);
+  const dateFin=dateD.toISOString().split('T')[0];
+  const pret2=insert('prets',{num_pret:num,client_id:parseInt(cid),montant,duree,taux_annuel:taux,methode,frequence:freq,date_debut:date,date_fin:dateFin,solde_restant:montant,objet,garantie,agent,statut:'En cours',nb_retards:0});
+  let sol=montant, rm=taux/100/12;
+  const r=calcEcheance(montant,duree,taux);
+  for(let i=1;i<=duree;i++){
+    const int=sol*rm, princ=r.echeance-int; sol=Math.max(0,sol-princ);
+    const d=new Date(date); d.setMonth(d.getMonth()+i);
+    insert('echeances',{pret_id:pret2.id,num_echeance:i,date_echeance:d.toISOString().split('T')[0],montant_du:Math.round(r.echeance),principal:Math.round(princ),interets:Math.round(int),solde_apres:Math.round(sol),montant_paye:0,statut:'En attente'});
+  }
+  closeModal('m-pret');
+  loadPrets();
+  toast('Prêt '+num+' créé avec échéancier complet ('+duree+' échéances)', 'success');
+}
+
+function saveEpargne() {
+  const cid=document.getElementById('e-client').value;
+  const op=document.getElementById('e-operation').value;
+  const type=document.getElementById('e-type').value;
+  const montant=parseFloat(document.getElementById('e-montant').value);
+  const date=document.getElementById('e-date').value || today();
+  const mode=document.getElementById('e-mode').value;
+  const agent=document.getElementById('e-agent').value;
+  const ref=document.getElementById('e-ref').value;
+  if(!cid||!montant) { toast('Remplissez les champs obligatoires','error'); return; }
+  let ep=query('SELECT * FROM epargne WHERE client_id=? AND type_epargne=?',[cid,type])[0];
+  if(!ep) {
+    const num='EPG-'+String(Date.now()).slice(-6);
+    run(`INSERT INTO epargne (num_compte,client_id,type_epargne,solde,date_ouverture,dernier_mouvement,statut) VALUES (?,?,?,0,?,?,'Actif')`,[num,cid,type,today(),today()]);
+    ep=query('SELECT * FROM epargne WHERE client_id=? AND type_epargne=?',[cid,type])[0];
+  }
+  const nvSolde=op==='Dépôt'?ep.solde+montant:Math.max(0,ep.solde-montant);
+  if(op==='Retrait'&&montant>ep.solde){toast('Solde insuffisant pour ce retrait','error');return;}
+  run(`UPDATE epargne SET solde=?,dernier_mouvement=? WHERE id=?`,[nvSolde,date,ep.id]);
+  run(`INSERT INTO mouvements (epargne_id,type_operation,montant,solde_apres,date_operation,mode_paiement,reference,agent) VALUES (?,?,?,?,?,?,?,?)`,[ep.id,op,montant,nvSolde,date,mode,ref,agent]);
+  closeModal('m-epargne');
+  document.getElementById('e-montant').value='';document.getElementById('e-ref').value='';
+  loadEpargne();
+  toast(op+' de '+fmt(montant)+' enregistré', 'success');
+}
+
+function saveRembours() {
+  const echId=document.getElementById('r-echeance').value;
+  const montant=parseFloat(document.getElementById('r-montant').value);
+  const date=document.getElementById('r-date').value || today();
+  const mode=document.getElementById('r-mode').value;
+  const ref=document.getElementById('r-ref').value;
+  if(!echId||!montant) { toast('Sélectionnez une échéance et entrez un montant','error'); return; }
+  const ech=query('SELECT * FROM echeances WHERE id=?',[echId])[0];
+  if(!ech) return;
+  run(`UPDATE echeances SET statut='Payé',date_paiement=?,montant_paye=?,mode_paiement=?,reference=? WHERE id=?`,[date,montant,mode,ref,echId]);
+  run(`UPDATE prets SET solde_restant=MAX(0,solde_restant-?) WHERE id=?`,[ech.principal,ech.pret_id]);
+  const restants=query("SELECT COUNT(*) as n FROM echeances WHERE pret_id=? AND statut!='Payé'",[ech.pret_id])[0]?.n||0;
+  if(restants===0) run(`UPDATE prets SET statut='Clôturé' WHERE id=?`,[ech.pret_id]);
+  closeModal('m-rembours');
+  loadRemboursements();
+  toast('Paiement de '+fmt(montant)+' enregistré et comptabilisé', 'success');
+}
+
+function saveParams() { toast('Paramètres sauvegardés', 'success'); }
+
+// ═══════════════════════════════════════════════════════════
+// MODALS & UI HELPERS
+// ═══════════════════════════════════════════════════════════
+function openModal(id) {
+  if(id==='m-pret'||id==='m-epargne'||id==='m-rembours') populateClientSelects();
+  if(id==='m-pret') { const t=document.getElementById('p-taux2'); if(t) t.value=18; previewPret(); const d=document.getElementById('p-date'); if(d) d.value=today(); }
+  if(id==='m-epargne') { const d=document.getElementById('e-date'); if(d) d.value=today(); }
+  if(id==='m-rembours') { const d=document.getElementById('r-date'); if(d) d.value=today(); }
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
+
+function populateClientSelects() {
+  const clients=query('SELECT id,nom_complet FROM clients WHERE statut!=? ORDER BY nom_complet',['Inactif']);
+  const opts=clients.map(c=>`<option value="${c.id}">${c.nom_complet}</option>`).join('');
+  ['p-client','e-client','r-client'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=opts;});
+}
+
+function loadEcheancesClient() {
+  const cid=document.getElementById('r-client')?.value;
+  if(!cid) return;
+  const echs=query(`SELECT e.id,e.num_echeance,e.date_echeance,e.montant_du,p.num_pret FROM echeances e JOIN prets p ON e.pret_id=p.id JOIN clients c ON p.client_id=c.id WHERE c.id=? AND e.statut!='Payé' ORDER BY e.date_echeance`,[cid]);
+  const el=document.getElementById('r-echeance');
+  if(el) {
+    el.innerHTML=echs.map(e=>`<option value="${e.id}">${e.num_pret} — Éch.${e.num_echeance} — ${fmt(e.montant_du)} (${fmtDate(e.date_echeance)})</option>`).join('');
+    if(echs[0]) document.getElementById('r-montant').value=Math.round(echs[0].montant_du);
+  }
+}
+
+function globalSearch(q) {
+  if(!q||q.length<2) return;
+  const results=query(`SELECT nom_complet,'Client' as type FROM clients WHERE nom_complet LIKE ? LIMIT 5 UNION ALL SELECT num_pret,'Prêt' FROM prets WHERE num_pret LIKE ? LIMIT 5`,[`%${q}%`,`%${q}%`]);
+  if(results.length>0) {
+    gotoPage('clients', document.querySelector('[data-page="clients"]'));
+    document.getElementById('clients-search').value=q;
+    loadClients();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════════════════
+function exportDB() {
+  const json=JSON.stringify(DB,null,2);
+  const blob=new Blob([json],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='microfinance_backup_'+today()+'.json';
+  a.click();
+  toast('Sauvegarde exportée (.json)', 'success');
+}
+
+function exportCSV() {
+  const tables=['clients','prets','echeances','epargne','mouvements'];
+  let csv='';
+  tables.forEach(t=>{
+    const rows=query(`SELECT * FROM ${t}`);
+    if(!rows.length) return;
+    csv+=`\n## ${t.toUpperCase()}\n`;
+    csv+=Object.keys(rows[0]).join(';')+'\n';
+    csv+=rows.map(r=>Object.values(r).map(v=>v===null?'':String(v).replace(/;/g,',')).join(';')).join('\n');
+    csv+='\n';
+  });
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='microfinance_export_'+today()+'.csv';
+  a.click();
+  toast('Export CSV complet généré', 'success');
+}
+
+// ═══════════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════════
+function toast(msg, type='success') {
+  const t=document.createElement('div');
+  t.className=`toast toast-${type}`;
+  t.innerHTML=`<span>${type==='success'?'✓':'✕'}</span> ${msg}`;
+  document.getElementById('toast-wrap').appendChild(t);
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>t.classList.add('show')); });
+  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),400); }, 3500);
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
+
+async function boot() {
+  const fill=document.getElementById('loading-fill');
+  const txt=document.getElementById('loading-text');
+  const msgs=['Initialisation de la base de données...','Chargement des clients...','Chargement des prêts...','Chargement de l\'épargne...','Prêt !'];
+  let i=0;
+  const interval=setInterval(()=>{ 
+    fill.style.width=((i+1)*20)+'%'; 
+    txt.textContent=msgs[Math.min(i,msgs.length-1)]; 
+    i++; 
+  },300);
+  try {
+    await initSQLJS();
+  } catch(e) {
+    txt.textContent='Erreur: '+e.message;
+    console.error(e);
+  }
+  clearInterval(interval);
+  fill.style.width='100%';
+  txt.textContent='Application chargée !';
+  setTimeout(()=>{
+    document.getElementById('loading').classList.add('done');
+    setTimeout(()=>{
+      document.getElementById('login-screen').classList.remove('hidden');
+    },400);
+  },600);
+}
+boot();
+
+
+// ═══ USERS DATABASE ═══
+const USERS = {
+  'admin':      { password:'admin123',   role:'directeur', nom:'Admin Principal',  badge:'role-directeur', label:'Directeur' },
+  'agent1':     { password:'agent123',   role:'agent',     nom:'Adjoua Nandjui',   badge:'role-agent',     label:'Agent crédit' },
+  'agent2':     { password:'agent123',   role:'agent',     nom:'Kofi Diabaté',     badge:'role-agent',     label:'Agent crédit' },
+  'caissier1':  { password:'caisse123',  role:'caissier',  nom:'Sekou Bah',        badge:'role-caissier',  label:'Caissier' },
+  'auditeur1':  { password:'audit123',   role:'auditeur',  nom:'Auditeur Externe', badge:'role-auditeur',  label:'Auditeur' },
+};
+
+let currentUser = null;
+
+function doLogin() {
+  const u = document.getElementById('login-user').value.trim().toLowerCase();
+  const p = document.getElementById('login-pass').value;
+  const err = document.getElementById('login-error');
+  const user = USERS[u];
+  if (!user || user.password !== p) {
+    err.textContent = 'Nom d'utilisateur ou mot de passe incorrect.';
+    document.getElementById('login-pass').value = '';
+    return;
+  }
+  err.textContent = '';
+  currentUser = { username: u, ...user };
+  applyRoleAccess();
+  document.getElementById('login-screen').classList.add('hidden');
+}
+
+function quickLogin(u, p) {
+  document.getElementById('login-user').value = u;
+  document.getElementById('login-pass').value = p;
+  doLogin();
+}
+
+function applyRoleAccess() {
+  const role = currentUser.role;
+
+  // Show/hide nav items
+  document.querySelectorAll('.nav-item[data-roles]').forEach(el => {
+    const roles = el.getAttribute('data-roles').split(',');
+    if (roles.includes(role)) {
+      el.setAttribute('data-visible','1');
+      el.style.display = '';
+    } else {
+      el.removeAttribute('data-visible');
+      el.style.display = 'none';
+    }
+  });
+
+  // Update user info in sidebar
+  document.querySelector('.user-name').textContent = currentUser.nom;
+  document.querySelector('.user-role').textContent = currentUser.label;
+  document.querySelector('.user-avatar').textContent = currentUser.nom.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+
+  // Add role badge to topbar
+  const roleBar = document.getElementById('role-bar');
+  if (roleBar) roleBar.innerHTML = `<span class="role-badge ${currentUser.badge}">${currentUser.label}</span>`;
+
+  // Redirect to first allowed page
+  const firstAllowed = document.querySelector('.nav-item[data-visible]');
+  if (firstAllowed) {
+    const page = firstAllowed.getAttribute('data-page');
+    gotoPage(page, firstAllowed);
+  }
+
+  // Restrict buttons by role
+  applyActionRestrictions(role);
+}
+
+function applyActionRestrictions(role) {
+  // Caissier: masquer boutons prêts/clients
+  if (role === 'caissier') {
+    document.querySelectorAll('[onclick*="m-pret"],[onclick*="m-client"]').forEach(el => el.style.display='none');
+  }
+  // Auditeur: masquer tous les boutons d'action
+  if (role === 'auditeur') {
+    document.querySelectorAll('.btn-primary').forEach(el => el.style.display='none');
+    document.querySelectorAll('[onclick*="openModal"]').forEach(el => el.style.display='none');
+  }
+  // Agent: masquer boutons épargne
+  if (role === 'agent') {
+    document.querySelectorAll('[onclick*="m-epargne"]').forEach(el => el.style.display='none');
+  }
+}
+
+function logout() {
+  currentUser = null;
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+}
+
+</script>
+</body>
+</html>
