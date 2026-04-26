@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>MicroFinance Pro · Haïti</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#16a97e;--gd:#0d7a5c;--gl:#e6f7f2;--gt:#085041;
+  --r:#e84040;--rl:#fdf0f0;--a:#d97706;--al:#fffbeb;
+  --b:#2563eb;--bl:#eff6ff;--p:#7c3aed;--pl:#f5f3ff;
+  --bg:#f4f5f7;--s:#fff;--s2:#f9fafb;--bd:#e5e7eb;--bd2:#d1d5db;
+  --t:#111827;--t2:#6b7280;--t3:#9ca3af;
+  --sw:200px;--rad:8px;--rads:6px;
+  --sha:0 1px 3px rgba(0,0,0,.08);--shm:0 4px 16px rgba(0,0,0,.12);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;color:var(--t);background:var(--bg);height:100vh;overflow:hidden}
+/* Layout */
+.app{display:flex;height:100vh}
+.sidebar{width:var(--sw);background:#1a1b2e;display:flex;flex-direction:column;flex-shrink:0}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+/* Sidebar */
+.logo{padding:16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.logo-t{font-size:15px;font-weight:700;color:#fff}.logo-t span{color:var(--g)}
+.logo-s{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px}
+.nav{flex:1;padding:8px;overflow-y:auto}
+.nav-g{font-size:10px;color:rgba(255,255,255,.3);padding:10px 8px 4px;letter-spacing:.06em;text-transform:uppercase}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--rads);cursor:pointer;color:rgba(255,255,255,.5);font-size:13px;margin-bottom:1px;transition:all .15s;border:none;background:none;width:100%;text-align:left}
+.ni:hover{background:rgba(255,255,255,.07);color:#fff}
+.ni.on{background:var(--g);color:#fff;font-weight:600}
+.ni svg{width:15px;height:15px;flex-shrink:0}
+.sfooter{padding:12px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px}
+.uav{width:30px;height:30px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.un{font-size:12px;color:rgba(255,255,255,.7);font-weight:500}
+.ur{font-size:10px;color:rgba(255,255,255,.35)}
+/* Topbar */
+.topbar{height:52px;background:var(--s);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0}
+.tbtitle{font-size:15px;font-weight:600;flex:1}
+.tbsearch{position:relative;flex:1;max-width:280px}
+.tbsearch input{width:100%;padding:7px 10px 7px 32px;border:1px solid var(--bd);border-radius:var(--rads);font-size:13px;background:var(--s2);color:var(--t)}
+.tbsearch input:focus{outline:none;border-color:var(--g)}
+.tbsi{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:14px}
+.gsbadge{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--g);background:var(--gl);padding:4px 10px;border-radius:99px;font-weight:600}
+.gsbadge .dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+/* Content */
+.content{flex:1;overflow-y:auto;padding:20px}
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:var(--rads);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--s);color:var(--t);transition:all .15s;font-family:inherit}
+.btn:hover{background:var(--s2)}
+.btn-g{background:var(--g);border-color:var(--g);color:#fff}
+.btn-g:hover{background:var(--gd)}
+.btn-r{background:var(--r);border-color:var(--r);color:#fff}
+.btn-sm{padding:5px 10px;font-size:12px}
+/* Metrics */
+.metrics{display:grid;gap:12px;margin-bottom:18px}
+.mc{background:var(--s);border:1px solid var(--bd);border-radius:var(--rad);padding:14px 16px;border-left:3px solid var(--g)}
+.mcl{font-size:11px;color:var(--t2);font-weight:500;margin-bottom:6px}
+.mcv{font-size:22px;font-weight:700;letter-spacing:-.5px}
+.mcs{font-size:11px;color:var(--t3);margin-top:3px}
+.up{color:var(--g)}.dn{color:var(--r)}
+/* Cards */
+.card{background:var(--s);border:1px solid var(--bd);border-radius:var(--rad);margin-bottom:14px;overflow:hidden}
+.ch{padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--s2)}
+.ct{font-size:13px;font-weight:600}
+/* Tables */
+.tw{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{padding:8px 14px;text-align:left;font-size:11px;font-weight:600;color:var(--t2);border-bottom:1px solid var(--bd);background:var(--s2);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.tbl td{padding:9px 14px;border-bottom:1px solid var(--bd);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr:hover td{background:#f8fffe;cursor:pointer}
+/* Badges */
+.b{display:inline-flex;align-items:center;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap}
+.bg{background:var(--gl);color:var(--gt)}
+.br{background:var(--rl);color:#9b1c1c}
+.ba{background:var(--al);color:#92400e}
+.bb{background:var(--bl);color:#1e40af}
+.bp{background:var(--pl);color:#5b21b6}
+.bx{background:#f3f4f6;color:#374151}
+/* Forms */
+.fg{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.fg label{font-size:12px;font-weight:500;color:var(--t2)}
+.fg input,.fg select,.fg textarea{padding:8px 10px;border:1px solid var(--bd2);border-radius:var(--rads);font-size:13px;font-family:inherit;color:var(--t);background:#fff}
+.fg input:focus,.fg select:focus{outline:none;border-color:var(--g);box-shadow:0 0 0 3px rgba(22,169,126,.1)}
+.fg textarea{resize:vertical;min-height:60px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* Modal */
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
+.mbg.open{display:flex}
+.modal{background:var(--s);border-radius:var(--rad);width:480px;max-width:95vw;max-height:88vh;overflow-y:auto;box-shadow:var(--shm)}
+.mh{padding:16px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.mh h2{font-size:15px;font-weight:600}
+.mx{width:26px;height:26px;border-radius:50%;border:none;background:var(--s2);cursor:pointer;font-size:16px;color:var(--t2);display:flex;align-items:center;justify-content:center}
+.mb{padding:18px 20px}
+.mf{padding:12px 20px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:8px;background:var(--s2)}
+/* Progress */
+.prog{height:5px;background:var(--bd);border-radius:99px;overflow:hidden}
+.progf{height:100%;border-radius:99px;background:var(--g)}
+/* Avatar */
+.av{border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;vertical-align:middle}
+/* Toast */
+.tw-wrap{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--t);color:#fff;padding:10px 16px;border-radius:var(--rads);font-size:13px;font-weight:500;transform:translateX(120%);transition:transform .3s;display:flex;align-items:center;gap:8px;box-shadow:var(--shm)}
+.toast.show{transform:translateX(0)}
+.toast.ok{border-left:3px solid var(--g)}
+.toast.err{border-left:3px solid var(--r)}
+/* Login */
+.login{position:fixed;inset:0;background:#1a1b2e;z-index:9999;display:flex;align-items:center;justify-content:center}
+.lbox{background:#242537;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:32px 36px;width:340px;max-width:92vw}
+.llogo{font-size:20px;font-weight:700;color:#fff;text-align:center;margin-bottom:2px}.llogo span{color:var(--g)}
+.lsub{font-size:11px;color:rgba(255,255,255,.3);text-align:center;margin-bottom:24px}
+.lfg{margin-bottom:12px}
+.lfg label{display:block;font-size:11px;color:rgba(255,255,255,.4);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.lfg input{width:100%;padding:9px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--rads);color:#fff;font-size:13px;font-family:inherit}
+.lfg input:focus{outline:none;border-color:var(--g)}
+.lbtn{width:100%;padding:10px;background:var(--g);border:none;border-radius:var(--rads);color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit}
+.lbtn:hover{background:var(--gd)}
+.lerr{font-size:12px;color:#f87171;text-align:center;margin-top:8px;min-height:16px}
+.ldemo{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.07)}
+.ldemo-t{font-size:10px;color:rgba(255,255,255,.2);text-align:center;margin-bottom:8px}
+.ldemo-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ldemo-btn{padding:6px;border-radius:var(--rads);border:1px solid;font-size:11px;cursor:pointer;font-family:inherit;font-weight:500}
+/* Pages */
+.page{display:none}.page.on{display:block}
+/* Two col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+/* Sim result */
+.sim-res{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.sim-card{background:var(--gl);border-radius:var(--rads);padding:10px;text-align:center}
+.sim-card-l{font-size:10px;color:var(--gt);font-weight:500}
+.sim-card-v{font-size:15px;font-weight:700;color:var(--gd);margin-top:3px;font-family:monospace}
+/* Amort table */
+.amort{width:100%;border-collapse:collapse;font-size:12px;font-family:monospace}
+.amort th{padding:6px 10px;background:var(--s2);border-bottom:1px solid var(--bd);font-size:10px;color:var(--t2);text-align:right;font-family:inherit}
+.amort th:first-child{text-align:left}
+.amort td{padding:6px 10px;border-bottom:1px solid var(--bd);text-align:right}
+.amort td:first-child{text-align:left;color:var(--t2)}
+/* KPI */
+.krow{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--bd);font-size:13px}
+.krow:last-child{border-bottom:none}
+.kl{color:var(--t2)}
+.kv{font-weight:700;font-family:monospace}
+/* Rapport btn */
+.rbtn{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--bd);cursor:pointer;font-size:13px}
+.rbtn:last-child{border-bottom:none}
+.rbtn:hover{background:var(--s2)}
+.rbtn-l{font-weight:500}
+.rbtn-s{font-size:11px;color:var(--t2);margin-top:2px}
+/* Detail */
+.dh{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--bd)}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.drow{padding:8px 0;border-bottom:1px solid var(--bd)}
+.drow:last-child{border-bottom:none}
+.dl{font-size:11px;color:var(--t2);font-weight:500}
+.dv{font-size:13px;font-weight:500;margin-top:2px}
+/* Filter bar */
+.fbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.fbar input,.fbar select{padding:6px 10px;border:1px solid var(--bd);border-radius:var(--rads);font-size:12px;background:var(--s);color:var(--t);font-family:inherit}
+/* Spin */
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid var(--bd);border-top-color:var(--g);border-radius:50%;animation:spin .6s linear infinite}
+/* Role badges */
+.role-dir{background:rgba(124,58,237,.2);color:#c4b5fd;border-color:rgba(124,58,237,.3)}
+.role-age{background:rgba(37,99,235,.2);color:#93c5fd;border-color:rgba(37,99,235,.3)}
+.role-cai{background:rgba(22,169,126,.2);color:#6ee7b7;border-color:rgba(22,169,126,.3)}
+.role-aud{background:rgba(217,119,6,.2);color:#fcd34d;border-color:rgba(217,119,6,.3)}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="tw-wrap" id="tw"></div>
+
+<!-- LOGIN -->
+<div class="login" id="login">
+  <div class="lbox">
+    <div class="llogo">Micro<span>Finance</span> Pro</div>
+    <div class="lsub">Système de Gestion · Haïti</div>
+    <div class="lfg"><label>Nom d'utilisateur</label><input id="lu" type="text" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <div class="lfg"><label>Mot de passe</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="lbtn" id="lbtn" onclick="doLogin()">Se connecter</button>
+    <div class="lerr" id="lerr"></div>
+    <div class="ldemo">
+      <div class="ldemo-t">COMPTES DE DÉMONSTRATION</div>
+      <div class="ldemo-grid">
+        <button class="ldemo-btn role-dir" onclick="ql('admin','admin123')">👑 Directeur</button>
+        <button class="ldemo-btn role-age" onclick="ql('agent1','agent123')">💼 Agent crédit</button>
+        <button class="ldemo-btn role-cai" onclick="ql('caissier1','caisse123')">💰 Caissier</button>
+        <button class="ldemo-btn role-aud" onclick="ql('auditeur1','audit123')">📊 Auditeur</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-t">Micro<span>Finance</span> Pro</div>
+      <div class="logo-s">Haïti · Gestion intégrée</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-g">Principal</div>
+      <button class="ni on" data-p="dashboard" onclick="go('dashboard',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".9"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" opacity=".9"/></svg>Tableau de bord</button>
+      <div class="nav-g">Gestion</div>
+      <button class="ni" data-p="clients" data-roles="dir,age" onclick="go('clients',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="3" fill="currentColor" opacity=".8"/><path d="M1 13c0-3 2-4 5-4s5 1 5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="12" cy="6" r="2" fill="currentColor" opacity=".4"/><path d="M13.5 13c0-2-1-3-3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Clients</button>
+      <button class="ni" data-p="prets" data-roles="dir,age" onclick="go('prets',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="1" y="4" width="14" height="9" rx="1.5" fill="currentColor" opacity=".5"/><path d="M4 4V3a2.5 2.5 0 015 0v1" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8.5" r="2" fill="#1a1b2e" opacity=".9"/></svg>Prêts</button>
+      <button class="ni" data-p="epargne" data-roles="dir,cai" onclick="go('epargne',this)"><svg viewBox="0 0 16 16" fill="none"><ellipse cx="8" cy="10" rx="6" ry="3.5" fill="currentColor" opacity=".4"/><ellipse cx="8" cy="8" rx="6" ry="3.5" fill="currentColor" opacity=".6"/><ellipse cx="8" cy="6" rx="6" ry="3.5" fill="currentColor" opacity=".85"/></svg>Épargne</button>
+      <button class="ni" data-p="remboursements" data-roles="dir,age,cai" onclick="go('remboursements',this)"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8h10M9 5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="2.5" cy="12" r="1.5" fill="currentColor" opacity=".6"/></svg>Remboursements</button>
+      <div class="nav-g">Analyse</div>
+      <button class="ni" data-p="rapports" data-roles="dir,aud" onclick="go('rapports',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="2" y="1.5" width="12" height="13" rx="1.5" fill="currentColor" opacity=".4"/><path d="M5 5h6M5 7.5h6M5 10h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Rapports</button>
+      <button class="ni" data-p="parametres" data-roles="dir" onclick="go('parametres',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.5" fill="currentColor" opacity=".7"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.1 3.1l1.4 1.4M11.5 11.5l1.4 1.4M3.1 12.9l1.4-1.4M11.5 4.5l1.4-1.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Paramètres</button>
+    </nav>
+    <div class="sfooter">
+      <div class="uav" id="uav">AD</div>
+      <div><div class="un" id="unom">Admin</div><div class="ur" id="urole">Directeur</div></div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="tbtitle" id="pgtitle">Tableau de bord</div>
+      <div class="tbsearch"><span class="tbsi">🔍</span><input type="text" placeholder="Rechercher..." id="gsearch" oninput="globalSearch(this.value)"/></div>
+      <div class="gsbadge"><span class="dot"></span>Données locales</div>
+      <div style="font-size:11px;color:var(--t2);font-family:monospace" id="tbdate"></div>
+      <button class="btn btn-sm" onclick="exportCSV()">💾 Exporter</button>
+      <button class="btn btn-sm" onclick="doLogout()" style="color:var(--r);border-color:var(--r)">Déconnexion</button>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div id="p-dashboard" class="page on">
+        <div class="metrics" style="grid-template-columns:repeat(4,1fr)" id="dash-metrics">
+          <div class="mc"><div class="mcl">Total clients</div><div class="mcv" id="m-clients">0</div><div class="mcs up" id="m-clients-s"></div></div>
+          <div class="mc"><div class="mcl">Prêts actifs</div><div class="mcv" id="m-prets">0</div><div class="mcs" id="m-prets-s"></div></div>
+          <div class="mc"><div class="mcl">Épargne totale</div><div class="mcv" id="m-epargne">0</div><div class="mcs up"></div></div>
+          <div class="mc"><div class="mcl">Taux remboursement</div><div class="mcv" id="m-trb">0%</div><div class="mcs" id="m-trb-s"></div></div>
+        </div>
+        <div class="two">
+          <div class="card">
+            <div class="ch"><div class="ct">Répartition par secteur</div></div>
+            <div style="padding:14px 16px" id="d-secteurs"></div>
+          </div>
+          <div class="card">
+            <div class="ch"><div class="ct">Statuts des prêts</div></div>
+            <div style="padding:0 16px" id="d-statuts"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct">⚠ Alertes — Retards</div><span class="b br" id="d-alert-n">0</span></div>
+          <div class="tw"><table class="tbl"><thead><tr><th>Client</th><th>Prêt</th><th>Montant</th><th>Retard</th><th>Statut</th></tr></thead><tbody id="d-alerts"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- CLIENTS -->
+      <div id="p-clients" class="page">
+        <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
+          <div class="mc"><div class="mcl">Total clients</div><div class="mcv" id="c-tot">0</div></div>
+          <div class="mc"><div class="mcl">Actifs</div><div class="mcv up" id="c-act">0</div></div>
+          <div class="mc"><div class="mcl">Avec prêt actif</div><div class="mcv" id="c-pret">0</div></div>
+        </div>
+        <div class="card">
+          <div class="ch">
+            <div class="fbar">
+              <input type="text" placeholder="Rechercher..." id="cs" oninput="renderClients()"/>
+              <select id="cfs" onchange="renderClients()"><option value="">Tous statuts</option><option>Actif</option><option>Inactif</option><option>Retard</option></select>
+              <select id="cfc" onchange="renderClients()"><option value="">Tous secteurs</option><option>Commerce</option><option>Agriculture</option><option>Artisanat</option><option>Services</option></select>
+            </div>
+            <button class="btn btn-g btn-sm" onclick="openM('m-client')">+ Nouveau client</button>
+          </div>
+          <div class="tw"><table class="tbl"><thead><tr><th>Nom complet</th><th>Téléphone</th><th>Localité</th><th>Secteur</th><th>Épargne</th><th>Statut</th><th></th></tr></thead><tbody id="c-body"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- PRÊTS -->
+      <div id="p-prets" class="page">
+        <div class="metrics" style="grid-template-columns:repeat(4,1fr)">
+          <div class="mc"><div class="mcl">Prêts actifs</div><div class="mcv" id="p-act">0</div></div>
+          <div class="mc"><div class="mcl">Encours total</div><div class="mcv" id="p-enc">0</div></div>
+          <div class="mc"><div class="mcl">PAR 30j</div><div class="mcv dn" id="p-par">0%</div></div>
+          <div class="mc"><div class="mcl">Clôturés</div><div class="mcv" id="p-clo">0</div></div>
+        </div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="ch"><div class="ct">Simulateur de prêt</div><span class="b bb">Calcul automatique</span></div>
+          <div style="padding:14px 16px">
+            <div class="frow" style="margin-bottom:10px">
+              <div class="fg" style="margin:0"><label>Montant (HTG)</label><input type="number" id="sm" value="20000" oninput="simCalc()"/></div>
+              <div class="fg" style="margin:0"><label>Durée (mois)</label><input type="number" id="sd" value="12" min="1" oninput="simCalc()"/></div>
+              <div class="fg" style="margin:0"><label>Taux annuel (%)</label><input type="number" id="st" value="24" step=".5" oninput="simCalc()"/></div>
+            </div>
+            <div class="sim-res" id="sim-res"></div>
+            <div style="max-height:160px;overflow-y:auto;border:1px solid var(--bd);border-radius:var(--rads)">
+              <table class="amort"><thead><tr><th>#</th><th>Échéance</th><th>Principal</th><th>Intérêts</th><th>Solde</th></tr></thead><tbody id="amort-body"></tbody></table>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch">
+            <div class="fbar">
+              <input type="text" placeholder="Rechercher..." id="ps" oninput="renderPrets()"/>
+              <select id="pfs" onchange="renderPrets()"><option value="">Tous statuts</option><option>En cours</option><option>En retard</option><option>Critique</option><option>Clôturé</option></select>
+            </div>
+            <button class="btn btn-g btn-sm" onclick="openM('m-pret')">+ Nouveau prêt</button>
+          </div>
+          <div class="tw"><table class="tbl"><thead><tr><th>N° Prêt</th><th>Client</th><th>Montant</th><th>Durée</th><th>Taux</th><th>Solde restant</th><th>%</th><th>Statut</th><th></th></tr></thead><tbody id="p-body"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ÉPARGNE -->
+      <div id="p-epargne" class="page">
+        <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
+          <div class="mc"><div class="mcl">Épargnants actifs</div><div class="mcv" id="e-tot">0</div></div>
+          <div class="mc"><div class="mcl">Épargne totale</div><div class="mcv" id="e-mon">0</div></div>
+          <div class="mc"><div class="mcl">Dépôt moyen</div><div class="mcv" id="e-moy">0</div></div>
+        </div>
+        <div class="card">
+          <div class="ch">
+            <div class="fbar">
+              <input type="text" placeholder="Rechercher..." id="es" oninput="renderEpargne()"/>
+              <select id="eft" onchange="renderEpargne()"><option value="">Tous types</option><option>Épargne libre</option><option>Épargne obligatoire</option><option>Épargne groupe</option></select>
+            </div>
+            <button class="btn btn-g btn-sm" onclick="openM('m-epargne')">+ Opération</button>
+          </div>
+          <div class="tw"><table class="tbl"><thead><tr><th>N° Compte</th><th>Client</th><th>Type</th><th>Solde</th><th>Dernier mouvement</th><th>Statut</th><th></th></tr></thead><tbody id="e-body"></tbody></table></div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct">Historique des mouvements</div></div>
+          <div class="tw"><table class="tbl"><thead><tr><th>Date</th><th>Client</th><th>Opération</th><th>Montant</th><th>Solde après</th><th>Agent</th></tr></thead><tbody id="e-mov"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- REMBOURSEMENTS -->
+      <div id="p-remboursements" class="page">
+        <div class="metrics" style="grid-template-columns:repeat(4,1fr)">
+          <div class="mc"><div class="mcl">Total échéances</div><div class="mcv" id="r-tot">0</div></div>
+          <div class="mc"><div class="mcl">Payées</div><div class="mcv up" id="r-pay">0</div></div>
+          <div class="mc"><div class="mcl">En retard</div><div class="mcv dn" id="r-ret">0</div></div>
+          <div class="mc"><div class="mcl">Collecté</div><div class="mcv" id="r-col">0</div></div>
+        </div>
+        <div class="card">
+          <div class="ch">
+            <div class="fbar">
+              <input type="text" placeholder="Rechercher..." id="rs" oninput="renderRembours()"/>
+              <select id="rfs" onchange="renderRembours()"><option value="">Tous statuts</option><option>Payé</option><option>En attente</option><option>Retard</option></select>
+            </div>
+            <button class="btn btn-g btn-sm" onclick="openM('m-rembours')">+ Paiement</button>
+          </div>
+          <div class="tw"><table class="tbl"><thead><tr><th>Client</th><th>N° Prêt</th><th>Échéance</th><th>Montant</th><th>Date paiement</th><th>Mode</th><th>Statut</th><th></th></tr></thead><tbody id="r-body"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- RAPPORTS -->
+      <div id="p-rapports" class="page">
+        <div class="two">
+          <div class="card" style="margin-bottom:0">
+            <div class="ch"><div class="ct">Indicateurs clés (KPI)</div></div>
+            <div style="padding:0 16px" id="kpi-body"></div>
+          </div>
+          <div class="card" style="margin-bottom:0">
+            <div class="ch"><div class="ct">Générer un rapport</div></div>
+            <div id="rlist">
+              <div class="rbtn" onclick="genReport('mensuel')"><div><div class="rbtn-l">Rapport mensuel remboursements</div><div class="rbtn-s">Analyse des paiements</div></div><span>→</span></div>
+              <div class="rbtn" onclick="genReport('risque')"><div><div class="rbtn-l">Analyse risque portefeuille</div><div class="rbtn-s">PAR30, clients critiques</div></div><span>→</span></div>
+              <div class="rbtn" onclick="genReport('epargne')"><div><div class="rbtn-l">Rapport épargne & collecte</div><div class="rbtn-s">Dépôts par client</div></div><span>→</span></div>
+              <div class="rbtn" onclick="genReport('bilan')"><div><div class="rbtn-l">Bilan financier</div><div class="rbtn-s">Produits, charges, résultat</div></div><span>→</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct" id="rpt-title">Rapport</div></div>
+          <div style="padding:16px" id="rpt-body"><div style="color:var(--t3);text-align:center;padding:20px">Sélectionnez un rapport ci-dessus</div></div>
+        </div>
+      </div>
+
+      <!-- PARAMÈTRES -->
+      <div id="p-parametres" class="page">
+        <div class="two">
+          <div class="card" style="margin-bottom:0">
+            <div class="ch"><div class="ct">Institution</div></div>
+            <div style="padding:16px">
+              <div class="fg"><label>Nom de l'institution</label><input type="text" value="MicroFinance Plus S.A. Haïti"/></div>
+              <div class="fg"><label>Pays</label><select><option selected>Haïti</option><option>République Dominicaine</option><option>Cuba</option></select></div>
+              <div class="fg"><label>Monnaie</label><select><option selected>HTG (Gourde haïtienne)</option><option>USD</option><option>EUR</option></select></div>
+              <div class="fg"><label>Email</label><input type="email" value="admin@microfinanceplus.ht"/></div>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom:0">
+            <div class="ch"><div class="ct">Paramètres prêts</div></div>
+            <div style="padding:16px">
+              <div class="frow"><div class="fg"><label>Taux par défaut (%/an)</label><input type="number" value="24"/></div><div class="fg"><label>Méthode</label><select><option>Dégressif</option><option>Flat</option></select></div></div>
+              <div class="frow"><div class="fg"><label>Durée max (mois)</label><input type="number" value="60"/></div><div class="fg"><label>Seuil retard (jours)</label><input type="number" value="7"/></div></div>
+              <div class="frow"><div class="fg"><label>Seuil PAR critique (%)</label><input type="number" value="5"/></div><div class="fg"><label>Frais dossier (%)</label><input type="number" value="1"/></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <div class="ch"><div class="ct">Utilisateurs</div><button class="btn btn-sm" onclick="toast('Invitation envoyée !','ok')">+ Inviter</button></div>
+          <div class="tw"><table class="tbl"><thead><tr><th>Nom</th><th>Username</th><th>Rôle</th><th>Statut</th></tr></thead>
+          <tbody id="u-body"></tbody></table></div>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:8px">
+          <button class="btn btn-g" onclick="toast('Paramètres sauvegardés !','ok')">Sauvegarder</button>
+          <button class="btn btn-sm" onclick="exportCSV()">💾 Exporter CSV</button>
+          <button class="btn btn-r btn-sm" onclick="if(confirm('Réinitialiser toutes les données ?')){DB=buildDB();saveDB();renderAll();toast('BD réinitialisée','ok')}">Réinitialiser</button>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- MODALS -->
+<div class="mbg" id="m-client"><div class="modal">
+  <div class="mh"><h2>Nouveau client</h2><button class="mx" onclick="closeM('m-client')">×</button></div>
+  <div class="mb">
+    <div class="frow"><div class="fg"><label>Prénom *</label><input id="c-pre" placeholder="Marie"/></div><div class="fg"><label>Nom *</label><input id="c-nom" placeholder="Dupont"/></div></div>
+    <div class="frow"><div class="fg"><label>Téléphone *</label><input id="c-tel" placeholder="+509 36 XX XXXX"/></div><div class="fg"><label>Date de naissance</label><input type="date" id="c-ddn"/></div></div>
+    <div class="frow"><div class="fg"><label>Localité *</label><input id="c-loc" placeholder="Port-au-Prince"/></div><div class="fg"><label>Secteur *</label><select id="c-sec"><option>Commerce</option><option>Agriculture</option><option>Artisanat</option><option>Services</option><option>Éducation</option><option>Santé</option></select></div></div>
+    <div class="frow"><div class="fg"><label>Type pièce</label><select id="c-tp"><option>CNI</option><option>Passeport</option><option>Permis</option></select></div><div class="fg"><label>N° pièce</label><input id="c-np" placeholder="HT-XXXXX"/></div></div>
+    <div class="frow"><div class="fg"><label>Revenu mensuel (HTG)</label><input type="number" id="c-rev" placeholder="20000"/></div><div class="fg"><label>Statut</label><select id="c-st"><option>Actif</option><option>Inactif</option></select></div></div>
+  </div>
+  <div class="mf"><button class="btn" onclick="closeM('m-client')">Annuler</button><button class="btn btn-g" onclick="saveClient()">Enregistrer</button></div>
+</div></div>
+
+<div class="mbg" id="m-pret"><div class="modal" style="width:560px">
+  <div class="mh"><h2>Nouveau prêt</h2><button class="mx" onclick="closeM('m-pret')">×</button></div>
+  <div class="mb">
+    <div class="frow"><div class="fg"><label>Client *</label><select id="p-cli"></select></div><div class="fg"><label>Objet *</label><input id="p-obj" placeholder="Fonds de roulement..."/></div></div>
+    <div class="frow"><div class="fg"><label>Montant (HTG) *</label><input type="number" id="p-mon" value="20000" oninput="prevPret()"/></div><div class="fg"><label>Durée (mois) *</label><input type="number" id="p-dur" value="12" oninput="prevPret()"/></div></div>
+    <div class="frow"><div class="fg"><label>Taux annuel (%) *</label><input type="number" id="p-tau" value="24" oninput="prevPret()"/></div><div class="fg"><label>Date de décaissement *</label><input type="date" id="p-dat"/></div></div>
+    <div class="frow"><div class="fg"><label>Méthode</label><select id="p-met"><option value="deg">Dégressif</option><option value="fla">Flat</option></select></div><div class="fg"><label>Fréquence</label><select id="p-fre"><option>Mensuel</option><option>Bimensuel</option></select></div></div>
+    <div class="frow"><div class="fg"><label>Garantie</label><select id="p-gar"><option>Épargne bloquée</option><option>Caution solidaire</option><option>Titre foncier</option><option>Nantissement</option></select></div><div class="fg"><label>Agent</label><select id="p-age"><option>Adjoua Nandjui</option><option>Kofi Diabaté</option></select></div></div>
+    <div style="background:var(--gl);border-radius:var(--rads);padding:12px;margin-top:4px">
+      <div style="font-size:10px;font-weight:600;color:var(--gt);margin-bottom:8px">APERÇU</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12px">
+        <div><div style="color:var(--gt);font-size:10px">Échéance</div><div style="font-weight:700;color:var(--gd);font-family:monospace" id="pv-e">—</div></div>
+        <div><div style="color:var(--gt);font-size:10px">Total intérêts</div><div style="font-weight:700;color:var(--gd);font-family:monospace" id="pv-i">—</div></div>
+        <div><div style="color:var(--gt);font-size:10px">Total à rembourser</div><div style="font-weight:700;color:var(--gd);font-family:monospace" id="pv-t">—</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="mf"><button class="btn" onclick="closeM('m-pret')">Annuler</button><button class="btn btn-g" onclick="savePret()">Créer le prêt + échéancier</button></div>
+</div></div>
+
+<div class="mbg" id="m-epargne"><div class="modal">
+  <div class="mh"><h2>Opération d'épargne</h2><button class="mx" onclick="closeM('m-epargne')">×</button></div>
+  <div class="mb">
+    <div class="frow"><div class="fg"><label>Client *</label><select id="e-cli"></select></div><div class="fg"><label>Opération *</label><select id="e-op"><option>Dépôt</option><option>Retrait</option></select></div></div>
+    <div class="frow"><div class="fg"><label>Type épargne *</label><select id="e-typ"><option>Épargne libre</option><option>Épargne obligatoire</option><option>Épargne groupe</option></select></div><div class="fg"><label>Montant (HTG) *</label><input type="number" id="e-mon" placeholder="5000"/></div></div>
+    <div class="frow"><div class="fg"><label>Date *</label><input type="date" id="e-dat"/></div><div class="fg"><label>Mode paiement</label><select id="e-mod"><option>Espèces</option><option>Mobile Money</option><option>Virement</option><option>Chèque</option></select></div></div>
+    <div class="frow"><div class="fg"><label>Agent</label><select id="e-age"><option>Adjoua Nandjui</option><option>Kofi Diabaté</option><option>Sekou Bah</option></select></div><div class="fg"><label>Référence</label><input id="e-ref" placeholder="REC-XXXX"/></div></div>
+  </div>
+  <div class="mf"><button class="btn" onclick="closeM('m-epargne')">Annuler</button><button class="btn btn-g" onclick="saveEpargne()">Enregistrer</button></div>
+</div></div>
+
+<div class="mbg" id="m-rembours"><div class="modal">
+  <div class="mh"><h2>Enregistrer un paiement</h2><button class="mx" onclick="closeM('m-rembours')">×</button></div>
+  <div class="mb">
+    <div class="fg"><label>Client *</label><select id="r-cli" onchange="loadEchClient()"></select></div>
+    <div class="fg"><label>Échéance *</label><select id="r-ech"></select></div>
+    <div class="frow"><div class="fg"><label>Montant reçu (HTG) *</label><input type="number" id="r-mon"/></div><div class="fg"><label>Date réception *</label><input type="date" id="r-dat"/></div></div>
+    <div class="frow"><div class="fg"><label>Mode paiement</label><select id="r-mod"><option>Espèces</option><option>Mobile Money</option><option>Virement</option><option>Chèque</option></select></div><div class="fg"><label>Référence</label><input id="r-ref" placeholder="PAY-XXXX"/></div></div>
+    <div class="fg"><label>Observations</label><textarea id="r-obs" placeholder="Notes..."></textarea></div>
+  </div>
+  <div class="mf"><button class="btn" onclick="closeM('m-rembours')">Annuler</button><button class="btn btn-g" onclick="saveRembours()">Confirmer le paiement</button></div>
+</div></div>
+
+<div class="mbg" id="m-detail"><div class="modal" style="width:620px">
+  <div class="mh"><h2 id="det-title">Détail</h2><button class="mx" onclick="closeM('m-detail')">×</button></div>
+  <div class="mb" id="det-body"></div>
+  <div class="mf" id="det-footer"><button class="btn" onclick="closeM('m-detail')">Fermer</button></div>
+</div></div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+// BASE DE DONNÉES — LocalStorage pur
+// ════════════════════════════════════════════════════════════
+const KEY = 'mf_ht_v1';
+
+function buildDB() {
+  const td = toDay();
+  const cls = [
+    {id:1,nc:'Aminata Koné',pr:'Aminata',no:'Koné',tel:'+509 36 12 3456',ddn:'1985-03-12',loc:'Port-au-Prince',sec:'Commerce',tp:'CNI',np:'CI-1985-12345',rev:28000,st:'Actif',da:td},
+    {id:2,nc:'Ibrahim Diallo',pr:'Ibrahim',no:'Diallo',tel:'+509 37 98 7654',ddn:'1978-07-20',loc:'Cap-Haïtien',sec:'Agriculture',tp:'CNI',np:'CI-1978-54321',rev:15000,st:'Retard',da:td},
+    {id:3,nc:'Fatou Traoré',pr:'Fatou',no:'Traoré',tel:'+509 48 45 6789',ddn:'1990-11-05',loc:'Gonaïves',sec:'Commerce',tp:'Passeport',np:'AB-2345678',rev:42000,st:'Actif',da:td},
+    {id:4,nc:'Moussa Coulibaly',pr:'Moussa',no:'Coulibaly',tel:'+509 36 32 1654',ddn:'1982-01-30',loc:'Les Cayes',sec:'Services',tp:'CNI',np:'CI-1982-99887',rev:32000,st:'Actif',da:td},
+    {id:5,nc:'Marie Bamba',pr:'Marie',no:'Bamba',tel:'+509 37 65 4321',ddn:'1995-06-18',loc:'Jacmel',sec:'Artisanat',tp:'CNI',np:'CI-1995-44556',rev:18000,st:'Actif',da:td},
+    {id:6,nc:'Oumar Sylla',pr:'Oumar',no:'Sylla',tel:'+509 48 78 9012',ddn:'1988-09-25',loc:'Jérémie',sec:'Agriculture',tp:'CNI',np:'CI-1988-33221',rev:9000,st:'Inactif',da:td},
+    {id:7,nc:'Aïssatou Barry',pr:'Aïssatou',no:'Barry',tel:'+509 36 45 6123',ddn:'1992-04-14',loc:'Port-au-Prince',sec:'Commerce',tp:'CNI',np:'CI-1992-77889',rev:35000,st:'Actif',da:td},
+    {id:8,nc:'Koffi Assouma',pr:'Koffi',no:'Assouma',tel:'+509 37 32 1987',ddn:'1975-12-08',loc:'Port-au-Prince',sec:'Services',tp:'CNI',np:'CI-1975-22334',rev:50000,st:'Actif',da:td},
+  ];
+  const pts = [];
+  const ecs = [];
+  let pid=1,eid=1;
+  const pd=[
+    {id:pid++,cid:1,num:'PRE-2025-0412',m:50000,d:12,t:24,dd:'2025-04-15',s:32000,obj:'Fonds de roulement',gar:'Épargne bloquée',age:'Adjoua Nandjui',st:'En cours'},
+    {id:pid++,cid:2,num:'PRE-2024-0821',m:25000,d:6,t:24,dd:'2024-08-21',s:12500,obj:'Intrants agricoles',gar:'Caution solidaire',age:'Kofi Diabaté',st:'En retard'},
+    {id:pid++,cid:3,num:'PRE-2024-0654',m:80000,d:24,t:20,dd:'2024-06-10',s:34000,obj:'Équipement commerce',gar:'Titre foncier',age:'Adjoua Nandjui',st:'En cours'},
+    {id:pid++,cid:5,num:'PRE-2025-0901',m:15000,d:6,t:24,dd:'2025-09-01',s:6000,obj:'Outils artisanat',gar:'Caution solidaire',age:'Kofi Diabaté',st:'En cours'},
+    {id:pid++,cid:1,num:'PRE-2024-0310',m:40000,d:12,t:24,dd:'2024-03-10',s:0,obj:'Stock commerce',gar:'Épargne bloquée',age:'Adjoua Nandjui',st:'Clôturé'},
+    {id:pid++,cid:3,num:'PRE-2025-1102',m:30000,d:12,t:24,dd:'2025-11-02',s:28000,obj:'Fonds de roulement',gar:'Caution solidaire',age:'Kofi Diabaté',st:'En cours'},
+  ];
+  pd.forEach(p=>{
+    pts.push({id:p.id,cid:p.cid,num:p.num,montant:p.m,duree:p.d,taux:p.t,dd:p.dd,df:addM(p.dd,p.d),solde:p.s,objet:p.obj,garantie:p.gar,agent:p.age,statut:p.st,nb_retards:0});
+    const rm=p.t/100/12, ec=calcE(p.m,p.d,p.t).ech;
+    let sol=p.m;
+    for(let i=1;i<=Math.min(p.d,6);i++){
+      const it=sol*rm,pr=ec-it;sol=Math.max(0,sol-pr);
+      const de=addM(p.dd,i);
+      const paye=p.st==='Clôturé'||(de<td&&i<=3);
+      ecs.push({id:eid++,pid:p.id,ne:i,de,md:Math.round(ec),prin:Math.round(pr),int:Math.round(it),sa:Math.round(sol),dp:paye?de:null,mp:paye?Math.round(ec):0,mod:paye?'Espèces':null,st:p.st==='En retard'&&i<=2?'Retard':paye?'Payé':'En attente'});
+    }
+  });
+  const ep=[
+    {id:1,num:'EPG-001-2024',cid:1,type:'Épargne libre',solde:4500,da:td,dm:td,st:'Actif'},
+    {id:2,num:'EPG-002-2024',cid:2,type:'Épargne libre',solde:1200,da:td,dm:'2026-01-05',st:'Dormant'},
+    {id:3,num:'EPG-003-2024',cid:3,type:'Épargne obligatoire',solde:8900,da:td,dm:td,st:'Actif'},
+    {id:4,num:'EPG-004-2024',cid:4,type:'Épargne libre',solde:23000,da:td,dm:td,st:'Actif'},
+    {id:5,num:'EPG-005-2024',cid:5,type:'Épargne groupe',solde:6700,da:td,dm:td,st:'Actif'},
+  ];
+  const mv=ep.map((e,i)=>({id:i+1,eid:e.id,cid:e.cid,op:'Dépôt',m:e.solde,sa:e.solde,do:td,mod:'Espèces',agent:'Adjoua Nandjui'}));
+  const us=[
+    {id:1,nc:'Admin Principal',  user:'admin',    pass:'admin123',  role:'dir',actif:true},
+    {id:2,nc:'Adjoua Nandjui',   user:'agent1',   pass:'agent123',  role:'age',actif:true},
+    {id:3,nc:'Kofi Diabaté',     user:'agent2',   pass:'agent123',  role:'age',actif:true},
+    {id:4,nc:'Sekou Bah',        user:'caissier1',pass:'caisse123', role:'cai',actif:true},
+    {id:5,nc:'Auditeur Externe', user:'auditeur1',pass:'audit123',  role:'aud',actif:true},
+  ];
+  return {clients:cls,prets:pts,echeances:ecs,epargne:ep,mouvements:mv,utilisateurs:us,_nid:{c:cls.length+1,p:pd.length+1,e:eid,ep:ep.length+1,mv:mv.length+1}};
+}
+
+let DB;
+function saveDB(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){}}
+function loadOrInit(){
+  try{
+    const s=localStorage.getItem(KEY);
+    if(s){DB=JSON.parse(s);return;}
+  }catch(e){}
+  DB=buildDB();saveDB();
+}
+
+// ════════════════════════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════════════════════════
+const USERS={dir:{lab:'Directeur',cls:'role-dir'},age:{lab:'Agent crédit',cls:'role-age'},cai:{lab:'Caissier',cls:'role-cai'},aud:{lab:'Auditeur',cls:'role-aud'}};
+let CU=null;
+
+function toDay(){return new Date().toISOString().split('T')[0];}
+function addM(ds,m){const d=new Date(ds);d.setMonth(d.getMonth()+m);return d.toISOString().split('T')[0];}
+function fmt(n){return Math.round(n||0).toLocaleString('fr-FR')+' HTG';}
+function fmtM(n){n=n||0;if(n>=1e6)return(n/1e6).toFixed(1)+'M HTG';if(n>=1e3)return(n/1e3).toFixed(0)+'k HTG';return fmt(n);}
+function fmtD(d){if(!d)return'—';try{return new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});}catch(e){return d;}}
+function calcE(m,d,t){const r=t/100/12;const e=r===0?m/d:m*r*Math.pow(1+r,d)/(Math.pow(1+r,d)-1);return{ech:e,int:e*d-m,tot:e*d};}
+function av(name,sz=26){const colors=['#16a97e','#2563eb','#7c3aed','#d97706','#e84040'];let h=0;for(const c of(name||''))h=(h*31+c.charCodeAt(0))&0xffffffff;const col=colors[Math.abs(h)%colors.length];const ini=(name||'??').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();return`<span class="av" style="width:${sz}px;height:${sz}px;font-size:${Math.round(sz*.38)}px;background:${col}">${ini}</span>`;}
+function badge(s){const m={Actif:'bg','En cours':'bg',Payé:'bg',Inactif:'bx','En retard':'ba',Retard:'ba',Dormant:'ba','En attente':'bb',Critique:'br',Clôturé:'bx',Épargnant:'bb'};return`<span class="b ${m[s]||'bx'}">${s}</span>`;}
+function nid(k){if(!DB._nid)DB._nid={};DB._nid[k]=(DB._nid[k]||1);return DB._nid[k]++;}
+
+// ════════════════════════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════════════════════════
+function doLogin(){
+  const u=document.getElementById('lu').value.trim().toLowerCase();
+  const p=document.getElementById('lp').value;
+  const user=DB.utilisateurs.find(x=>x.user===u&&x.pass===p&&x.actif);
+  if(!user){document.getElementById('lerr').textContent='Identifiants incorrects.';document.getElementById('lp').value='';return;}
+  CU=user;
+  document.getElementById('login').style.display='none';
+  document.getElementById('uav').textContent=av_text(user.nc);
+  document.getElementById('unom').textContent=user.nc;
+  document.getElementById('urole').textContent=USERS[user.role]?.lab||user.role;
+  applyRoles();
+  renderAll();
+}
+function av_text(n){return(n||'?').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();}
+function ql(u,p){document.getElementById('lu').value=u;document.getElementById('lp').value=p;doLogin();}
+function doLogout(){CU=null;document.getElementById('login').style.display='flex';document.getElementById('lu').value='';document.getElementById('lp').value='';document.getElementById('lerr').textContent='';}
+
+function applyRoles(){
+  const r=CU?.role||'aud';
+  document.querySelectorAll('.ni[data-roles]').forEach(el=>{
+    const roles=el.getAttribute('data-roles').split(',');
+    el.style.display=roles.includes(r)?'':'none';
+  });
+  // Auditeur: hide action buttons
+  if(r==='aud'){document.querySelectorAll('.btn-g').forEach(b=>b.style.display='none');}
+}
+
+// ════════════════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════════════════
+const pgTitles={dashboard:'Tableau de bord',clients:'Clients',prets:'Prêts',epargne:'Épargne',remboursements:'Remboursements',rapports:'Rapports & Analyses',parametres:'Paramètres'};
+const pgRender={dashboard:renderDashboard,clients:renderClients,prets:renderPrets,epargne:renderEpargne,remboursements:renderRembours,rapports:renderRapports,parametres:renderParams};
+
+function go(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  const pg=document.getElementById('p-'+id);
+  if(pg)pg.classList.add('on');
+  if(el)el.classList.add('on');
+  document.getElementById('pgtitle').textContent=pgTitles[id]||id;
+  if(pgRender[id])pgRender[id]();
+}
+
+function renderAll(){renderDashboard();if(document.getElementById('p-clients').classList.contains('on'))renderClients();}
+
+// ════════════════════════════════════════════════════════════
+// DASHBOARD
+// ════════════════════════════════════════════════════════════
+function renderDashboard(){
+  const td=toDay();
+  const act=DB.prets.filter(p=>['En cours','En retard','Critique'].includes(p.statut));
+  const enc=act.reduce((s,p)=>s+(p.solde||0),0);
+  const epT=DB.epargne.filter(e=>e.st==='Actif').reduce((s,e)=>s+(e.solde||0),0);
+  const pay=DB.echeances.filter(e=>e.st==='Payé').length;
+  const nonA=DB.echeances.filter(e=>e.st!=='En attente').length;
+  const trb=nonA>0?(pay/nonA*100).toFixed(1):0;
+
+  document.getElementById('m-clients').textContent=DB.clients.length.toLocaleString('fr-FR');
+  document.getElementById('m-clients-s').textContent=DB.clients.filter(c=>c.st==='Actif').length+' actifs';
+  document.getElementById('m-prets').textContent=act.length.toLocaleString('fr-FR');
+  document.getElementById('m-prets-s').textContent='Encours: '+fmtM(enc);
+  document.getElementById('m-epargne').textContent=fmtM(epT);
+  document.getElementById('m-trb').textContent=trb+'%';
+  document.getElementById('m-trb-s').textContent=pay+' paiements confirmés';
+
+  // Secteurs
+  const secs={};DB.clients.forEach(c=>{secs[c.sec]=(secs[c.sec]||0)+1;});
+  const tot=DB.clients.length||1;
+  const cols=['#16a97e','#2563eb','#7c3aed','#d97706','#e84040','#0891b2'];
+  document.getElementById('d-secteurs').innerHTML=Object.entries(secs).sort((a,b)=>b[1]-a[1]).map(([s,n],i)=>`
+    <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span>${s}</span><span style="font-weight:600">${n} (${Math.round(n/tot*100)}%)</span></div>
+    <div class="prog"><div class="progf" style="width:${n/tot*100}%;background:${cols[i%cols.length]}"></div></div></div>`).join('');
+
+  // Statuts
+  const sts=['En cours','En retard','Critique','Clôturé'];
+  document.getElementById('d-statuts').innerHTML=sts.map(s=>{
+    const n=DB.prets.filter(p=>p.statut===s).length;
+    return`<div class="krow"><span>${badge(s)}</span><span style="font-weight:700">${n}</span></div>`;
+  }).join('');
+
+  // Alertes
+  const alts=DB.echeances.filter(e=>e.st!=='Payé'&&e.de<td).map(e=>{
+    const p=DB.prets.find(x=>x.id===e.pid)||{};
+    const c=DB.clients.find(x=>x.id===p.cid)||{};
+    const j=Math.round((new Date(td)-new Date(e.de))/86400000);
+    return{...e,num:p.num,nc:c.nc,j};
+  }).sort((a,b)=>b.j-a.j).slice(0,10);
+  document.getElementById('d-alert-n').textContent=alts.length;
+  document.getElementById('d-alerts').innerHTML=alts.map(e=>`
+    <tr><td>${av(e.nc)} <span style="margin-left:8px">${e.nc||'—'}</span></td>
+    <td><code style="font-family:monospace;font-size:11px">${e.num||'—'}</code></td>
+    <td>${fmt(e.md)}</td><td>${e.j} jour${e.j>1?'s':''}</td>
+    <td>${badge(e.j>30?'Critique':'Retard')}</td></tr>`).join('')
+    ||'<tr><td colspan="5" style="text-align:center;color:var(--t3);padding:18px">✓ Aucun retard</td></tr>';
+}
+
+// ════════════════════════════════════════════════════════════
+// CLIENTS
+// ════════════════════════════════════════════════════════════
+function renderClients(){
+  const q=(document.getElementById('cs')?.value||'').toLowerCase();
+  const fs=document.getElementById('cfs')?.value||'';
+  const fc=document.getElementById('cfc')?.value||'';
+  let rows=DB.clients.filter(c=>{
+    if(q&&!c.nc.toLowerCase().includes(q)&&!c.tel.includes(q))return false;
+    if(fs&&c.st!==fs)return false;
+    if(fc&&c.sec!==fc)return false;
+    return true;
+  });
+  document.getElementById('c-tot').textContent=DB.clients.length;
+  document.getElementById('c-act').textContent=DB.clients.filter(c=>c.st==='Actif').length;
+  document.getElementById('c-pret').textContent=new Set(DB.prets.filter(p=>['En cours','En retard','Critique'].includes(p.statut)).map(p=>p.cid)).size;
+  document.getElementById('c-body').innerHTML=rows.map(c=>{
+    const ep=DB.epargne.filter(e=>e.cid===c.id).reduce((s,e)=>s+(e.solde||0),0);
+    return`<tr onclick="showClient(${c.id})">
+      <td><div style="display:flex;align-items:center;gap:8px">${av(c.nc,28)}<div><div style="font-weight:500">${c.nc}</div><div style="font-size:11px;color:var(--t2)">${c.loc}</div></div></div></td>
+      <td>${c.tel}</td><td>${c.loc}</td><td>${c.sec}</td><td>${fmtM(ep)}</td><td>${badge(c.st)}</td>
+      <td><button class="btn btn-sm" onclick="event.stopPropagation();setCliPret(${c.id});openM('m-pret')">+ Prêt</button></td></tr>`;
+  }).join('')||'<tr><td colspan="7" style="text-align:center;color:var(--t3);padding:18px">Aucun client trouvé</td></tr>';
+}
+
+function showClient(id){
+  const c=DB.clients.find(x=>x.id===id);if(!c)return;
+  const pts=DB.prets.filter(p=>p.cid===id);
+  const eps=DB.epargne.filter(e=>e.cid===id);
+  document.getElementById('det-title').textContent=c.nc;
+  document.getElementById('det-body').innerHTML=`
+    <div class="dh">${av(c.nc,48)}<div><div style="font-size:17px;font-weight:700">${c.nc}</div><div style="margin-top:4px;display:flex;gap:8px">${badge(c.st)}<span style="font-size:12px;color:var(--t2)">${c.sec} · ${c.loc}</span></div></div></div>
+    <div class="dgrid">${[["Téléphone",c.tel],["Date adhésion",fmtD(c.da)],["Date de naissance",fmtD(c.ddn)],["Pièce identité",c.tp+" "+c.np],["Revenu estimé",fmt(c.rev)],["Localité",c.loc]].map(([l,v])=>`<div class="drow"><div class="dl">${l}</div><div class="dv">${v||'—'}</div></div>`).join('')}</div>
+    <div style="font-size:12px;font-weight:600;color:var(--t2);margin:14px 0 8px;text-transform:uppercase">Prêts (${pts.length})</div>
+    ${pts.length?`<table class="tbl"><thead><tr><th>N° Prêt</th><th>Montant</th><th>Solde</th><th>Statut</th></tr></thead><tbody>${pts.map(p=>`<tr><td><code style="font-family:monospace;font-size:11px">${p.num}</code></td><td>${fmt(p.montant)}</td><td>${fmt(p.solde)}</td><td>${badge(p.statut)}</td></tr>`).join('')}</tbody></table>`:'<p style="color:var(--t3);font-size:13px">Aucun prêt</p>'}
+    <div style="font-size:12px;font-weight:600;color:var(--t2);margin:14px 0 8px;text-transform:uppercase">Épargne</div>
+    ${eps.length?`<table class="tbl"><thead><tr><th>Compte</th><th>Type</th><th>Solde</th><th>Statut</th></tr></thead><tbody>${eps.map(e=>`<tr><td><code style="font-family:monospace;font-size:11px">${e.num}</code></td><td>${e.type}</td><td>${fmt(e.solde)}</td><td>${badge(e.st)}</td></tr>`).join('')}</tbody></table>`:'<p style="color:var(--t3);font-size:13px">Aucun compte</p>'}`;
+  document.getElementById('det-footer').innerHTML=`<button class="btn" onclick="closeM('m-detail')">Fermer</button><button class="btn btn-g" onclick="closeM('m-detail');setCliPret(${id});openM('m-pret')">+ Nouveau prêt</button>`;
+  openM('m-detail');
+}
+
+// ════════════════════════════════════════════════════════════
+// PRÊTS
+// ════════════════════════════════════════════════════════════
+function renderPrets(){
+  const q=(document.getElementById('ps')?.value||'').toLowerCase();
+  const fs=document.getElementById('pfs')?.value||'';
+  const act=DB.prets.filter(p=>['En cours','En retard','Critique'].includes(p.statut));
+  document.getElementById('p-act').textContent=act.length;
+  document.getElementById('p-enc').textContent=fmtM(act.reduce((s,p)=>s+(p.solde||0),0));
+  document.getElementById('p-par').textContent=(act.length?DB.prets.filter(p=>p.statut==='Critique').length/act.length*100:0).toFixed(1)+'%';
+  document.getElementById('p-clo').textContent=DB.prets.filter(p=>p.statut==='Clôturé').length;
+  let rows=DB.prets.filter(p=>{
+    if(q&&!p.num.toLowerCase().includes(q)){const c=DB.clients.find(x=>x.id===p.cid);if(!c||!c.nc.toLowerCase().includes(q))return false;}
+    if(fs&&p.statut!==fs)return false;
+    return true;
+  });
+  document.getElementById('p-body').innerHTML=rows.map(p=>{
+    const c=DB.clients.find(x=>x.id===p.cid)||{nc:'—'};
+    const pct=p.montant>0?Math.round((p.montant-p.solde)/p.montant*100):100;
+    return`<tr onclick="showPret(${p.id})">
+      <td><code style="font-family:monospace;font-size:11px">${p.num}</code></td>
+      <td><div style="display:flex;align-items:center;gap:7px">${av(c.nc,22)}<span>${c.nc}</span></div></td>
+      <td>${fmt(p.montant)}</td><td>${p.duree}m</td><td>${p.taux}%</td><td>${fmt(p.solde)}</td>
+      <td><div style="width:70px"><div class="prog"><div class="progf" style="width:${pct}%"></div></div><div style="font-size:10px;color:var(--t3)">${pct}%</div></div></td>
+      <td>${badge(p.statut)}</td>
+      <td><button class="btn btn-sm" onclick="event.stopPropagation();showPret(${p.id})">Voir</button></td></tr>`;
+  }).join('')||'<tr><td colspan="9" style="text-align:center;color:var(--t3);padding:18px">Aucun prêt</td></tr>';
+  simCalc();
+}
+
+function showPret(id){
+  const p=DB.prets.find(x=>x.id===id);if(!p)return;
+  const c=DB.clients.find(x=>x.id===p.cid)||{nc:'—'};
+  const ecs=DB.echeances.filter(e=>e.pid===id).sort((a,b)=>a.ne-b.ne);
+  const r=calcE(p.montant,p.duree,p.taux);
+  document.getElementById('det-title').textContent=p.num+' — '+c.nc;
+  document.getElementById('det-body').innerHTML=`
+    <div class="dgrid" style="margin-bottom:14px">${[['Client',c.nc],['Montant',fmt(p.montant)],['Durée',p.duree+' mois'],['Taux',p.taux+'% /an'],['Solde restant',fmt(p.solde)],['Échéance mensuelle',fmt(r.ech)],['Total intérêts',fmt(r.int)],['Total à rembourser',fmt(r.tot)],['Date début',fmtD(p.dd)],['Date fin',fmtD(p.df)],['Objet',p.objet||'—'],['Statut',p.statut]].map(([l,v])=>`<div class="drow"><div class="dl">${l}</div><div class="dv">${v}</div></div>`).join('')}</div>
+    <div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:8px;text-transform:uppercase">Échéancier (${ecs.length} échéances)</div>
+    <div style="max-height:240px;overflow-y:auto;border:1px solid var(--bd);border-radius:var(--rads)">
+    <table class="amort"><thead><tr><th>#</th><th>Date</th><th>Montant</th><th>Principal</th><th>Intérêts</th><th>Solde</th><th style="text-align:left">Statut</th></tr></thead>
+    <tbody>${ecs.map(e=>`<tr><td>${e.ne}</td><td style="text-align:right">${fmtD(e.de)}</td><td>${e.md.toLocaleString('fr-FR')}</td><td>${e.prin.toLocaleString('fr-FR')}</td><td>${e.int.toLocaleString('fr-FR')}</td><td>${e.sa.toLocaleString('fr-FR')}</td><td style="text-align:left">${badge(e.st)}</td></tr>`).join('')}</tbody>
+    </table></div>`;
+  document.getElementById('det-footer').innerHTML=`<button class="btn" onclick="closeM('m-detail')">Fermer</button><button class="btn btn-g" onclick="closeM('m-detail');openM('m-rembours')">Enregistrer paiement</button>`;
+  openM('m-detail');
+}
+
+function simCalc(){
+  const M=parseFloat(document.getElementById('sm')?.value)||0,D=parseInt(document.getElementById('sd')?.value)||1,T=parseFloat(document.getElementById('st')?.value)||0;
+  if(!M||!D)return;
+  const r=calcE(M,D,T);
+  const el=document.getElementById('sim-res');
+  if(el)el.innerHTML=`<div class="sim-card"><div class="sim-card-l">Échéance</div><div class="sim-card-v">${fmt(r.ech)}</div></div><div class="sim-card"><div class="sim-card-l">Intérêts</div><div class="sim-card-v">${fmt(r.int)}</div></div><div class="sim-card"><div class="sim-card-l">Total</div><div class="sim-card-v">${fmt(r.tot)}</div></div>`;
+  let sol=M,rm=T/100/12,rows='';
+  for(let i=1;i<=Math.min(D,12);i++){const it=sol*rm,pr=r.ech-it;sol=Math.max(0,sol-pr);rows+=`<tr><td>${i}</td><td>${Math.round(r.ech).toLocaleString('fr-FR')}</td><td>${Math.round(pr).toLocaleString('fr-FR')}</td><td>${Math.round(it).toLocaleString('fr-FR')}</td><td>${Math.round(sol).toLocaleString('fr-FR')}</td></tr>`;}
+  const ab=document.getElementById('amort-body');if(ab)ab.innerHTML=rows;
+}
+function prevPret(){
+  const M=parseFloat(document.getElementById('p-mon')?.value)||0,D=parseInt(document.getElementById('p-dur')?.value)||1,T=parseFloat(document.getElementById('p-tau')?.value)||0;
+  const r=calcE(M,D,T);
+  ['pv-e','pv-i','pv-t'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=fmt([r.ech,r.int,r.tot][i]);});
+}
+
+// ════════════════════════════════════════════════════════════
+// ÉPARGNE
+// ════════════════════════════════════════════════════════════
+function renderEpargne(){
+  const q=(document.getElementById('es')?.value||'').toLowerCase();
+  const ft=document.getElementById('eft')?.value||'';
+  const actEp=DB.epargne.filter(e=>e.st==='Actif');
+  const tot=actEp.reduce((s,e)=>s+(e.solde||0),0);
+  document.getElementById('e-tot').textContent=actEp.length;
+  document.getElementById('e-mon').textContent=fmtM(tot);
+  document.getElementById('e-moy').textContent=fmtM(actEp.length?tot/actEp.length:0);
+  let rows=DB.epargne.filter(e=>{
+    const c=DB.clients.find(x=>x.id===e.cid)||{nc:''};
+    if(q&&!c.nc.toLowerCase().includes(q)&&!e.num.includes(q))return false;
+    if(ft&&e.type!==ft)return false;
+    return true;
+  });
+  document.getElementById('e-body').innerHTML=rows.map(e=>{
+    const c=DB.clients.find(x=>x.id===e.cid)||{nc:'—'};
+    return`<tr><td><code style="font-family:monospace;font-size:11px">${e.num}</code></td>
+      <td><div style="display:flex;align-items:center;gap:8px">${av(c.nc,22)}<span>${c.nc}</span></div></td>
+      <td>${e.type}</td><td>${fmt(e.solde)}</td><td>${fmtD(e.dm)}</td><td>${badge(e.st)}</td>
+      <td><button class="btn btn-sm" onclick="setCliEp(${e.cid});openM('m-epargne')">Opération</button></td></tr>`;
+  }).join('')||'<tr><td colspan="7" style="text-align:center;color:var(--t3);padding:18px">Aucun compte</td></tr>';
+  const movs=[...DB.mouvements].sort((a,b)=>b.id-a.id).slice(0,20);
+  document.getElementById('e-mov').innerHTML=movs.map(m=>{
+    const c=DB.clients.find(x=>x.id===m.cid)||{nc:'—'};
+    return`<tr><td>${fmtD(m.do)}</td><td>${c.nc}</td>
+      <td>${m.op==='Dépôt'?'<span class="b bg">Dépôt</span>':'<span class="b ba">Retrait</span>'}</td>
+      <td style="font-weight:600;color:${m.op==='Dépôt'?'var(--g)':'var(--r)'}">${m.op==='Dépôt'?'+':'-'}${fmt(m.m)}</td>
+      <td>${fmt(m.sa)}</td><td>${m.agent||'—'}</td></tr>`;
+  }).join('')||'<tr><td colspan="6" style="text-align:center;color:var(--t3);padding:18px">Aucun mouvement</td></tr>';
+}
+
+// ════════════════════════════════════════════════════════════
+// REMBOURSEMENTS
+// ════════════════════════════════════════════════════════════
+function renderRembours(){
+  const q=(document.getElementById('rs')?.value||'').toLowerCase();
+  const fs=document.getElementById('rfs')?.value||'';
+  let rows=DB.echeances.filter(e=>{
+    if(fs&&e.st!==fs)return false;
+    if(q){const p=DB.prets.find(x=>x.id===e.pid)||{num:''};const c=DB.clients.find(x=>x.id===p.cid)||{nc:''};if(!c.nc.toLowerCase().includes(q)&&!p.num.toLowerCase().includes(q))return false;}
+    return true;
+  }).sort((a,b)=>new Date(b.de)-new Date(a.de));
+  document.getElementById('r-tot').textContent=rows.length;
+  document.getElementById('r-pay').textContent=rows.filter(e=>e.st==='Payé').length;
+  document.getElementById('r-ret').textContent=rows.filter(e=>e.st==='Retard').length;
+  document.getElementById('r-col').textContent=fmtM(rows.filter(e=>e.st==='Payé').reduce((s,e)=>s+(e.mp||0),0));
+  document.getElementById('r-body').innerHTML=rows.map(e=>{
+    const p=DB.prets.find(x=>x.id===e.pid)||{num:'—'};
+    const c=DB.clients.find(x=>x.id===p.cid)||{nc:'—'};
+    return`<tr><td>${c.nc}</td>
+      <td><code style="font-family:monospace;font-size:11px">${p.num}</code></td>
+      <td>${fmtD(e.de)}</td><td>${fmt(e.md)}</td>
+      <td>${e.dp?fmtD(e.dp):'—'}</td><td>${e.mod||'—'}</td><td>${badge(e.st)}</td>
+      <td>${e.st!=='Payé'?`<button class="btn btn-sm" onclick="quickPay(${e.id})">Payer</button>`:''}</td></tr>`;
+  }).join('')||'<tr><td colspan="8" style="text-align:center;color:var(--t3);padding:18px">Aucune échéance</td></tr>';
+}
+
+function quickPay(eid){
+  const e=DB.echeances.find(x=>x.id===eid);if(!e)return;
+  const p=DB.prets.find(x=>x.id===e.pid)||{num:'?'};
+  const c=DB.clients.find(x=>x.id===p.cid)||{nc:'?'};
+  if(!confirm(`Confirmer le paiement de ${fmt(e.md)} pour ${c.nc} (${p.num}) ?`))return;
+  e.st='Payé';e.dp=toDay();e.mp=e.md;e.mod='Espèces';
+  p.solde=Math.max(0,(p.solde||0)-e.prin);
+  if(!DB.echeances.some(x=>x.pid===p.id&&x.st!=='Payé'))p.statut='Clôturé';
+  saveDB();renderRembours();toast('Paiement de '+fmt(e.md)+' confirmé !','ok');
+}
+
+// ════════════════════════════════════════════════════════════
+// RAPPORTS
+// ════════════════════════════════════════════════════════════
+function renderRapports(){
+  const act=DB.prets.filter(p=>['En cours','En retard','Critique'].includes(p.statut));
+  const enc=act.reduce((s,p)=>s+(p.solde||0),0);
+  const epT=DB.epargne.filter(e=>e.st==='Actif').reduce((s,e)=>s+(e.solde||0),0);
+  const pay=DB.echeances.filter(e=>e.st==='Payé').length;
+  const nonA=DB.echeances.filter(e=>e.st!=='En attente').length;
+  const trb=nonA>0?(pay/nonA*100).toFixed(1):0;
+  const par=act.length?(DB.prets.filter(p=>p.statut==='Critique').length/act.length*100).toFixed(1):0;
+  document.getElementById('kpi-body').innerHTML=[
+    ['Taux remboursement (TRB)',trb+'%','var(--g)'],
+    ['PAR 30j',par+'%',parseFloat(par)>5?'var(--r)':'var(--a)'],
+    ['Clients actifs',DB.clients.filter(c=>c.st==='Actif').length,''],
+    ['Prêts actifs',act.length,''],
+    ['Encours total',fmtM(enc),''],
+    ['Épargne totale',fmtM(epT),'var(--g)'],
+    ['Taux clôture',DB.prets.filter(p=>p.statut==='Clôturé').length+'/'+DB.prets.length,''],
+  ].map(([l,v,c])=>`<div class="krow"><span class="kl">${l}</span><span class="kv" style="color:${c||'inherit'}">${v}</span></div>`).join('');
+}
+
+function genReport(type){
+  renderRapports();
+  const titles={mensuel:'Rapport mensuel — Remboursements',risque:'Analyse risque portefeuille',epargne:'Rapport épargne & collecte',bilan:'Bilan financier'};
+  document.getElementById('rpt-title').textContent=titles[type];
+  let html='';
+  if(type==='mensuel'){
+    const ecs=DB.echeances.map(e=>{const p=DB.prets.find(x=>x.id===e.pid)||{};const c=DB.clients.find(x=>x.id===p.cid)||{};return{...e,num:p.num,nc:c.nc};}).sort((a,b)=>new Date(b.de)-new Date(a.de));
+    html=`<div class="metrics" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px">
+      <div class="mc" style="margin:0"><div class="mcl">Total</div><div class="mcv">${ecs.length}</div></div>
+      <div class="mc" style="margin:0"><div class="mcl">Payées</div><div class="mcv up">${ecs.filter(e=>e.st==='Payé').length}</div></div>
+      <div class="mc" style="margin:0"><div class="mcl">En retard</div><div class="mcv dn">${ecs.filter(e=>e.st==='Retard').length}</div></div>
+    </div>
+    <table class="tbl"><thead><tr><th>Client</th><th>N° Prêt</th><th>Échéance</th><th>Montant</th><th>Statut</th></tr></thead>
+    <tbody>${ecs.slice(0,20).map(e=>`<tr><td>${e.nc||'—'}</td><td><code style="font-family:monospace;font-size:11px">${e.num||'—'}</code></td><td>${fmtD(e.de)}</td><td>${fmt(e.md)}</td><td>${badge(e.st)}</td></tr>`).join('')}</tbody></table>`;
+  }else if(type==='risque'){
+    const crit=DB.prets.filter(p=>['En retard','Critique'].includes(p.statut)).map(p=>{const c=DB.clients.find(x=>x.id===p.cid)||{nc:'—'};return{...p,nc:c.nc};});
+    const par=(DB.prets.filter(p=>['En cours','En retard','Critique'].includes(p.statut)).length?DB.prets.filter(p=>p.statut==='Critique').length/DB.prets.filter(p=>['En cours','En retard','Critique'].includes(p.statut)).length*100:0).toFixed(1);
+    html=`<div style="margin-bottom:12px;padding:12px;background:var(--rl);border-radius:var(--rads);border-left:3px solid var(--r)">
+      <div style="font-weight:600;color:#9b1c1c">PAR 30j : ${par}% ${parseFloat(par)>5?'⚠ Au-dessus du seuil (5%)':'✓ Dans les normes'}</div>
+      <div style="font-size:12px;color:#7f1d1d;margin-top:4px">${crit.length} prêt(s) à risque — encours: ${fmtM(crit.reduce((s,p)=>s+(p.solde||0),0))}</div>
+    </div>
+    <table class="tbl"><thead><tr><th>Client</th><th>N° Prêt</th><th>Solde à risque</th><th>Statut</th></tr></thead>
+    <tbody>${crit.map(p=>`<tr><td>${p.nc}</td><td><code style="font-family:monospace;font-size:11px">${p.num}</code></td><td>${fmt(p.solde)}</td><td>${badge(p.statut)}</td></tr>`).join('')||'<tr><td colspan="4" style="text-align:center;color:var(--t3)">Aucun prêt critique ✓</td></tr>'}</tbody></table>`;
+  }else if(type==='epargne'){
+    html=`<table class="tbl"><thead><tr><th>Client</th><th>Type</th><th>Solde</th><th>Dernier mouvement</th><th>Statut</th></tr></thead>
+    <tbody>${DB.epargne.map(e=>{const c=DB.clients.find(x=>x.id===e.cid)||{nc:'—'};return`<tr><td>${c.nc}</td><td>${e.type}</td><td>${fmt(e.solde)}</td><td>${fmtD(e.dm)}</td><td>${badge(e.st)}</td></tr>`;}).join('')}</tbody></table>`;
+  }else if(type==='bilan'){
+    const act=DB.prets.filter(p=>['En cours','En retard','Critique'].includes(p.statut));
+    const enc=act.reduce((s,p)=>s+(p.solde||0),0);
+    const epT=DB.epargne.filter(e=>e.st==='Actif').reduce((s,e)=>s+(e.solde||0),0);
+    html=`<div class="two"><div><div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:8px;text-transform:uppercase">Indicateurs financiers</div>
+      ${[['Encours total prêts',fmtM(enc)],['Épargne totale mobilisée',fmtM(epT)],['Ratio Épargne/Encours',(enc>0?(epT/enc*100).toFixed(1):0)+'%'],['Intérêts estimés (trimestre)',fmtM(enc*0.24/4)],['Frais de dossier estimés',fmtM(enc*0.01)]].map(([l,v])=>`<div class="krow"><span class="kl">${l}</span><span class="kv">${v}</span></div>`).join('')}
+    </div><div><div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:8px;text-transform:uppercase">Portefeuille par statut</div>
+      ${['En cours','En retard','Critique','Clôturé'].map(s=>`<div class="krow"><span>${badge(s)}</span><span class="kv">${DB.prets.filter(p=>p.statut===s).length}</span></div>`).join('')}
+    </div></div>`;
+  }
+  document.getElementById('rpt-body').innerHTML=html;
+}
+
+// ════════════════════════════════════════════════════════════
+// PARAMÈTRES
+// ════════════════════════════════════════════════════════════
+function renderParams(){
+  const rLabels={dir:'Directeur',age:'Agent crédit',cai:'Caissier',aud:'Auditeur'};
+  document.getElementById('u-body').innerHTML=DB.utilisateurs.map(u=>`
+    <tr><td>${u.nc}</td><td><code style="font-family:monospace">${u.user}</code></td>
+    <td><span class="b b${u.role}">${rLabels[u.role]||u.role}</span></td>
+    <td>${badge(u.actif?'Actif':'Inactif')}</td></tr>`).join('');
+}
+
+// ════════════════════════════════════════════════════════════
+// SAVE ACTIONS
+// ════════════════════════════════════════════════════════════
+function saveClient(){
+  const pr=document.getElementById('c-pre').value.trim();
+  const no=document.getElementById('c-nom').value.trim();
+  const tel=document.getElementById('c-tel').value.trim();
+  if(!pr||!no||!tel){toast('Remplissez les champs obligatoires (*)','err');return;}
+  const id=nid('c');
+  DB.clients.push({id,nc:pr+' '+no,pr,no:no,tel,ddn:document.getElementById('c-ddn').value,loc:document.getElementById('c-loc').value,sec:document.getElementById('c-sec').value,tp:document.getElementById('c-tp').value,np:document.getElementById('c-np').value,rev:parseFloat(document.getElementById('c-rev').value)||0,st:document.getElementById('c-st').value,da:toDay()});
+  saveDB();closeM('m-client');
+  ['c-pre','c-nom','c-tel','c-loc','c-np','c-rev'].forEach(x=>{const el=document.getElementById(x);if(el)el.value='';});
+  renderClients();toast('Client '+pr+' '+no+' enregistré !','ok');
+}
+
+function setCliPret(cid){fillClientSelect('p-cli',cid);}
+function setCliEp(cid){fillClientSelect('e-cli',cid);}
+function fillClientSelect(selId,val){
+  const sel=document.getElementById(selId);
+  if(!sel)return;
+  sel.innerHTML=DB.clients.filter(c=>c.st!=='Inactif').map(c=>`<option value="${c.id}">${c.nc}</option>`).join('');
+  if(val)sel.value=val;
+}
+
+function savePret(){
+  const cid=parseInt(document.getElementById('p-cli').value);
+  const m=parseFloat(document.getElementById('p-mon').value);
+  const d=parseInt(document.getElementById('p-dur').value);
+  const t=parseFloat(document.getElementById('p-tau').value);
+  const dat=document.getElementById('p-dat').value||toDay();
+  const obj=document.getElementById('p-obj').value;
+  if(!cid||!m||!d||!t){toast('Remplissez tous les champs obligatoires','err');return;}
+  const id=nid('p');
+  const num='PRE-'+new Date().getFullYear()+'-'+Math.floor(Math.random()*9000+1000);
+  DB.prets.push({id,cid,num,montant:m,duree:d,taux:t,dd:dat,df:addM(dat,d),solde:m,objet:obj,garantie:document.getElementById('p-gar').value,agent:document.getElementById('p-age').value,statut:'En cours',nb_retards:0});
+  const rm=t/100/12,r=calcE(m,d,t);
+  let sol=m;
+  for(let i=1;i<=d;i++){const it=sol*rm,pr=r.ech-it;sol=Math.max(0,sol-pr);DB.echeances.push({id:nid('e'),pid:id,ne:i,de:addM(dat,i),md:Math.round(r.ech),prin:Math.round(pr),int:Math.round(it),sa:Math.round(sol),dp:null,mp:0,mod:null,st:'En attente'});}
+  saveDB();closeM('m-pret');renderPrets();toast('Prêt '+num+' créé avec '+d+' échéances !','ok');
+}
+
+function saveEpargne(){
+  const cid=parseInt(document.getElementById('e-cli').value);
+  const op=document.getElementById('e-op').value;
+  const typ=document.getElementById('e-typ').value;
+  const m=parseFloat(document.getElementById('e-mon').value);
+  const dat=document.getElementById('e-dat').value||toDay();
+  if(!cid||!m){toast('Remplissez les champs obligatoires','err');return;}
+  let ep=DB.epargne.find(e=>e.cid===cid&&e.type===typ);
+  if(!ep){ep={id:nid('ep'),num:'EPG-'+Date.now().toString().slice(-6),cid,type:typ,solde:0,da:toDay(),dm:toDay(),st:'Actif'};DB.epargne.push(ep);}
+  if(op==='Retrait'&&m>ep.solde){toast('Solde insuffisant ! Solde actuel: '+fmt(ep.solde),'err');return;}
+  const ns=op==='Dépôt'?ep.solde+m:ep.solde-m;
+  ep.solde=ns;ep.dm=dat;ep.st='Actif';
+  DB.mouvements.push({id:nid('mv'),eid:ep.id,cid,op,m,sa:ns,do:dat,mod:document.getElementById('e-mod').value,agent:document.getElementById('e-age').value});
+  saveDB();closeM('m-epargne');
+  document.getElementById('e-mon').value='';
+  renderEpargne();toast(op+' de '+fmt(m)+' enregistré !','ok');
+}
+
+function saveRembours(){
+  const eid=parseInt(document.getElementById('r-ech').value);
+  const m=parseFloat(document.getElementById('r-mon').value);
+  const dat=document.getElementById('r-dat').value||toDay();
+  if(!eid||!m){toast('Sélectionnez une échéance et entrez un montant','err');return;}
+  const e=DB.echeances.find(x=>x.id===eid);if(!e)return;
+  e.st='Payé';e.dp=dat;e.mp=m;e.mod=document.getElementById('r-mod').value;
+  const p=DB.prets.find(x=>x.id===e.pid);
+  if(p){p.solde=Math.max(0,(p.solde||0)-e.prin);if(!DB.echeances.some(x=>x.pid===p.id&&x.st!=='Payé'))p.statut='Clôturé';}
+  saveDB();closeM('m-rembours');renderRembours();toast('Paiement de '+fmt(m)+' enregistré !','ok');
+}
+
+// ════════════════════════════════════════════════════════════
+// MODAL HELPERS
+// ════════════════════════════════════════════════════════════
+function openM(id){
+  if(['m-pret','m-epargne','m-rembours'].includes(id)){
+    fillClientSelect('p-cli');fillClientSelect('e-cli');fillClientSelect('r-cli');
+  }
+  if(id==='m-pret'){document.getElementById('p-dat').value=toDay();prevPret();}
+  if(id==='m-epargne')document.getElementById('e-dat').value=toDay();
+  if(id==='m-rembours'){document.getElementById('r-dat').value=toDay();loadEchClient();}
+  document.getElementById(id).classList.add('open');
+}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.mbg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+
+function loadEchClient(){
+  const cid=parseInt(document.getElementById('r-cli')?.value);
+  if(!cid)return;
+  const pts=DB.prets.filter(p=>p.cid===cid).map(p=>p.id);
+  const ecs=DB.echeances.filter(e=>pts.includes(e.pid)&&e.st!=='Payé').sort((a,b)=>new Date(a.de)-new Date(b.de));
+  const sel=document.getElementById('r-ech');
+  if(sel){
+    sel.innerHTML=ecs.map(e=>{const p=DB.prets.find(x=>x.id===e.pid)||{num:'?'};return`<option value="${e.id}">${p.num} — Éch.${e.ne} — ${fmt(e.md)} (${fmtD(e.de)})</option>`;}).join('');
+    if(ecs[0])document.getElementById('r-mon').value=ecs[0].md;
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// MISC
+// ════════════════════════════════════════════════════════════
+function globalSearch(q){
+  if(!q||q.length<2)return;
+  go('clients',document.querySelector('.ni[data-p="clients"]'));
+  setTimeout(()=>{const el=document.getElementById('cs');if(el){el.value=q;renderClients();}},50);
+}
+
+function exportCSV(){
+  let csv='';
+  const tables={Clients:DB.clients,Prêts:DB.prets,Échéances:DB.echeances,Épargne:DB.epargne,Mouvements:DB.mouvements};
+  Object.entries(tables).forEach(([name,rows])=>{
+    if(!rows.length)return;
+    csv+='\n## '+name+'\n'+Object.keys(rows[0]).join(';')+'\n'+rows.map(r=>Object.values(r).map(v=>v===null||v===undefined?'':String(v).replace(/;/g,',')).join(';')).join('\n')+'\n';
+  });
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
+  a.download='microfinance_'+toDay()+'.csv';a.click();
+  toast('Export CSV généré !','ok');
+}
+
+function toast(msg,type='ok'){
+  const t=document.createElement('div');
+  t.className='toast '+(type==='ok'?'ok':'err');
+  t.innerHTML=(type==='ok'?'✓':'✕')+' '+msg;
+  document.getElementById('tw').appendChild(t);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('show')));
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400);},3000);
+}
+
+// ════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════
+document.getElementById('tbdate').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
+loadOrInit();
+simCalc();
+</script>
+</body>
+</html>
