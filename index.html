@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>MicroFinance Pro · Haïti</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#16a97e;--gd:#0d7a5c;--gl:#e6f7f2;--gt:#085041;
+  --r:#e84040;--rl:#fdf0f0;--a:#d97706;--al:#fffbeb;
+  --b:#2563eb;--bl:#eff6ff;--p:#7c3aed;--pl:#f5f3ff;
+  --bg:#f4f5f7;--s:#fff;--s2:#f9fafb;--bd:#e5e7eb;--bd2:#d1d5db;
+  --t:#111827;--t2:#6b7280;--t3:#9ca3af;
+  --sw:200px;--rad:8px;--rads:6px;
+  --sha:0 1px 3px rgba(0,0,0,.08);--shm:0 4px 16px rgba(0,0,0,.12);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;color:var(--t);background:var(--bg);height:100vh;overflow:hidden}
+/* Layout */
+.app{display:flex;height:100vh}
+.sidebar{width:var(--sw);background:#1a1b2e;display:flex;flex-direction:column;flex-shrink:0}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+/* Sidebar */
+.logo{padding:16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.logo-t{font-size:15px;font-weight:700;color:#fff}.logo-t span{color:var(--g)}
+.logo-s{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px}
+.nav{flex:1;padding:8px;overflow-y:auto}
+.nav-g{font-size:10px;color:rgba(255,255,255,.3);padding:10px 8px 4px;letter-spacing:.06em;text-transform:uppercase}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--rads);cursor:pointer;color:rgba(255,255,255,.5);font-size:13px;margin-bottom:1px;transition:all .15s;border:none;background:none;width:100%;text-align:left}
+.ni:hover{background:rgba(255,255,255,.07);color:#fff}
+.ni.on{background:var(--g);color:#fff;font-weight:600}
+.ni svg{width:15px;height:15px;flex-shrink:0}
+.sfooter{padding:12px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px}
+.uav{width:30px;height:30px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.un{font-size:12px;color:rgba(255,255,255,.7);font-weight:500}
+.ur{font-size:10px;color:rgba(255,255,255,.35)}
+/* Topbar */
+.topbar{height:52px;background:var(--s);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0}
+.tbtitle{font-size:15px;font-weight:600;flex:1}
+.tbsearch{position:relative;flex:1;max-width:280px}
+.tbsearch input{width:100%;padding:7px 10px 7px 32px;border:1px solid var(--bd);border-radius:var(--rads);font-size:13px;background:var(--s2);color:var(--t)}
+.tbsearch input:focus{outline:none;border-color:var(--g)}
+.tbsi{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:14px}
+.gsbadge{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--g);background:var(--gl);padding:4px 10px;border-radius:99px;font-weight:600}
+.gsbadge .dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+/* Content */
+.content{flex:1;overflow-y:auto;padding:20px}
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:var(--rads);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--s);color:var(--t);transition:all .15s;font-family:inherit}
+.btn:hover{background:var(--s2)}
+.btn-g{background:var(--g);border-color:var(--g);color:#fff}
+.btn-g:hover{background:var(--gd)}
+.btn-r{background:var(--r);border-color:var(--r);color:#fff}
+.btn-sm{padding:5px 10px;font-size:12px}
+/* Metrics */
+.metrics{display:grid;gap:12px;margin-bottom:18px}
+.mc{background:var(--s);border:1px solid var(--bd);border-radius:var(--rad);padding:14px 16px;border-left:3px solid var(--g)}
+.mcl{font-size:11px;color:var(--t2);font-weight:500;margin-bottom:6px}
+.mcv{font-size:22px;font-weight:700;letter-spacing:-.5px}
+.mcs{font-size:11px;color:var(--t3);margin-top:3px}
+.up{color:var(--g)}.dn{color:var(--r)}
+/* Cards */
+.card{background:var(--s);border:1px solid var(--bd);border-radius:var(--rad);margin-bottom:14px;overflow:hidden}
+.ch{padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--s2)}
+.ct{font-size:13px;font-weight:600}
+/* Tables */
+.tw{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{padding:8px 14px;text-align:left;font-size:11px;font-weight:600;color:var(--t2);border-bottom:1px solid var(--bd);background:var(--s2);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.tbl td{padding:9px 14px;border-bottom:1px solid var(--bd);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr:hover td{background:#f8fffe;cursor:pointer}
+/* Badges */
+.b{display:inline-flex;align-items:center;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;white-space:nowrap}
+.bg{background:var(--gl);color:var(--gt)}
+.br{background:var(--rl);color:#9b1c1c}
+.ba{background:var(--al);color:#92400e}
+.bb{background:var(--bl);color:#1e40af}
+.bp{background:var(--pl);color:#5b21b6}
+.bx{background:#f3f4f6;color:#374151}
+/* Forms */
+.fg{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.fg label{font-size:12px;font-weight:500;color:var(--t2)}
+.fg input,.fg select,.fg textarea{padding:8px 10px;border:1px solid var(--bd2);border-radius:var(--rads);font-size:13px;font-family:inherit;color:var(--t);background:#fff}
+.fg input:focus,.fg select:focus{outline:none;border-color:var(--g);box-shadow:0 0 0 3px rgba(22,169,126,.1)}
+.fg textarea{resize:vertical;min-height:60px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* Modal */
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
+.mbg.open{display:flex}
+.modal{background:var(--s);border-radius:var(--rad);width:480px;max-width:95vw;max-height:88vh;overflow-y:auto;box-shadow:var(--shm)}
+.mh{padding:16px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.mh h2{font-size:15px;font-weight:600}
+.mx{width:26px;height:26px;border-radius:50%;border:none;background:var(--s2);cursor:pointer;font-size:16px;color:var(--t2);display:flex;align-items:center;justify-content:center}
+.mb{padding:18px 20px}
+.mf{padding:12px 20px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:8px;background:var(--s2)}
+/* Progress */
+.prog{height:5px;background:var(--bd);border-radius:99px;overflow:hidden}
+.progf{height:100%;border-radius:99px;background:var(--g)}
+/* Avatar */
+.av{border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;vertical-align:middle}
+/* Toast */
+.tw-wrap{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--t);color:#fff;padding:10px 16px;border-radius:var(--rads);font-size:13px;font-weight:500;transform:translateX(120%);transition:transform .3s;display:flex;align-items:center;gap:8px;box-shadow:var(--shm)}
+.toast.show{transform:translateX(0)}
+.toast.ok{border-left:3px solid var(--g)}
+.toast.err{border-left:3px solid var(--r)}
+/* Login */
+.login{position:fixed;inset:0;background:#1a1b2e;z-index:9999;display:flex;align-items:center;justify-content:center}
+.lbox{background:#242537;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:32px 36px;width:340px;max-width:92vw}
+.llogo{font-size:20px;font-weight:700;color:#fff;text-align:center;margin-bottom:2px}.llogo span{color:var(--g)}
+.lsub{font-size:11px;color:rgba(255,255,255,.3);text-align:center;margin-bottom:24px}
+.lfg{margin-bottom:12px}
+.lfg label{display:block;font-size:11px;color:rgba(255,255,255,.4);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.lfg input{width:100%;padding:9px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--rads);color:#fff;font-size:13px;font-family:inherit}
+.lfg input:focus{outline:none;border-color:var(--g)}
+.lbtn{width:100%;padding:10px;background:var(--g);border:none;border-radius:var(--rads);color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit}
+.lbtn:hover{background:var(--gd)}
+.lerr{font-size:12px;color:#f87171;text-align:center;margin-top:8px;min-height:16px}
+.ldemo{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.07)}
+.ldemo-t{font-size:10px;color:rgba(255,255,255,.2);text-align:center;margin-bottom:8px}
+.ldemo-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ldemo-btn{padding:6px;border-radius:var(--rads);border:1px solid;font-size:11px;cursor:pointer;font-family:inherit;font-weight:500}
+/* Pages */
+.page{display:none}.page.on{display:block}
+/* Two col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+/* Sim result */
+.sim-res{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.sim-card{background:var(--gl);border-radius:var(--rads);padding:10px;text-align:center}
+.sim-card-l{font-size:10px;color:var(--gt);font-weight:500}
+.sim-card-v{font-size:15px;font-weight:700;color:var(--gd);margin-top:3px;font-family:monospace}
+/* Amort table */
+.amort{width:100%;border-collapse:collapse;font-size:12px;font-family:monospace}
+.amort th{padding:6px 10px;background:var(--s2);border-bottom:1px solid var(--bd);font-size:10px;color:var(--t2);text-align:right;font-family:inherit}
+.amort th:first-child{text-align:left}
+.amort td{padding:6px 10px;border-bottom:1px solid var(--bd);text-align:right}
+.amort td:first-child{text-align:left;color:var(--t2)}
+/* KPI */
+.krow{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--bd);font-size:13px}
+.krow:last-child{border-bottom:none}
+.kl{color:var(--t2)}
+.kv{font-weight:700;font-family:monospace}
+/* Rapport btn */
+.rbtn{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--bd);cursor:pointer;font-size:13px}
+.rbtn:last-child{border-bottom:none}
+.rbtn:hover{background:var(--s2)}
+.rbtn-l{font-weight:500}
+.rbtn-s{font-size:11px;color:var(--t2);margin-top:2px}
+/* Detail */
+.dh{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--bd)}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.drow{padding:8px 0;border-bottom:1px solid var(--bd)}
+.drow:last-child{border-bottom:none}
+.dl{font-size:11px;color:var(--t2);font-weight:500}
+.dv{font-size:13px;font-weight:500;margin-top:2px}
+/* Filter bar */
+.fbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.fbar input,.fbar select{padding:6px 10px;border:1px solid var(--bd);border-radius:var(--rads);font-size:12px;background:var(--s);color:var(--t);font-family:inherit}
+/* Spin */
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid var(--bd);border-top-color:var(--g);border-radius:50%;animation:spin .6s linear infinite}
+/* Role badges */
+.role-dir{background:rgba(124,58,237,.2);color:#c4b5fd;border-color:rgba(124,58,237,.3)}
+.role-age{background:rgba(37,99,235,.2);color:#93c5fd;border-color:rgba(37,99,235,.3)}
+.role-cai{background:rgba(22,169,126,.2);color:#6ee7b7;border-color:rgba(22,169,126,.3)}
+.role-aud{background:rgba(217,119,6,.2);color:#fcd34d;border-color:rgba(217,119,6,.3)}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="tw-wrap" id="tw"></div>
+
+<!-- LOGIN -->
+<div class="login" id="login">
+  <div class="lbox">
+    <div class="llogo">Micro<span>Finance</span> Pro</div>
+    <div class="lsub">Système de Gestion · Haïti</div>
+    <div class="lfg"><label>Nom d'utilisateur</label><input id="lu" type="text" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <div class="lfg"><label>Mot de passe</label><input id="lp" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="lbtn" id="lbtn" onclick="doLogin()">Se connecter</button>
+    <div class="lerr" id="lerr"></div>
+    <div class="ldemo">
+      <div class="ldemo-t">COMPTES DE DÉMONSTRATION</div>
+      <div class="ldemo-grid">
+        <button class="ldemo-btn role-dir" onclick="ql('admin','admin123')">👑 Directeur</button>
+        <button class="ldemo-btn role-age" onclick="ql('agent1','agent123')">💼 Agent crédit</button>
+        <button class="ldemo-btn role-cai" onclick="ql('caissier1','caisse123')">💰 Caissier</button>
+        <button class="ldemo-btn role-aud" onclick="ql('auditeur1','audit123')">📊 Auditeur</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-t">Micro<span>Finance</span> Pro</div>
+      <div class="logo-s">Haïti · Gestion intégrée</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-g">Principal</div>
+      <button class="ni on" data-p="dashboard" data-roles="dir,age,aud" onclick="go('dashboard',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".9"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" opacity=".9"/></svg>Tableau de bord</button>
+      <div class="nav-g">Gestion</div>
+      <button class="ni" data-p="clients" data-roles="dir,age" onclick="go('clients',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="3" fill="currentColor" opacity=".8"/><path d="M1 13c0-3 2-4 5-4s5 1 5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="12" cy="6" r="2" fill="currentColor" opacity=".4"/><path d="M13.5 13c0-2-1-3-3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Clients</button>
+      <button class="ni" data-p="prets" data-roles="dir,age" onclick="go('prets',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="1" y="4" width="14" height="9" rx="1.5" fill="currentColor" opacity=".5"/><path d="M4 4V3a2.5 2.5 0 015 0v1" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8.5" r="2" fill="#1a1b2e" opacity=".9"/></svg>Prêts</button>
+      <button class="ni" data-p="epargne" data-roles="dir,cai" onclick="go('epargne',this)"><svg viewBox="0 0 16 16" fill="none"><ellipse cx="8" cy="10" rx="6" ry="3.5" fill="currentColor" opacity=".4"/><ellipse cx="8" cy="8" rx="6" ry="3.5" fill="currentColor" opacity=".6"/><ellipse cx="8" cy="6" rx="6" ry="3.5" fill="currentColor" opacity=".85"/></svg>Épargne</button>
+      <button class="ni" data-p="remboursements" data-roles="dir,age,cai" onclick="go('remboursements',this)"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8h10M9 5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="2.5" cy="12" r="1.5" fill="currentColor" opacity=".6"/></svg>Remboursements</button>
+      <div class="nav-g">Mon espace</div>
+      <button class="ni" data-p="moncompte" data-roles="dir,age,cai,aud" onclick="go('moncompte',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3.5" fill="currentColor" opacity=".8"/><path d="M2 14c0-3.5 2.5-5 6-5s6 1.5 6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Mon compte</button>
+      <div class="nav-g">Analyse</div>
+      <button class="ni" data-p="rapports" data-roles="dir,aud" onclick="go('rapports',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="2" y="1.5" width="12" height="13" rx="1.5" fill="currentColor" opacity=".4"/><path d="M5 5h6M5 7.5h6M5 10h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Rapports</button>
+      <button class="ni" data-p="parametres" data-roles="dir" onclick="go('parametres',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.5" fill="currentColor" opacity=".7"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.1 3.1l1.4 1.4M11.5 11.5l1.4 1.4M3.1 12.9l1.4-1.4M11.5 4.5l1.4-1.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Paramètres</button>
+          <div class="nav-g">Mon espace</div>
+      <button class="ni" data-p="moncompte" data-roles="dir,age,cai,aud" onclick="go('moncompte',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3.5" fill="currentColor" opacity=".8"/><path d="M2 14c0-3.5 2.7-5 6-5s6 1.5 6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Mon compte</button>
+    </nav>
+    <div class="sfooter">
+      <div class="uav" id="uav">AD</div>
+      <div><div class="un" id="unom">Admin</div><div class="ur" id="urole">Directeur</div></div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="tbtitle" id="pgtitle">Tableau de bord</div>
+      <div class="tbsearch"><span class="tbsi">🔍</span><input type="text" placeholder="Rechercher..." id="gsearch" oninput="globalSearch(this.value)"/></div>
+      <div class="gsbadge"><span class="dot"></span>Données locales</div>
+      <div style="font-size:11px;color:var(--t2);font-family:monospace" id="tbdate"></div>
+      <button class="btn btn-sm" onclick="exportCSV()">💾 Exporter</button>
+      <button class="btn btn-sm" onclick="doLogout()" style="color:var(--r);border-color:var(--r)">Déconnexion</button>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div id="p-dashboard" class="page on">
+        <div class="metrics" style="grid-template-columns:repeat(4,1fr)" id="dash-metrics">
+          <div class="mc"><div class="mcl">Total clients</div><div class="mcv" id="m-clients">0</div><div class="mcs up" id="m-clients-s"></div></div>
+          <div class="mc"><div class="mcl">Prêts actifs</div><div class="mcv" id="m-prets">0</div><div class="mcs" id="m-prets-s"></div></div>
+          <div class="mc"><div class="mcl">Épargne totale</div><div class="mcv" id="m-epargne">0</div><div class="mcs up"></div></div>
+          <div class="mc"><div class="mcl">Taux remboursement</div><div class="mcv" id="m-trb">0%</div><div class="mcs" id="m-trb-s"></div></div>
+        </div>
+        <div class="two">
+          <div class="card">
+            <div class="ch"><div class="ct">Répartition par secteur</div></div>
+            <div style="padding:14px 16px" id="d-secteurs"></div>
+          </div>
+          <div class="card">
+            <div class="ch"><div class="ct">Statuts des prêts</div></div>
+            <div style="padding:0 16px" id="d-statuts"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct">⚠ Alertes — Retards</div><span class="b br" id="d-alert-n">0</span></div>
+          <div class="tw"><table class="tbl"><thead><tr><th>Client</th><th>Prêt</th><th>Montant</th><th>Retard</th><th>Statut</th></tr></thead><tbody id="d-alerts"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- CLIENTS -->
+      <div id="p-clients" class="page">
+        <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
+          <div class="mc"><div class="mcl">Total clients</div><div class="mcv" id="c-tot">0</div></div>
+          <div class="mc"><div class="mcl">Actifs</div><div class="mcv up" id="c-act">0</div></div>
+          <div class="mc"><div class="mcl">Avec prêt actif</div><div class="mcv" id="c-pret">0</div></div>
+        </div>
+        <div class="card">
+          <div class="ch">
+            <div class="fbar">
+              <input type="text" placeholder="Rechercher..." id="cs" oninput="renderClients()"/>
+              <select id="cfs" onchange="renderClients()"><option value="">Tous statuts</option><option>Actif</option><option>Inactif</option><option>Retard</option></select>
+              <select id="cfc" onchange="renderClients()"><option value="">Tous secteurs</option><option>Commerce</option><option>Agriculture</option><option>Artisanat</option><option>Services</option></select>
+            </div>
+            <button class="btn btn-g btn-sm" onclick="openM('m-client')">+ Nouveau client</button>
+          </div>
+          <div class="tw"><table class="tbl"><thead><tr><th>Nom complet</th><th>Téléphone</th><th>Localité</th><th>Secteur</th><th>Épargne</th><th>Statut</th><th></th></tr></thead><tbody id="c-body"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- PRÊTS -->
+      <div id="p-prets" class="page">
+        <div class="metrics" style="grid-template-columns:repeat(4,1fr)">
+          <div class="mc"><div class="mcl">Prêts actifs</div><div class="mcv" id="p-act">0</div></div>
+          <div class="mc"><div class="mcl">Encours total</div><div class="mcv" id="p-enc">0</div></div>
+          <div class="mc"><div class="mcl">PAR 30j</div><div class="mcv dn" id="p-par">0%</div></div>
+          <div class="mc"><div class="mcl">Clôturés</div><div class="mcv" id="p-clo">0</div></div>
+        </div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="ch"><div class="ct">Simulateur de prêt</div><span class="b bb">Calcul automatique</span></div>
+          <div style="padding:14px 16px">
+            <div class="frow" style="margin-bottom:10px">
+              <div class="fg" style="margin:0"><label>Montant (HTG)</label><input type="number" id="sm" value="20000" oninput="simCalc()"/></div>
+              <div class="fg" style="margin:0"><label>Durée (mois)</label><input type="number" id="sd" value="12" min="1" oninput="simCalc()"/></div>
+              <div class="fg" style="margin:0"><label>Taux annuel (%)</label><input type="number" id="st" value="24" step=".5" oninput="simCalc()"/></div>
+            </div>
+            <div class="sim-res" id="sim-res"></div>
+            <div style="max-height:160px;overflow-y:auto;border:1px solid var(--bd);border-radius:var(--rads)">
+              <table class="amort"><thead><tr><th>#</th><th>Échéance</th><th>Principal</th><th>Intérêts</th><th>Solde</th></tr></thead><tbody id="amort-body"></tbody></table>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch">
+            <div class="fbar">
+              <input type="text" placeholder="Rechercher..." id="ps" oninput="renderPrets()"/>
+              <select id="pfs" onchange="renderPrets()"><option value="">Tous statuts</option><option>En cours</option><option>En retard</option><option>Critique</option><option>Clôturé</option></select>
+            </div>
+            <button class="btn btn-g btn-sm" onclick="openM('m-pret')">+ Nouveau prêt</button>
+          </div>
+          <div class="tw"><table class="tbl"><thead><tr><th>N° Prêt</th><th>Client</th><th>Montant</th><th>Durée</th><th>Taux</th><th>Solde restant</th><th>%</th><th>Statut</th><th></th></tr></thead><tbody id="p-body"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ÉPARGNE -->
+      <div id="p-epargne" class="page">
+        <div class="metrics" style="grid-template-columns:repeat(3,1fr)">
+          <div class="mc"><div class="mcl">Épargnants actifs</div><div class="mcv" id="e-tot">0</div></div>
+          <div class="mc"><div class="mcl">Épargne totale</div><div class="mcv" id="e-mon">0</div></div>
+          <div class="mc"><div class="mcl">Dépôt moyen</div><div class="mcv" id="e-moy">0</div></div>
+        </div>
+        <div class="card">
+          <div class="ch">
+            <div class="fbar">
+              <input type="text" placeholder="Rechercher..." id="es" oninput="renderEpargne()"/>
+              <select id="eft" onchange="renderEpargne()"><option value="">Tous types</option><option>Épargne libre</option><option>Épargne obligatoire</option><option>Épargne groupe</option></select>
+            </div>
+            <button class="btn btn-g btn-sm" onclick="openM('m-epargne')">+ Opération</button>
+          </div>
+          <div class="tw"><table class="tbl"><thead><tr><th>N° Compte</th><th>Client</th><th>Type</th><th>Solde</th><th>Dernier mouvement</th><th>Statut</th><th></th></tr></thead><tbody id="e-body"></tbody></table></div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct">Historique des mouvements</div></div>
+          <div class="tw"><table class="tbl"><thead><tr><th>Date</th><th>Client</th><th>Opération</th><th>Montant</th><th>Solde après</th><th>Agent</th></tr></thead><tbody id="e-mov"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- REMBOURSEMENTS -->
+      <div id="p-remboursements" class="page">
+        <div class="metrics" style="grid-template-columns:repeat(4,1fr)">
+          <div class="mc"><div class="mcl">Total échéances</div><div class="mcv" id="r-tot">0</div></div>
+          <div class="mc"><div class="mcl">Payées</div><div class="mcv up" id="r-pay">0</div></div>
+          <div class="mc"><div class="mcl">En retard</div><div class="mcv dn" id="r-ret">0</div></div>
+          <div class="mc"><div class="mcl">Collecté</div><div class="mcv" id="r-col">0</div></div>
+        </div>
+        <div class="card">
+          <div class="ch">
+            <div class="fbar">
+              <input type="text" placeholder="Rechercher..." id="rs" oninput="renderRembours()"/>
+              <select id="rfs" onchange="renderRembours()"><option value="">Tous statuts</option><option>Payé</option><option>En attente</option><option>Retard</option></select>
+            </div>
+            <button class="btn btn-g btn-sm" onclick="openM('m-rembours')">+ Paiement</button>
+          </div>
+          <div class="tw"><table class="tbl"><thead><tr><th>Client</th><th>N° Prêt</th><th>Échéance</th><th>Montant</th><th>Date paiement</th><th>Mode</th><th>Statut</th><th></th></tr></thead><tbody id="r-body"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- RAPPORTS -->
+      <div id="p-rapports" class="page">
+        <div class="two">
+          <div class="card" style="margin-bottom:0">
+            <div class="ch"><div class="ct">Indicateurs clés (KPI)</div></div>
+            <div style="padding:0 16px" id="kpi-body"></div>
+          </div>
+          <div class="card" style="margin-bottom:0">
+            <div class="ch"><div class="ct">Générer un rapport</div></div>
+            <div id="rlist">
+              <div class="rbtn" onclick="genReport('mensuel')"><div><div class="rbtn-l">Rapport mensuel remboursements</div><div class="rbtn-s">Analyse des paiements</div></div><span>→</span></div>
+              <div class="rbtn" onclick="genReport('risque')"><div><div class="rbtn-l">Analyse risque portefeuille</div><div class="rbtn-s">PAR30, clients critiques</div></div><span>→</span></div>
+              <div class="rbtn" onclick="genReport('epargne')"><div><div class="rbtn-l">Rapport épargne & collecte</div><div class="rbtn-s">Dépôts par client</div></div><span>→</span></div>
+              <div class="rbtn" onclick="genReport('bilan')"><div><div class="rbtn-l">Bilan financier</div><div class="rbtn-s">Produits, charges, résultat</div></div><span>→</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><div class="ct" id="rpt-title">Rapport</div></div>
+          <div style="padding:16px" id="rpt-body"><div style="color:var(--t3);text-align:center;padding:20px">Sélectionnez un rapport ci-dessus</div></div>
+        </div>
+      </div>
+
+      <!-- PARAMÈTRES -->
+      <div id="p-parametres" class="page">
+        <div class="two">
+          <div class="card" style="margin-bottom:0">
+            <div class="ch"><div class="ct">Institution</div></div>
+            <div style="padding:16px">
+              <div class="fg"><label>Nom de l'institution</label><input type="text" value="MicroFinance Plus S.A. Haïti"/></div>
+              <div class="fg"><label>Pays</label><select><option selected>Haïti</option><option>République Dominicaine</option><option>Cuba</option></select></div>
+              <div class="fg"><label>Monnaie</label><select><option selected>HTG (Gourde haïtienne)</option><option>USD</option><option>EUR</option></select></div>
+              <div class="fg"><label>Email</label><input type="email" value="admin@microfinanceplus.ht"/></div>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom:0">
+            <div class="ch"><div class="ct">Paramètres prêts</div></div>
+            <div style="padding:16px">
+              <div class="frow"><div class="fg"><label>Taux par défaut (%/an)</label><input type="number" value="24"/></div><div class="fg"><label>Méthode</label><select><option>Dégressif</option><option>Flat</option></select></div></div>
+              <div class="frow"><div class="fg"><label>Durée max (mois)</label><input type="number" value="60"/></div><div class="fg"><label>Seuil retard (jours)</label><input type="number" value="7"/></div></div>
+              <div class="frow"><div class="fg"><label>Seuil PAR critique (%)</label><input type="number" value="5"/></div><div class="fg"><label>Frais dossier (%)</label><input type="number" value="1"/></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <div class="ch"><div class="ct">Utilisateurs</div><button class="btn btn-sm" onclick="toast('Invitation envoyée !','ok')">+ Inviter</button></div>
+          <div class="tw"><table class="tbl"><thead><tr><th>Nom</th><th>Username</th><th>Rôle</th><th>Statut</th></tr></thead>
+          <tbody id="u-body"></tbody></table></div>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:8px">
+          <button class="btn btn-g" onclick="toast('Paramètres sauvegardés !','ok')">Sauvegarder</button>
+          <button class="btn btn-sm" onclick="exportCSV()">💾 Exporter CSV</button>
+          <button class="btn btn-r btn-sm" onclick="if(confirm('Réinitialiser toutes les données ?')){DB=buildDB();saveDB();renderAll();toast('BD réinitialisée','ok')}">Réinitialiser</button>
+        </div>
+      </div>
+
+
+      <!-- MON COMPTE -->
+      <div id="p-moncompte" class="page">
+        <div style="max-width:520px;margin:0 auto">
+          <div class="card" style="margin-bottom:14px">
+            <div class="ch"><div class="ct">Mon profil</div><span class="b" id="mc-role-badge">—</span></div>
+            <div style="padding:20px">
+              <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--bd)">
+                <div id="mc-avatar" style="width:56px;height:56px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0"></div>
+                <div><div id="mc-nom" style="font-size:17px;font-weight:700"></div><div id="mc-username" style="font-size:12px;color:var(--t2);margin-top:3px;font-family:monospace"></div></div>
+              </div>
+              <div class="fg"><label>Nom complet</label><input type="text" id="mc-nom-inp" placeholder="Votre nom"/></div>
+              <div class="fg"><label>Email (optionnel)</label><input type="email" id="mc-email" placeholder="votre@email.com"/></div>
+              <button class="btn btn-g" onclick="saveProfile()">Sauvegarder le profil</button>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom:14px">
+            <div class="ch"><div class="ct">Changer mon mot de passe</div></div>
+            <div style="padding:20px">
+              <div class="fg"><label>Mot de passe actuel *</label><input type="password" id="mp-actuel" placeholder="••••••••"/></div>
+              <div class="fg"><label>Nouveau mot de passe *</label><input type="password" id="mp-nouveau" placeholder="••••••••"/></div>
+              <div class="fg"><label>Confirmer le nouveau mot de passe *</label><input type="password" id="mp-confirm" placeholder="••••••••"/></div>
+              <button class="btn btn-g" onclick="changePassword()">Changer le mot de passe</button>
+            </div>
+          </div>
+          <div class="card" id="mc-create-card" style="margin-bottom:0;display:none">
+            <div class="ch"><div class="ct">Créer un compte agent</div><span class="b bb">Directeur uniquement</span></div>
+            <div style="padding:20px">
+              <div class="frow">
+                <div class="fg"><label>Nom complet *</label><input type="text" id="nc-nom" placeholder="Marie Dupont"/></div>
+                <div class="fg"><label>Nom d'utilisateur *</label><input type="text" id="nc-user" placeholder="marie.dupont"/></div>
+              </div>
+              <div class="frow">
+                <div class="fg"><label>Mot de passe *</label><input type="password" id="nc-pass" placeholder="••••••••"/></div>
+                <div class="fg"><label>Rôle *</label>
+                  <select id="nc-role">
+                    <option value="age">Agent crédit</option>
+                    <option value="cai">Caissier</option>
+                    <option value="aud">Auditeur</option>
+                    <option value="dir">Directeur</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-g" onclick="createAccount()">Créer le compte</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MON COMPTE -->
+      <div id="p-moncompte" class="page">
+        <div style="max-width:480px;margin:0 auto">
+          <div class="card">
+            <div class="ch"><div class="ct">Mon profil</div></div>
+            <div style="padding:20px">
+              <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--bd)">
+                <div id="mc-avatar" style="width:56px;height:56px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0"></div>
+                <div>
+                  <div id="mc-nom" style="font-size:17px;font-weight:700"></div>
+                  <div id="mc-role" style="margin-top:4px;font-size:13px;color:var(--t2)"></div>
+                  <div id="mc-user" style="margin-top:2px;font-size:12px;color:var(--t3);font-family:monospace"></div>
+                </div>
+              </div>
+              <div class="fg"><label>Nom complet</label><input id="mc-nom-input" type="text" placeholder="Votre nom complet"/></div>
+              <button class="btn btn-g" onclick="updateProfil()" style="width:100%;margin-top:4px">Mettre à jour le profil</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="ch"><div class="ct">Changer mon mot de passe</div></div>
+            <div style="padding:20px">
+              <div class="fg"><label>Mot de passe actuel *</label><input id="mp-old" type="password" placeholder="••••••••"/></div>
+              <div class="fg"><label>Nouveau mot de passe *</label><input id="mp-new" type="password" placeholder="Minimum 8 caractères"/></div>
+              <div class="fg"><label>Confirmer le nouveau mot de passe *</label><input id="mp-conf" type="password" placeholder="Répétez le mot de passe"/></div>
+              <button class="btn btn-g" onclick="changePassword()" style="width:100%;margin-top:4px">Changer le mot de passe</button>
+            </div>
+          </div>
+
+          <div class="card" id="mc-create-card" style="display:none">
+            <div class="ch"><div class="ct">Créer un nouveau compte agent</div><span class="b bb">Directeur uniquement</span></div>
+            <div style="padding:20px">
+              <div class="frow">
+                <div class="fg"><label>Prénom *</label><input id="nc-pre" placeholder="Marie"/></div>
+                <div class="fg"><label>Nom *</label><input id="nc-nom" placeholder="Dupont"/></div>
+              </div>
+              <div class="frow">
+                <div class="fg"><label>Nom d'utilisateur *</label><input id="nc-user" placeholder="mdupont"/></div>
+                <div class="fg"><label>Mot de passe initial *</label><input id="nc-pass" type="password" placeholder="Min. 8 caractères"/></div>
+              </div>
+              <div class="fg"><label>Rôle *</label>
+                <select id="nc-role">
+                  <option value="agent_credit">Agent crédit</option>
+                  <option value="caissier">Caissier</option>
+                  <option value="auditeur">Auditeur</option>
+                  <option value="directeur">Directeur</option>
+                </select>
+              </div>
+              <button class="btn btn-g" onclick="createAccount()" style="width:100%;margin-top:4px">Créer le compte</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- MODALS -->
+<div class="mbg" id="m-client"><div class="modal">
+  <div class="mh"><h2>Nouveau client</h2><button class="mx" onclick="closeM('m-client')">×</button></div>
+  <div class="mb">
+    <div class="frow"><div class="fg"><label>Prénom *</label><input id="c-pre" placeholder="Marie"/></div><div class="fg"><label>Nom *</label><input id="c-nom" placeholder="Dupont"/></div></div>
+    <div class="frow"><div class="fg"><label>Téléphone *</label><input id="c-tel" placeholder="+509 36 XX XXXX"/></div><div class="fg"><label>Date de naissance</label><input type="date" id="c-ddn"/></div></div>
+    <div class="frow"><div class="fg"><label>Localité *</label><input id="c-loc" placeholder="Port-au-Prince"/></div><div class="fg"><label>Secteur *</label><select id="c-sec"><option>Commerce</option><option>Agriculture</option><option>Artisanat</option><option>Services</option><option>Éducation</option><option>Santé</option></select></div></div>
+    <div class="frow"><div class="fg"><label>Type pièce</label><select id="c-tp"><option>CNI</option><option>Passeport</option><option>Permis</option></select></div><div class="fg"><label>N° pièce</label><input id="c-np" placeholder="HT-XXXXX"/></div></div>
+    <div class="frow"><div class="fg"><label>Revenu mensuel (HTG)</label><input type="number" id="c-rev" placeholder="20000"/></div><div class="fg"><label>Statut</label><select id="c-st"><option>Actif</option><option>Inactif</option></select></div></div>
+  </div>
+  <div class="mf"><button class="btn" onclick="closeM('m-client')">Annuler</button><button class="btn btn-g" onclick="saveClient()">Enregistrer</button></div>
+</div></div>
+
+<div class="mbg" id="m-pret"><div class="modal" style="width:560px">
+  <div class="mh"><h2>Nouveau prêt</h2><button class="mx" onclick="closeM('m-pret')">×</button></div>
+  <div class="mb">
+    <div class="frow"><div class="fg"><label>Client *</label><select id="p-cli"></select></div><div class="fg"><label>Objet *</label><input id="p-obj" placeholder="Fonds de roulement..."/></div></div>
+    <div class="frow"><div class="fg"><label>Montant (HTG) *</label><input type="number" id="p-mon" value="20000" oninput="prevPret()"/></div><div class="fg"><label>Durée (mois) *</label><input type="number" id="p-dur" value="12" oninput="prevPret()"/></div></div>
+    <div class="frow"><div class="fg"><label>Taux annuel (%) *</label><input type="number" id="p-tau" value="24" oninput="prevPret()"/></div><div class="fg"><label>Date de décaissement *</label><input type="date" id="p-dat"/></div></div>
+    <div class="frow"><div class="fg"><label>Méthode</label><select id="p-met"><option value="deg">Dégressif</option><option value="fla">Flat</option></select></div><div class="fg"><label>Fréquence</label><select id="p-fre"><option>Mensuel</option><option>Bimensuel</option></select></div></div>
+    <div class="frow"><div class="fg"><label>Garantie</label><select id="p-gar"><option>Épargne bloquée</option><option>Caution solidaire</option><option>Titre foncier</option><option>Nantissement</option></select></div><div class="fg"><label>Agent</label><select id="p-age"><option>Adjoua Nandjui</option><option>Kofi Diabaté</option></select></div></div>
+    <div style="background:var(--gl);border-radius:var(--rads);padding:12px;margin-top:4px">
+      <div style="font-size:10px;font-weight:600;color:var(--gt);margin-bottom:8px">APERÇU</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12px">
+        <div><div style="color:var(--gt);font-size:10px">Échéance</div><div style="font-weight:700;color:var(--gd);font-family:monospace" id="pv-e">—</div></div>
+        <div><div style="color:var(--gt);font-size:10px">Total intérêts</div><div style="font-weight:700;color:var(--gd);font-family:monospace" id="pv-i">—</div></div>
+        <div><div style="color:var(--gt);font-size:10px">Total à rembourser</div><div style="font-weight:700;color:var(--gd);font-family:monospace" id="pv-t">—</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="mf"><button class="btn" onclick="closeM('m-pret')">Annuler</button><button class="btn btn-g" onclick="savePret()">Créer le prêt + échéancier</button></div>
+</div></div>
+
+<div class="mbg" id="m-epargne"><div class="modal">
+  <div class="mh"><h2>Opération d'épargne</h2><button class="mx" onclick="closeM('m-epargne')">×</button></div>
+  <div class="mb">
+    <div class="frow"><div class="fg"><label>Client *</label><select id="e-cli"></select></div><div class="fg"><label>Opération *</label><select id="e-op"><option>Dépôt</option><option>Retrait</option></select></div></div>
+    <div class="frow"><div class="fg"><label>Type épargne *</label><select id="e-typ"><option>Épargne libre</option><option>Épargne obligatoire</option><option>Épargne groupe</option></select></div><div class="fg"><label>Montant (HTG) *</label><input type="number" id="e-mon" placeholder="5000"/></div></div>
+    <div class="frow"><div class="fg"><label>Date *</label><input type="date" id="e-dat"/></div><div class="fg"><label>Mode paiement</label><select id="e-mod"><option>Espèces</option><option>Mobile Money</option><option>Virement</option><option>Chèque</option></select></div></div>
+    <div class="frow"><div class="fg"><label>Agent</label><select id="e-age"><option>Adjoua Nandjui</option><option>Kofi Diabaté</option><option>Sekou Bah</option></select></div><div class="fg"><label>Référence</label><input id="e-ref" placeholder="REC-XXXX"/></div></div>
+  </div>
+  <div class="mf"><button class="btn" onclick="closeM('m-epargne')">Annuler</button><button class="btn btn-g" onclick="saveEpargne()">Enregistrer</button></div>
+</div></div>
+
+<div class="mbg" id="m-rembours"><div class="modal">
+  <div class="mh"><h2>Enregistrer un paiement</h2><button class="mx" onclick="closeM('m-rembours')">×</button></div>
+  <div class="mb">
+    <div class="fg"><label>Client *</label><select id="r-cli" onchange="loadEchClient()"></select></div>
+    <div class="fg"><label>Échéance *</label><select id="r-ech"></select></div>
+    <div class="frow"><div class="fg"><label>Montant reçu (HTG) *</label><input type="number" id="r-mon"/></div><div class="fg"><label>Date réception *</label><input type="date" id="r-dat"/></div></div>
+    <div class="frow"><div class="fg"><label>Mode paiement</label><select id="r-mod"><option>Espèces</option><option>Mobile Money</option><option>Virement</option><option>Chèque</option></select></div><div class="fg"><label>Référence</label><input id="r-ref" placeholder="PAY-XXXX"/></div></div>
+    <div class="fg"><label>Observations</label><textarea id="r-obs" placeholder="Notes..."></textarea></div>
+  </div>
+  <div class="mf"><button class="btn" onclick="closeM('m-rembours')">Annuler</button><button class="btn btn-g" onclick="saveRembours()">Confirmer le paiement</button></div>
+</div></div>
+
+<div class="mbg" id="m-detail"><div class="modal" style="width:620px">
+  <div class="mh"><h2 id="det-title">Détail</h2><button class="mx" onclick="closeM('m-detail')">×</button></div>
+  <div class="mb" id="det-body"></div>
+  <div class="mf" id="det-footer"><button class="btn" onclick="closeM('m-detail')">Fermer</button></div>
+</div></div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+// API GOOGLE SHEETS
+// ════════════════════════════════════════════════════════════
+const GS_URL = 'https://script.google.com/macros/s/AKfycbxuul50ngJ4w69_CHUsY10wYBZVIGiYhIIYLGXS0s62QJbBK-JmWpz80YN1wp10LycV/exec';
+
+// Cache local pour affichage rapide
+let CACHE = {};
+
+async function gsGet(action, params) {
+  params = params || {};
+  const qs = new URLSearchParams(Object.assign({action}, params)).toString();
+  const res = await fetch(GS_URL + '?' + qs, {method:'GET', redirect:'follow'});
+  const text = await res.text();
+  try {
+    const json = JSON.parse(text);
+    if (!json.ok) throw new Error(json.error || 'Erreur API');
+    return json.data;
+  } catch(e) {
+    throw new Error('Réponse invalide: ' + text.substring(0,100));
+  }
+}
+
+async function gsPost(action, data) {
+  data = data || {};
+  const body = JSON.stringify(Object.assign({action}, data));
+  const res = await fetch(GS_URL, {method:'POST', redirect:'follow', headers:{'Content-Type':'text/plain'}, body});
+  const text = await res.text();
+  try {
+    const json = JSON.parse(text);
+    if (!json.ok) throw new Error(json.error || 'Erreur API');
+    return json.data;
+  } catch(e) {
+    throw new Error('Réponse invalide: ' + text.substring(0,100));
+  }
+}
+
+// ── Auth ──────────────────────────────────────────────────
+const USERS_LOCAL = {
+  admin:     {nc:'Admin Principal',   role:'dir', pass:'admin123'},
+  agent1:    {nc:'Adjoua Nandjui',    role:'age', pass:'agent123'},
+  agent2:    {nc:'Kofi Diabaté',      role:'age', pass:'agent123'},
+  caissier1: {nc:'Sekou Bah',         role:'cai', pass:'caisse123'},
+  auditeur1: {nc:'Auditeur Externe',  role:'aud', pass:'audit123'},
+};
+const USERS = {dir:{lab:'Directeur',cls:'role-dir'},age:{lab:'Agent crédit',cls:'role-age'},cai:{lab:'Caissier',cls:'role-cai'},aud:{lab:'Auditeur',cls:'role-aud'}};
+let CU = null;
+
+function doLogin() {
+  const u = document.getElementById('lu').value.trim().toLowerCase();
+  const p = document.getElementById('lp').value;
+  const user = USERS_LOCAL[u];
+  if (!user || user.pass !== p) {
+    document.getElementById('lerr').textContent = 'Identifiants incorrects.';
+    document.getElementById('lp').value = '';
+    return;
+  }
+  CU = {username:u, nc:user.nc, role:user.role};
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('uav').textContent = user.nc.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  document.getElementById('unom').textContent = user.nc;
+  document.getElementById('urole').textContent = USERS[user.role]?.lab || user.role;
+  applyRoles();
+}
+function ql(u,p){document.getElementById('lu').value=u;document.getElementById('lp').value=p;doLogin();}
+function doLogout(){CU=null;document.getElementById('login').style.display='flex';document.getElementById('lu').value='';document.getElementById('lp').value='';document.getElementById('lerr').textContent='';}
+
+function applyRoles() {
+  const r = CU?.role || 'aud';
+
+  // Afficher/masquer les items de navigation selon le rôle
+  document.querySelectorAll('.ni[data-roles]').forEach(el => {
+    el.style.display = el.getAttribute('data-roles').split(',').includes(r) ? '' : 'none';
+  });
+
+  // Auditeur: lecture seule
+  if (r === 'aud') {
+    document.querySelectorAll('.btn-g').forEach(b => b.style.display = 'none');
+  }
+
+  // Afficher panneau création compte pour directeur seulement
+  const createCard = document.getElementById('mc-create-card');
+  if (createCard) createCard.style.display = r === 'dir' ? '' : 'none';
+
+  // Rediriger caissier vers épargne
+  if (r === 'cai') {
+    const epNav = document.querySelector('.ni[data-p="epargne"]');
+    go('epargne', epNav);
+  } else {
+    const dashNav = document.querySelector('.ni[data-p="dashboard"]');
+    if (dashNav && dashNav.style.display !== 'none') go('dashboard', dashNav);
+  }
+});
+
+  // Auditeur: lecture seule — cacher tous les boutons d'action
+  if (r === 'aud') {
+    document.querySelectorAll('.btn-g').forEach(b => b.style.display = 'none');
+  }
+
+  // Directeur: afficher le panneau de création de compte
+  const createCard = document.getElementById('mc-create-card');
+  if (createCard) createCard.style.display = r === 'dir' ? '' : 'none';
+
+  // Rediriger caissier vers épargne (sa page d'accueil)
+  if (r === 'cai') {
+    const epNav = document.querySelector('.ni[data-p="epargne"]');
+    go('epargne', epNav);
+  } else {
+    const dashNav = document.querySelector('.ni[data-p="dashboard"]');
+    if (dashNav && dashNav.style.display !== 'none') go('dashboard', dashNav);
+  }
+
+
+// ── Utils ─────────────────────────────────────────────────
+function toDay(){return new Date().toISOString().split('T')[0];}
+function fmt(n){return Math.round(n||0).toLocaleString('fr-FR')+' HTG';}
+function fmtM(n){n=n||0;if(n>=1e6)return(n/1e6).toFixed(1)+'M HTG';if(n>=1e3)return(n/1e3).toFixed(0)+'k HTG';return fmt(n);}
+function fmtD(d){if(!d)return'—';try{return new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});}catch(e){return d;}}
+function calcE(m,d,t){const r=t/100/12;const e=r===0?m/d:m*r*Math.pow(1+r,d)/(Math.pow(1+r,d)-1);return{ech:e,int:e*d-m,tot:e*d};}
+function av(name,sz=26){const colors=['#16a97e','#2563eb','#7c3aed','#d97706','#e84040'];let h=0;for(const c of(name||''))h=(h*31+c.charCodeAt(0))&0xffffffff;const col=colors[Math.abs(h)%colors.length];const ini=(name||'??').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();return`<span class="av" style="width:${sz}px;height:${sz}px;font-size:${Math.round(sz*.38)}px;background:${col}">${ini}</span>`;}
+function badge(s){const m={Actif:'bg','En cours':'bg',Payé:'bg',Inactif:'bx','En retard':'ba',Retard:'ba',Dormant:'ba','En attente':'bb',Critique:'br',Clôturé:'bx'};return`<span class="b ${m[s]||'bx'}">${s}</span>`;}
+function loading(id,cols){const el=document.getElementById(id);if(el)el.innerHTML=`<tr><td colspan="${cols}" style="text-align:center;padding:20px;color:var(--t3)"><span class="spin"></span> Chargement...</td></tr>`;}
+function errRow(id,cols,msg){const el=document.getElementById(id);if(el)el.innerHTML=`<tr><td colspan="${cols}" style="text-align:center;padding:20px;color:var(--r)">⚠ ${msg}</td></tr>`;}
+
+// ════════════════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════════════════
+const pgTitles={dashboard:'Tableau de bord',clients:'Clients',prets:'Prêts',epargne:'Épargne',remboursements:'Remboursements',rapports:'Rapports & Analyses',parametres:'Paramètres'};
+
+function go(id, el) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  const pg = document.getElementById('p-'+id);
+  if(pg) pg.classList.add('on');
+  if(el) el.classList.add('on');
+  document.getElementById('pgtitle').textContent = pgTitles[id]||id;
+  const fns={dashboard:loadDashboard,clients:loadClients,prets:loadPrets,epargne:loadEpargne,remboursements:loadRembours,rapports:loadRapports,parametres:loadParams,moncompte:loadMonCompte};
+  if(fns[id]) fns[id]();
+}
+
+// ════════════════════════════════════════════════════════════
+// DASHBOARD
+// ════════════════════════════════════════════════════════════
+async function loadDashboard() {
+  loading('d-alerts',5);
+  try {
+    const d = await gsGet('dashboard');
+    document.getElementById('m-clients').textContent = (d.total_clients||0).toLocaleString('fr-FR');
+    document.getElementById('m-clients-s').textContent = (d.clients_actifs||0)+' actifs';
+    document.getElementById('m-prets').textContent = (d.prets_actifs||0).toLocaleString('fr-FR');
+    document.getElementById('m-prets-s').textContent = 'Encours: '+fmtM(d.encours_total||0);
+    document.getElementById('m-epargne').textContent = fmtM(d.epargne_totale||0);
+    document.getElementById('m-trb').textContent = (d.taux_remboursement||0)+'%';
+    document.getElementById('m-trb-s').textContent = 'Taux de remboursement';
+    // Secteurs
+    const cols=['#16a97e','#2563eb','#7c3aed','#d97706','#e84040','#0891b2'];
+    const tot = (d.secteurs||[]).reduce((s,r)=>s+r.n,0)||1;
+    document.getElementById('d-secteurs').innerHTML = (d.secteurs||[]).map((r,i)=>`
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span>${r.secteur}</span><span style="font-weight:600">${r.n} (${Math.round(r.n/tot*100)}%)</span></div>
+        <div class="prog"><div class="progf" style="width:${r.n/tot*100}%;background:${cols[i%cols.length]}"></div></div>
+      </div>`).join('') || '<div style="color:var(--t3);font-size:13px;padding:8px">Aucune donnée — exécutez seedDemoData dans Apps Script</div>';
+    document.getElementById('d-statuts').innerHTML = (d.statuts_prets||[]).map(r=>`
+      <div class="krow"><span>${badge(r.statut)}</span><span style="font-weight:700">${r.n}</span></div>`).join('');
+    const alts = d.alertes||[];
+    document.getElementById('d-alert-n').textContent = alts.length;
+    document.getElementById('d-alerts').innerHTML = alts.map(e=>`
+      <tr><td>${av(e.client||'')} <span style="margin-left:8px">${e.client||''}</span></td>
+      <td><code style="font-family:monospace;font-size:11px">${e.num_pret||''}</code></td>
+      <td>${fmt(e.montant_du||0)}</td>
+      <td>${e.jours_retard} jour${e.jours_retard>1?'s':''}</td>
+      <td>${badge(e.jours_retard>30?'Critique':'Retard')}</td></tr>`).join('')
+      || '<tr><td colspan="5" style="text-align:center;color:var(--t3);padding:18px">✓ Aucun retard</td></tr>';
+  } catch(e) { errRow('d-alerts',5,e.message); toast('Erreur dashboard: '+e.message,'err'); }
+}
+
+// ════════════════════════════════════════════════════════════
+// CLIENTS
+// ════════════════════════════════════════════════════════════
+async function loadClients() {
+  loading('c-body',7);
+  try {
+    const q=document.getElementById('cs')?.value||'';
+    const fs=document.getElementById('cfs')?.value||'';
+    const fc=document.getElementById('cfc')?.value||'';
+    const rows = await gsGet('clients',{search:q,statut:fs,secteur:fc});
+    const dash = await gsGet('dashboard');
+    document.getElementById('c-tot').textContent = dash.total_clients||0;
+    document.getElementById('c-act').textContent = dash.clients_actifs||0;
+    document.getElementById('c-pret').textContent = dash.prets_actifs||0;
+    document.getElementById('c-body').innerHTML = rows.map(c=>`
+      <tr onclick="showClient('${c.ID||c.id}')">
+        <td><div style="display:flex;align-items:center;gap:8px">${av(c['Nom complet']||'',28)}<div><div style="font-weight:500">${c['Nom complet']||''}</div><div style="font-size:11px;color:var(--t2)">${c['Localité']||''}</div></div></div></td>
+        <td>${c['Téléphone']||'—'}</td><td>${c['Localité']||'—'}</td><td>${c['Secteur']||'—'}</td>
+        <td>${fmtM(c.epargne_total||0)}</td><td>${badge(c['Statut']||'Actif')}</td>
+        <td><button class="btn btn-sm" onclick="event.stopPropagation();openM('m-pret')">+ Prêt</button></td>
+      </tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--t3);padding:18px">Aucun client trouvé</td></tr>';
+  } catch(e) { errRow('c-body',7,e.message); }
+}
+
+async function showClient(id) {
+  document.getElementById('det-title').textContent='Chargement...';
+  document.getElementById('det-body').innerHTML='<div style="text-align:center;padding:30px"><span class="spin"></span></div>';
+  openM('m-detail');
+  try {
+    const c = await gsGet('client',{id});
+    if(!c){document.getElementById('det-body').innerHTML='<p style="color:var(--r)">Client introuvable</p>';return;}
+    const pts=c.prets||[], eps=c.epargne||[];
+    document.getElementById('det-title').textContent=c['Nom complet']||'';
+    document.getElementById('det-body').innerHTML=`
+      <div class="dh">${av(c['Nom complet']||'',48)}<div><div style="font-size:17px;font-weight:700">${c['Nom complet']||''}</div><div style="margin-top:4px;display:flex;gap:8px">${badge(c['Statut']||'Actif')}<span style="font-size:12px;color:var(--t2)">${c['Secteur']||''} · ${c['Localité']||''}</span></div></div></div>
+      <div class="dgrid">${[['Téléphone',c['Téléphone']],['Date adhesion',fmtD(c['Date adhésion']||c['Date adhesion'])],['Naissance',fmtD(c['Date naissance'])],['Piece identite',(c['Type pièce']||c['Type piece']||'')+' '+(c['N° pièce']||c['N° piece']||'')],['Revenu',c['Revenu mensuel']?fmt(c['Revenu mensuel']):'—'],['Localite',c['Localité']||c['Localite']]].map(([l,v])=>`<div class="drow"><div class="dl">${l}</div><div class="dv">${v||'—'}</div></div>`).join('')}</div>
+      <div style="font-size:12px;font-weight:600;color:var(--t2);margin:14px 0 8px;text-transform:uppercase">Prêts (${pts.length})</div>
+      ${pts.length?`<table class="tbl"><thead><tr><th>N° Prêt</th><th>Montant</th><th>Solde</th><th>Statut</th></tr></thead><tbody>${pts.map(p=>`<tr><td><code style="font-family:monospace;font-size:11px">${p['N° Prêt']||''}</code></td><td>${fmt(p['Montant']||0)}</td><td>${fmt(p['Solde restant']||0)}</td><td>${badge(p['Statut'])}</td></tr>`).join('')}</tbody></table>`:'<p style="color:var(--t3);font-size:13px">Aucun prêt</p>'}
+      <div style="font-size:12px;font-weight:600;color:var(--t2);margin:14px 0 8px;text-transform:uppercase">Épargne</div>
+      ${eps.length?`<table class="tbl"><thead><tr><th>Compte</th><th>Type</th><th>Solde</th><th>Statut</th></tr></thead><tbody>${eps.map(e=>`<tr><td><code style="font-family:monospace;font-size:11px">${e['N° Compte']||''}</code></td><td>${e['Type épargne']||e['Type epargne']||''}</td><td>${fmt(e['Solde']||0)}</td><td>${badge(e['Statut'])}</td></tr>`).join('')}</tbody></table>`:'<p style="color:var(--t3);font-size:13px">Aucun compte</p>'}`;
+    document.getElementById('det-footer').innerHTML=`<button class="btn" onclick="closeM('m-detail')">Fermer</button><button class="btn btn-g" onclick="closeM('m-detail');openM('m-pret')">+ Nouveau prêt</button>`;
+  } catch(e) { document.getElementById('det-body').innerHTML=`<div style="color:var(--r);padding:20px">Erreur: ${e.message}</div>`; }
+}
+
+// ════════════════════════════════════════════════════════════
+// PRÊTS
+// ════════════════════════════════════════════════════════════
+async function loadPrets() {
+  loading('p-body',9); simCalc();
+  try {
+    const q=document.getElementById('ps')?.value||'';
+    const fs=document.getElementById('pfs')?.value||'';
+    const rows = await gsGet('prets',{search:q,statut:fs});
+    const dash = await gsGet('dashboard');
+    document.getElementById('p-act').textContent = dash.prets_actifs||0;
+    document.getElementById('p-enc').textContent = fmtM(dash.encours_total||0);
+    document.getElementById('p-par').textContent = (dash.par_30j||0)+'%';
+    document.getElementById('p-clo').textContent = (dash.statuts_prets||[]).find(s=>s.statut==='Clôturé')?.n||0;
+    document.getElementById('p-body').innerHTML = rows.map(p=>{
+      const pct = p.pct_rembourse||0;
+      return`<tr onclick="showPret('${p.ID||p.id}')">
+        <td><code style="font-family:monospace;font-size:11px">${p['N° Prêt']||''}</code></td>
+        <td><div style="display:flex;align-items:center;gap:7px">${av(p['Client']||'',22)}<span>${p['Client']||''}</span></div></td>
+        <td>${fmt(p['Montant']||0)}</td><td>${p['Durée']||0}m</td><td>${p['Taux annuel']||0}%</td>
+        <td>${fmt(p['Solde restant']||0)}</td>
+        <td><div style="width:70px"><div class="prog"><div class="progf" style="width:${pct}%"></div></div><div style="font-size:10px;color:var(--t3)">${pct}%</div></div></td>
+        <td>${badge(p['Statut'])}</td>
+        <td><button class="btn btn-sm" onclick="event.stopPropagation();showPret('${p.ID||p.id}')">Voir</button></td></tr>`;
+    }).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--t3);padding:18px">Aucun prêt trouvé</td></tr>';
+  } catch(e) { errRow('p-body',9,e.message); }
+}
+
+async function showPret(id) {
+  document.getElementById('det-title').textContent='Chargement...';
+  document.getElementById('det-body').innerHTML='<div style="text-align:center;padding:30px"><span class="spin"></span></div>';
+  openM('m-detail');
+  try {
+    const res = await gsGet('pret',{id});
+    const p=res.pret, echs=res.echeances||[];
+    if(!p){document.getElementById('det-body').innerHTML='<p style="color:var(--r)">Prêt introuvable</p>';return;}
+    const r=calcE(p['Montant']||0,p['Durée']||0,p['Taux annuel']||0);
+    document.getElementById('det-title').textContent=(p['N° Prêt']||'')+ ' — '+(p['Client']||'');
+    document.getElementById('det-body').innerHTML=`
+      <div class="dgrid" style="margin-bottom:14px">${[['Client',p['Client']],['Montant',fmt(p['Montant']||0)],['Durée',(p['Durée']||0)+' mois'],['Taux',(p['Taux annuel']||0)+'% /an'],['Solde restant',fmt(p['Solde restant']||0)],['Echeance mensuelle',fmt(r.ech)],['Total interets',fmt(r.int)],['Total a rembourser',fmt(r.tot)],['Date debut',fmtD(p['Date début']||p['Date debut'])],['Date fin',fmtD(p['Date fin'])],['Objet',p['Objet']||'—'],['Statut',p['Statut']]].map(([l,v])=>`<div class="drow"><div class="dl">${l}</div><div class="dv">${v}</div></div>`).join('')}</div>
+      <div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:8px;text-transform:uppercase">Echéancier (${echs.length})</div>
+      <div style="max-height:240px;overflow-y:auto;border:1px solid var(--bd);border-radius:var(--rads)">
+      <table class="amort"><thead><tr><th>#</th><th>Date</th><th>Montant</th><th>Principal</th><th>Interets</th><th>Solde</th><th style="text-align:left">Statut</th></tr></thead>
+      <tbody>${echs.map(e=>`<tr><td>${e['N° Échéance']||e['N° Echeance']||''}</td><td style="text-align:right">${fmtD(e['Date échéance']||e['Date echeance'])}</td><td>${Math.round(e['Montant dû']||e['Montant du']||0).toLocaleString('fr-FR')}</td><td>${Math.round(e['Principal']||0).toLocaleString('fr-FR')}</td><td>${Math.round(e['Intérêts']||e['Interets']||0).toLocaleString('fr-FR')}</td><td>${Math.round(e['Solde après']||e['Solde apres']||0).toLocaleString('fr-FR')}</td><td style="text-align:left">${badge(e['Statut'])}</td></tr>`).join('')}</tbody>
+      </table></div>`;
+    document.getElementById('det-footer').innerHTML=`<button class="btn" onclick="closeM('m-detail')">Fermer</button><button class="btn btn-g" onclick="closeM('m-detail');openM('m-rembours')">Enregistrer paiement</button>`;
+  } catch(e) { document.getElementById('det-body').innerHTML=`<div style="color:var(--r);padding:20px">Erreur: ${e.message}</div>`; }
+}
+
+function simCalc(){
+  const M=parseFloat(document.getElementById('sm')?.value)||0,D=parseInt(document.getElementById('sd')?.value)||1,T=parseFloat(document.getElementById('st')?.value)||0;
+  if(!M||!D)return;
+  const r=calcE(M,D,T);
+  const el=document.getElementById('sim-res');
+  if(el)el.innerHTML=`<div class="sim-card"><div class="sim-card-l">Échéance</div><div class="sim-card-v">${fmt(r.ech)}</div></div><div class="sim-card"><div class="sim-card-l">Intérêts</div><div class="sim-card-v">${fmt(r.int)}</div></div><div class="sim-card"><div class="sim-card-l">Total</div><div class="sim-card-v">${fmt(r.tot)}</div></div>`;
+  let sol=M,rm=T/100/12,rows='';
+  for(let i=1;i<=Math.min(D,12);i++){const it=sol*rm,pr=r.ech-it;sol=Math.max(0,sol-pr);rows+=`<tr><td>${i}</td><td>${Math.round(r.ech).toLocaleString('fr-FR')}</td><td>${Math.round(pr).toLocaleString('fr-FR')}</td><td>${Math.round(it).toLocaleString('fr-FR')}</td><td>${Math.round(sol).toLocaleString('fr-FR')}</td></tr>`;}
+  const ab=document.getElementById('amort-body');if(ab)ab.innerHTML=rows;
+}
+function prevPret(){
+  const M=parseFloat(document.getElementById('p-mon')?.value)||0,D=parseInt(document.getElementById('p-dur')?.value)||1,T=parseFloat(document.getElementById('p-tau')?.value)||0;
+  const r=calcE(M,D,T);
+  [['pv-e',r.ech],['pv-i',r.int],['pv-t',r.tot]].forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.textContent=fmt(v);});
+}
+
+// ════════════════════════════════════════════════════════════
+// ÉPARGNE
+// ════════════════════════════════════════════════════════════
+async function loadEpargne() {
+  loading('e-body',7); loading('e-mov',6);
+  try {
+    const q=document.getElementById('es')?.value||'';
+    const ft=document.getElementById('eft')?.value||'';
+    const rows = await gsGet('epargne',{search:q,type:ft});
+    const movs = await gsGet('mouvements');
+    const actEp=rows.filter(e=>e['Statut']==='Actif');
+    const tot=actEp.reduce((s,e)=>s+(e['Solde']||0),0);
+    document.getElementById('e-tot').textContent=actEp.length;
+    document.getElementById('e-mon').textContent=fmtM(tot);
+    document.getElementById('e-moy').textContent=fmtM(actEp.length?tot/actEp.length:0);
+    document.getElementById('e-body').innerHTML=rows.map(e=>`
+      <tr><td><code style="font-family:monospace;font-size:11px">${e['N° Compte']||''}</code></td>
+      <td><div style="display:flex;align-items:center;gap:8px">${av(e['Client']||'',22)}<span>${e['Client']||''}</span></div></td>
+      <td>${e['Type épargne']||e['Type epargne']||''}</td><td>${fmt(e['Solde']||0)}</td>
+      <td>${fmtD(e['Dernier mouvement'])}</td><td>${badge(e['Statut'])}</td>
+      <td><button class="btn btn-sm" onclick="openM('m-epargne')">Opération</button></td></tr>`).join('')
+      ||'<tr><td colspan="7" style="text-align:center;color:var(--t3);padding:18px">Aucun compte</td></tr>';
+    document.getElementById('e-mov').innerHTML=(movs||[]).map(m=>`
+      <tr><td>${fmtD(m['Date opération']||m['Date operation'])}</td><td>${m['Client']||''}</td>
+      <td>${m['Type opération']||m['Type operation']==='Dépôt'||m['Type operation']==='Depot'?'<span class="b bg">Dépôt</span>':'<span class="b ba">Retrait</span>'}</td>
+      <td style="font-weight:600;color:${(m['Type opération']||m['Type operation'])==='Dépôt'?'var(--g)':'var(--r)'}">${fmt(m['Montant']||0)}</td>
+      <td>${fmt(m['Solde après']||m['Solde apres']||0)}</td><td>${m['Agent']||'—'}</td></tr>`).join('')
+      ||'<tr><td colspan="6" style="text-align:center;color:var(--t3);padding:18px">Aucun mouvement</td></tr>';
+  } catch(e) { errRow('e-body',7,e.message); }
+}
+
+// ════════════════════════════════════════════════════════════
+// REMBOURSEMENTS
+// ════════════════════════════════════════════════════════════
+async function loadRembours() {
+  loading('r-body',8);
+  try {
+    const q=document.getElementById('rs')?.value||'';
+    const fs=document.getElementById('rfs')?.value||'';
+    const rows = await gsGet('echeances',{search:q,statut:fs});
+    document.getElementById('r-tot').textContent=rows.length;
+    document.getElementById('r-pay').textContent=rows.filter(e=>e['Statut']==='Payé').length;
+    document.getElementById('r-ret').textContent=rows.filter(e=>e['Statut']==='Retard'||e['Statut']==='En retard').length;
+    document.getElementById('r-col').textContent=fmtM(rows.filter(e=>e['Statut']==='Payé').reduce((s,e)=>s+(e['Montant payé']||e['Montant paye']||0),0));
+    document.getElementById('r-body').innerHTML=rows.map(e=>`
+      <tr><td>${e['Client']||''}</td>
+      <td><code style="font-family:monospace;font-size:11px">${e['N° Prêt']||e['N° Pret']||''}</code></td>
+      <td>${fmtD(e['Date échéance']||e['Date echeance'])}</td>
+      <td>${fmt(e['Montant dû']||e['Montant du']||0)}</td>
+      <td>${e['Date paiement']?fmtD(e['Date paiement']):'—'}</td>
+      <td>${e['Mode paiement']||'—'}</td>
+      <td>${badge(e['Statut'])}</td>
+      <td>${e['Statut']!=='Payé'?`<button class="btn btn-sm" onclick="quickPay('${e.ID||e.id}',${e['Montant dû']||e['Montant du']||0})">Payer</button>`:''}</td></tr>`).join('')
+      ||'<tr><td colspan="8" style="text-align:center;color:var(--t3);padding:18px">Aucune échéance</td></tr>';
+  } catch(e) { errRow('r-body',8,e.message); }
+}
+
+async function quickPay(eid, montant) {
+  if(!confirm('Confirmer le paiement de '+fmt(montant)+' ?'))return;
+  try {
+    const res = await gsPost('payerEcheance',{data:{echeance_id:eid,montant_paye:montant,date_paiement:toDay(),mode_paiement:'Espèces'}});
+    toast(res.message||'Paiement confirmé !','ok');
+    loadRembours();
+  } catch(e) { toast('Erreur: '+e.message,'err'); }
+}
+
+// ════════════════════════════════════════════════════════════
+// RAPPORTS
+// ════════════════════════════════════════════════════════════
+async function loadRapports() {
+  try {
+    const d = await gsGet('rapports');
+    document.getElementById('kpi-body').innerHTML=[
+      ['Taux remboursement',(d.taux_remboursement||0)+'%','var(--g)'],
+      ['PAR 30j',(d.par_30j||0)+'%',parseFloat(d.par_30j)>5?'var(--r)':'var(--a)'],
+      ['Clients actifs',d.clients_actifs||0,''],
+      ['Prêts actifs',d.prets_actifs||0,''],
+      ['Encours total',fmtM(d.encours_total||0),''],
+      ['Épargne totale',fmtM(d.epargne_totale||0),'var(--g)'],
+    ].map(([l,v,c])=>`<div class="krow"><span class="kl">${l}</span><span class="kv" style="color:${c||'inherit'}">${v}</span></div>`).join('');
+  } catch(e) { console.error(e); }
+}
+
+async function genReport(type) {
+  loadRapports();
+  const titles={mensuel:'Rapport mensuel — Remboursements',risque:'Analyse risque portefeuille',epargne:'Rapport épargne & collecte',bilan:'Bilan financier'};
+  document.getElementById('rpt-title').textContent=titles[type];
+  document.getElementById('rpt-body').innerHTML='<div style="text-align:center;padding:24px"><span class="spin"></span> Chargement...</div>';
+  try {
+    const d = await gsGet('rapports');
+    let html='';
+    if(type==='mensuel'){
+      const ecs=await gsGet('echeances');
+      html=`<div class="metrics" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px">
+        <div class="mc" style="margin:0"><div class="mcl">Total</div><div class="mcv">${ecs.length}</div></div>
+        <div class="mc" style="margin:0"><div class="mcl">Payées</div><div class="mcv up">${ecs.filter(e=>e['Statut']==='Payé').length}</div></div>
+        <div class="mc" style="margin:0"><div class="mcl">En retard</div><div class="mcv dn">${ecs.filter(e=>e['Statut']==='Retard').length}</div></div>
+      </div>
+      <table class="tbl"><thead><tr><th>Client</th><th>N° Prêt</th><th>Échéance</th><th>Montant</th><th>Statut</th></tr></thead>
+      <tbody>${ecs.slice(0,20).map(e=>`<tr><td>${e['Client']||''}</td><td><code style="font-family:monospace;font-size:10px">${e['N° Prêt']||e['N° Pret']||''}</code></td><td>${fmtD(e['Date échéance']||e['Date echeance'])}</td><td>${fmt(e['Montant dû']||e['Montant du']||0)}</td><td>${badge(e['Statut'])}</td></tr>`).join('')}</tbody></table>`;
+    } else if(type==='risque'){
+      const crit=d.critiques||[];
+      html=`<div style="margin-bottom:12px;padding:12px;background:var(--rl);border-radius:var(--rads);border-left:3px solid var(--r)">
+        <div style="font-weight:600;color:#9b1c1c">PAR 30j : ${d.par_30j||0}% ${parseFloat(d.par_30j)>5?'⚠ Au-dessus du seuil':'✓ Dans les normes'}</div>
+        <div style="font-size:12px;color:#7f1d1d;margin-top:4px">${crit.length} prêt(s) à risque</div>
+      </div>
+      <table class="tbl"><thead><tr><th>Client</th><th>N° Prêt</th><th>Solde</th><th>Statut</th></tr></thead>
+      <tbody>${crit.map(p=>`<tr><td>${p['Client']||''}</td><td><code style="font-family:monospace;font-size:10px">${p['N° Prêt']||''}</code></td><td>${fmt(p['Solde restant']||0)}</td><td>${badge(p['Statut'])}</td></tr>`).join('')||'<tr><td colspan="4" style="text-align:center;color:var(--t3)">Aucun prêt critique ✓</td></tr>'}</tbody></table>`;
+    } else if(type==='epargne'){
+      const ep=d.epargne_detail||[];
+      html=`<table class="tbl"><thead><tr><th>Client</th><th>Type</th><th>Solde</th><th>Statut</th></tr></thead>
+      <tbody>${ep.map(e=>`<tr><td>${e['Client']||''}</td><td>${e['Type épargne']||e['Type epargne']||''}</td><td>${fmt(e['Solde']||0)}</td><td>${badge(e['Statut'])}</td></tr>`).join('')}</tbody></table>`;
+    } else if(type==='bilan'){
+      html=`<div class="two">
+        <div><div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:8px;text-transform:uppercase">Indicateurs</div>
+          ${[['Encours total',fmtM(d.encours_total||0)],['Épargne totale',fmtM(d.epargne_totale||0)],['TRB',(d.taux_remboursement||0)+'%'],['PAR 30j',(d.par_30j||0)+'%']].map(([l,v])=>`<div class="krow"><span class="kl">${l}</span><span class="kv">${v}</span></div>`).join('')}
+        </div>
+        <div><div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:8px;text-transform:uppercase">Portefeuille</div>
+          ${(d.statuts_prets||[]).map(s=>`<div class="krow"><span>${badge(s.statut)}</span><span class="kv">${s.n}</span></div>`).join('')}
+        </div>
+      </div>`;
+    }
+    document.getElementById('rpt-body').innerHTML=html;
+  } catch(e) { document.getElementById('rpt-body').innerHTML=`<div style="color:var(--r);padding:20px">Erreur: ${e.message}</div>`; }
+}
+
+// ════════════════════════════════════════════════════════════
+// PARAMÈTRES
+// ════════════════════════════════════════════════════════════
+function loadParams() {
+  const rLabels={dir:'Directeur',age:'Agent crédit',cai:'Caissier',aud:'Auditeur'};
+  document.getElementById('u-body').innerHTML=Object.entries(USERS_LOCAL).map(([u,d])=>`
+    <tr><td>${d.nc}</td><td><code style="font-family:monospace">${u}</code></td>
+    <td><span class="b b${d.role}">${rLabels[d.role]||d.role}</span></td>
+    <td>${badge('Actif')}</td></tr>`).join('');
+}
+
+// ════════════════════════════════════════════════════════════
+// SAVE ACTIONS
+// ════════════════════════════════════════════════════════════
+async function saveClient() {
+  const pr=document.getElementById('c-pre').value.trim();
+  const no=document.getElementById('c-nom').value.trim();
+  const tel=document.getElementById('c-tel').value.trim();
+  if(!pr||!no||!tel){toast('Remplissez les champs obligatoires (*)','err');return;}
+  try {
+    const res=await gsPost('addClient',{data:{prenom:pr,nom:no,telephone:tel,date_naissance:document.getElementById('c-ddn').value,localite:document.getElementById('c-loc').value,secteur:document.getElementById('c-sec').value,type_piece:document.getElementById('c-tp').value,num_piece:document.getElementById('c-np').value,revenu_mensuel:parseFloat(document.getElementById('c-rev').value)||0,statut:document.getElementById('c-st').value}});
+    closeM('m-client');
+    ['c-pre','c-nom','c-tel','c-loc','c-np','c-rev'].forEach(x=>{const el=document.getElementById(x);if(el)el.value='';});
+    loadClients();toast(res.message||'Client enregistré !','ok');
+  } catch(e){toast('Erreur: '+e.message,'err');}
+}
+
+async function savePret() {
+  const cid=document.getElementById('p-cli').value;
+  const m=parseFloat(document.getElementById('p-mon').value);
+  const d=parseInt(document.getElementById('p-dur').value);
+  const t=parseFloat(document.getElementById('p-tau').value);
+  const dat=document.getElementById('p-dat').value||toDay();
+  if(!cid||!m||!d||!t){toast('Remplissez tous les champs obligatoires','err');return;}
+  try {
+    const res=await gsPost('addPret',{data:{client_id:cid,montant:m,duree:d,taux_annuel:t,methode:document.getElementById('p-met').value,frequence:document.getElementById('p-fre').value,date_debut:dat,objet:document.getElementById('p-obj').value,garantie:document.getElementById('p-gar').value,agent:document.getElementById('p-age').value}});
+    closeM('m-pret');loadPrets();toast(res.message||'Prêt créé !','ok');
+  } catch(e){toast('Erreur: '+e.message,'err');}
+}
+
+async function saveEpargne() {
+  const cid=document.getElementById('e-cli').value;
+  const op=document.getElementById('e-op').value;
+  const typ=document.getElementById('e-typ').value;
+  const m=parseFloat(document.getElementById('e-mon').value);
+  const dat=document.getElementById('e-dat').value||toDay();
+  if(!cid||!m){toast('Remplissez les champs obligatoires','err');return;}
+  try {
+    const res=await gsPost('operationEpargne',{data:{client_id:cid,type_operation:op,type_epargne:typ,montant:m,date_operation:dat,mode_paiement:document.getElementById('e-mod').value,agent:document.getElementById('e-age').value,reference:document.getElementById('e-ref').value}});
+    closeM('m-epargne');document.getElementById('e-mon').value='';
+    loadEpargne();toast(res.message||op+' enregistré !','ok');
+  } catch(e){toast('Erreur: '+e.message,'err');}
+}
+
+async function saveRembours() {
+  const eid=document.getElementById('r-ech').value;
+  const m=parseFloat(document.getElementById('r-mon').value);
+  const dat=document.getElementById('r-dat').value||toDay();
+  if(!eid||!m){toast('Sélectionnez une échéance et entrez un montant','err');return;}
+  try {
+    const res=await gsPost('payerEcheance',{data:{echeance_id:eid,montant_paye:m,date_paiement:dat,mode_paiement:document.getElementById('r-mod').value,reference:document.getElementById('r-ref').value,observations:document.getElementById('r-obs').value}});
+    closeM('m-rembours');loadRembours();toast(res.message||'Paiement enregistré !','ok');
+  } catch(e){toast('Erreur: '+e.message,'err');}
+}
+
+// ════════════════════════════════════════════════════════════
+// MODAL HELPERS
+// ════════════════════════════════════════════════════════════
+async function fillClients(selId) {
+  try {
+    const rows=await gsGet('clients');
+    const sel=document.getElementById(selId);
+    if(sel) sel.innerHTML=rows.map(c=>`<option value="${c.ID||c.id}">${c['Nom complet']||''}</option>`).join('');
+  } catch(e){}
+}
+
+function openM(id) {
+  if(['m-pret','m-epargne','m-rembours'].includes(id)){
+    fillClients('p-cli');fillClients('e-cli');fillClients('r-cli');
+    loadEchClient();
+  }
+  if(id==='m-pret'){document.getElementById('p-dat').value=toDay();prevPret();}
+  if(id==='m-epargne') document.getElementById('e-dat').value=toDay();
+  if(id==='m-rembours') document.getElementById('r-dat').value=toDay();
+  document.getElementById(id).classList.add('open');
+}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.mbg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+
+async function loadEchClient() {
+  const sel=document.getElementById('r-cli');
+  if(!sel||!sel.value) return;
+  try {
+    const echs=await gsGet('echeancesClient',{client_id:sel.value});
+    const el=document.getElementById('r-ech');
+    if(el){
+      el.innerHTML=(echs||[]).map(e=>`<option value="${e.ID||e.id}">${e['N° Prêt']||''} — Éch.${e['N° Échéance']||''} — ${fmt(e['Montant dû']||0)} (${fmtD(e['Date échéance'])})</option>`).join('');
+      if(echs&&echs[0]) document.getElementById('r-mon').value=Math.round(echs[0]['Montant dû']||0);
+    }
+  } catch(e){}
+}
+
+function globalSearch(q){
+  if(!q||q.length<2)return;
+  go('clients',document.querySelector('.ni[data-p="clients"]'));
+  setTimeout(()=>{const el=document.getElementById('cs');if(el){el.value=q;loadClients();}},50);
+}
+
+async function exportCSV(){
+  try {
+    const tables={clients:'clients',prets:'prets',echeances:'echeances',epargne:'epargne',mouvements:'mouvements'};
+    let csv='';
+    for(const [name,action] of Object.entries(tables)){
+      const rows=await gsGet(action);
+      if(!rows||!rows.length)continue;
+      csv+='\n## '+name.toUpperCase()+'\n'+Object.keys(rows[0]).join(';')+'\n'+rows.map(r=>Object.values(r).map(v=>v===null||v===undefined?'':String(v).replace(/;/g,',')).join(';')).join('\n')+'\n';
+    }
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
+    a.download='microfinance_'+toDay()+'.csv';a.click();
+    toast('Export CSV généré !','ok');
+  } catch(e){toast('Erreur export: '+e.message,'err');}
+}
+
+
+// ════════════════════════════════════════════════════════════
+// GESTION DE COMPTE
+// ════════════════════════════════════════════════════════════
+function loadMonCompte() {
+  if (!CU) return;
+  const rLabels = {dir:'Directeur', age:'Agent crédit', cai:'Caissier', aud:'Auditeur'};
+  const rColors = {dir:'bp', age:'bb', cai:'bg', aud:'ba'};
+  document.getElementById('mc-avatar').textContent = CU.nc.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  document.getElementById('mc-nom').textContent = CU.nc;
+  document.getElementById('mc-username').textContent = '@' + CU.username;
+  document.getElementById('mc-nom-inp').value = CU.nc;
+  document.getElementById('mc-role-badge').textContent = rLabels[CU.role] || CU.role;
+  document.getElementById('mc-role-badge').className = 'b ' + (rColors[CU.role] || 'bx');
+  const createCard = document.getElementById('mc-create-card');
+  if (createCard) createCard.style.display = CU.role === 'dir' ? '' : 'none';
+}
+
+async function saveProfile() {
+  const nom = document.getElementById('mc-nom-inp').value.trim();
+  if (!nom) { toast('Entrez votre nom complet', 'err'); return; }
+  try {
+    await gsPost('updateUser', {username: CU.username, data: {nom_complet: nom}});
+    CU.nc = nom;
+    document.getElementById('unom').textContent = nom;
+    document.getElementById('mc-nom').textContent = nom;
+    document.getElementById('mc-avatar').textContent = nom.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    document.getElementById('uav').textContent = nom.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    toast('Profil mis à jour !', 'ok');
+  } catch(e) { toast('Erreur: ' + e.message, 'err'); }
+}
+
+async function changePassword() {
+  const actuel  = document.getElementById('mp-actuel').value;
+  const nouveau = document.getElementById('mp-nouveau').value;
+  const confirm = document.getElementById('mp-confirm').value;
+  if (!actuel || !nouveau || !confirm) { toast('Remplissez tous les champs', 'err'); return; }
+  if (nouveau !== confirm) { toast('Les mots de passe ne correspondent pas', 'err'); return; }
+  if (nouveau.length < 6) { toast('Le mot de passe doit avoir au moins 6 caractères', 'err'); return; }
+  try {
+    await gsPost('changePassword', {username: CU.username, old_pass: actuel, new_pass: nouveau});
+    document.getElementById('mp-actuel').value = '';
+    document.getElementById('mp-nouveau').value = '';
+    document.getElementById('mp-confirm').value = '';
+    toast('Mot de passe changé avec succès !', 'ok');
+  } catch(e) { toast('Erreur: ' + e.message, 'err'); }
+}
+
+async function createAccount() {
+  if (CU?.role !== 'dir') { toast('Accès refusé', 'err'); return; }
+  const nom  = document.getElementById('nc-nom').value.trim();
+  const user = document.getElementById('nc-user').value.trim().toLowerCase();
+  const pass = document.getElementById('nc-pass').value;
+  const role = document.getElementById('nc-role').value;
+  if (!nom || !user || !pass) { toast('Remplissez tous les champs', 'err'); return; }
+  if (pass.length < 6) { toast('Mot de passe trop court (min 6 caractères)', 'err'); return; }
+  try {
+    await gsPost('createUser', {data: {nom_complet: nom, username: user, password: pass, role}});
+    document.getElementById('nc-nom').value = '';
+    document.getElementById('nc-user').value = '';
+    document.getElementById('nc-pass').value = '';
+    toast('Compte de ' + nom + ' créé avec succès !', 'ok');
+  } catch(e) { toast('Erreur: ' + e.message, 'err'); }
+}
+
+function toast(msg,type='ok'){
+  const t=document.createElement('div');
+  t.className='toast '+(type==='ok'?'ok':'err');
+  t.innerHTML=(type==='ok'?'✓':'✕')+' '+msg;
+  document.getElementById('tw').appendChild(t);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('show')));
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400);},3500);
+}
+
+function saveParams(){toast('Paramètres sauvegardés !','ok');}
+
+// ════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════
+document.getElementById('tbdate').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
+simCalc();
+
+// ════════════════════════════════════════════════════════════
+// MON COMPTE
+// ════════════════════════════════════════════════════════════
+function loadMonCompte() {
+  if (!CU) return;
+  const initials = CU.nc.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  document.getElementById('mc-avatar').textContent = initials;
+  document.getElementById('mc-nom').textContent = CU.nc;
+  document.getElementById('mc-nom-input').value = CU.nc;
+  document.getElementById('mc-role').textContent = USERS[CU.role]?.lab || CU.role;
+  document.getElementById('mc-user').textContent = '@' + CU.username;
+  // Show create account only for directeur
+  document.getElementById('mc-create-card').style.display = CU.role === 'dir' ? '' : 'none';
+}
+
+async function updateProfil() {
+  const nom = document.getElementById('mc-nom-input').value.trim();
+  if (!nom) { toast('Entrez votre nom complet', 'err'); return; }
+  try {
+    await gsPost('updateUser', {username: CU.username, data: {nom_complet: nom}});
+    CU.nc = nom;
+    document.getElementById('unom').textContent = nom;
+    document.getElementById('mc-nom').textContent = nom;
+    document.getElementById('mc-avatar').textContent = nom.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    document.getElementById('uav').textContent = nom.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    toast('Profil mis à jour !', 'ok');
+  } catch(e) { toast('Erreur: ' + e.message, 'err'); }
+}
+
+async function changePassword() {
+  const old = document.getElementById('mp-old').value;
+  const nw  = document.getElementById('mp-new').value;
+  const cf  = document.getElementById('mp-conf').value;
+  if (!old || !nw || !cf) { toast('Remplissez tous les champs', 'err'); return; }
+  if (nw.length < 8) { toast('Le mot de passe doit avoir au moins 8 caractères', 'err'); return; }
+  if (nw !== cf) { toast('Les mots de passe ne correspondent pas', 'err'); return; }
+  try {
+    await gsPost('changePassword', {username: CU.username, old_password: old, new_password: nw});
+    document.getElementById('mp-old').value = '';
+    document.getElementById('mp-new').value = '';
+    document.getElementById('mp-conf').value = '';
+    toast('Mot de passe changé avec succès !', 'ok');
+  } catch(e) { toast('Erreur: ' + e.message, 'err'); }
+}
+
+async function createAccount() {
+  const pre  = document.getElementById('nc-pre').value.trim();
+  const nom  = document.getElementById('nc-nom').value.trim();
+  const user = document.getElementById('nc-user').value.trim().toLowerCase();
+  const pass = document.getElementById('nc-pass').value;
+  const role = document.getElementById('nc-role').value;
+  if (!pre || !nom || !user || !pass) { toast('Remplissez tous les champs', 'err'); return; }
+  if (pass.length < 8) { toast('Mot de passe: minimum 8 caractères', 'err'); return; }
+  try {
+    const res = await gsPost('createUser', {data: {nom_complet: pre+' '+nom, username: user, password: pass, role}});
+    ['nc-pre','nc-nom','nc-user','nc-pass'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    toast(res.message || 'Compte créé pour ' + pre + ' ' + nom + ' !', 'ok');
+  } catch(e) { toast('Erreur: ' + e.message, 'err'); }
+}
+
+
+</script>
+</body>
+</html>
