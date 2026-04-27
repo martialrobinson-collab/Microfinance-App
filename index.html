@@ -203,15 +203,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
     </div>
     <nav class="nav">
       <div class="nav-g">Principal</div>
-      <button class="ni on" data-p="dashboard" onclick="go('dashboard',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".9"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" opacity=".9"/></svg>Tableau de bord</button>
+      <button class="ni on" data-p="dashboard" data-roles="dir,age,aud" onclick="go('dashboard',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".9"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" opacity=".9"/></svg>Tableau de bord</button>
       <div class="nav-g">Gestion</div>
       <button class="ni" data-p="clients" data-roles="dir,age" onclick="go('clients',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="3" fill="currentColor" opacity=".8"/><path d="M1 13c0-3 2-4 5-4s5 1 5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="12" cy="6" r="2" fill="currentColor" opacity=".4"/><path d="M13.5 13c0-2-1-3-3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Clients</button>
       <button class="ni" data-p="prets" data-roles="dir,age" onclick="go('prets',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="1" y="4" width="14" height="9" rx="1.5" fill="currentColor" opacity=".5"/><path d="M4 4V3a2.5 2.5 0 015 0v1" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8.5" r="2" fill="#1a1b2e" opacity=".9"/></svg>Prêts</button>
       <button class="ni" data-p="epargne" data-roles="dir,cai" onclick="go('epargne',this)"><svg viewBox="0 0 16 16" fill="none"><ellipse cx="8" cy="10" rx="6" ry="3.5" fill="currentColor" opacity=".4"/><ellipse cx="8" cy="8" rx="6" ry="3.5" fill="currentColor" opacity=".6"/><ellipse cx="8" cy="6" rx="6" ry="3.5" fill="currentColor" opacity=".85"/></svg>Épargne</button>
       <button class="ni" data-p="remboursements" data-roles="dir,age,cai" onclick="go('remboursements',this)"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8h10M9 5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="2.5" cy="12" r="1.5" fill="currentColor" opacity=".6"/></svg>Remboursements</button>
+      <div class="nav-g">Mon espace</div>
+      <button class="ni" data-p="moncompte" data-roles="dir,age,cai,aud" onclick="go('moncompte',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3.5" fill="currentColor" opacity=".8"/><path d="M2 14c0-3.5 2.5-5 6-5s6 1.5 6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Mon compte</button>
       <div class="nav-g">Analyse</div>
       <button class="ni" data-p="rapports" data-roles="dir,aud" onclick="go('rapports',this)"><svg viewBox="0 0 16 16" fill="none"><rect x="2" y="1.5" width="12" height="13" rx="1.5" fill="currentColor" opacity=".4"/><path d="M5 5h6M5 7.5h6M5 10h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Rapports</button>
       <button class="ni" data-p="parametres" data-roles="dir" onclick="go('parametres',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2.5" fill="currentColor" opacity=".7"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.1 3.1l1.4 1.4M11.5 11.5l1.4 1.4M3.1 12.9l1.4-1.4M11.5 4.5l1.4-1.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Paramètres</button>
+          <div class="nav-g">Mon espace</div>
+      <button class="ni" data-p="moncompte" data-roles="dir,age,cai,aud" onclick="go('moncompte',this)"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3.5" fill="currentColor" opacity=".8"/><path d="M2 14c0-3.5 2.7-5 6-5s6 1.5 6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Mon compte</button>
     </nav>
     <div class="sfooter">
       <div class="uav" id="uav">AD</div>
@@ -408,6 +412,109 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
         </div>
       </div>
 
+
+      <!-- MON COMPTE -->
+      <div id="p-moncompte" class="page">
+        <div style="max-width:520px;margin:0 auto">
+          <div class="card" style="margin-bottom:14px">
+            <div class="ch"><div class="ct">Mon profil</div><span class="b" id="mc-role-badge">—</span></div>
+            <div style="padding:20px">
+              <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--bd)">
+                <div id="mc-avatar" style="width:56px;height:56px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0"></div>
+                <div><div id="mc-nom" style="font-size:17px;font-weight:700"></div><div id="mc-username" style="font-size:12px;color:var(--t2);margin-top:3px;font-family:monospace"></div></div>
+              </div>
+              <div class="fg"><label>Nom complet</label><input type="text" id="mc-nom-inp" placeholder="Votre nom"/></div>
+              <div class="fg"><label>Email (optionnel)</label><input type="email" id="mc-email" placeholder="votre@email.com"/></div>
+              <button class="btn btn-g" onclick="saveProfile()">Sauvegarder le profil</button>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom:14px">
+            <div class="ch"><div class="ct">Changer mon mot de passe</div></div>
+            <div style="padding:20px">
+              <div class="fg"><label>Mot de passe actuel *</label><input type="password" id="mp-actuel" placeholder="••••••••"/></div>
+              <div class="fg"><label>Nouveau mot de passe *</label><input type="password" id="mp-nouveau" placeholder="••••••••"/></div>
+              <div class="fg"><label>Confirmer le nouveau mot de passe *</label><input type="password" id="mp-confirm" placeholder="••••••••"/></div>
+              <button class="btn btn-g" onclick="changePassword()">Changer le mot de passe</button>
+            </div>
+          </div>
+          <div class="card" id="mc-create-card" style="margin-bottom:0;display:none">
+            <div class="ch"><div class="ct">Créer un compte agent</div><span class="b bb">Directeur uniquement</span></div>
+            <div style="padding:20px">
+              <div class="frow">
+                <div class="fg"><label>Nom complet *</label><input type="text" id="nc-nom" placeholder="Marie Dupont"/></div>
+                <div class="fg"><label>Nom d'utilisateur *</label><input type="text" id="nc-user" placeholder="marie.dupont"/></div>
+              </div>
+              <div class="frow">
+                <div class="fg"><label>Mot de passe *</label><input type="password" id="nc-pass" placeholder="••••••••"/></div>
+                <div class="fg"><label>Rôle *</label>
+                  <select id="nc-role">
+                    <option value="age">Agent crédit</option>
+                    <option value="cai">Caissier</option>
+                    <option value="aud">Auditeur</option>
+                    <option value="dir">Directeur</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-g" onclick="createAccount()">Créer le compte</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MON COMPTE -->
+      <div id="p-moncompte" class="page">
+        <div style="max-width:480px;margin:0 auto">
+          <div class="card">
+            <div class="ch"><div class="ct">Mon profil</div></div>
+            <div style="padding:20px">
+              <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--bd)">
+                <div id="mc-avatar" style="width:56px;height:56px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0"></div>
+                <div>
+                  <div id="mc-nom" style="font-size:17px;font-weight:700"></div>
+                  <div id="mc-role" style="margin-top:4px;font-size:13px;color:var(--t2)"></div>
+                  <div id="mc-user" style="margin-top:2px;font-size:12px;color:var(--t3);font-family:monospace"></div>
+                </div>
+              </div>
+              <div class="fg"><label>Nom complet</label><input id="mc-nom-input" type="text" placeholder="Votre nom complet"/></div>
+              <button class="btn btn-g" onclick="updateProfil()" style="width:100%;margin-top:4px">Mettre à jour le profil</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="ch"><div class="ct">Changer mon mot de passe</div></div>
+            <div style="padding:20px">
+              <div class="fg"><label>Mot de passe actuel *</label><input id="mp-old" type="password" placeholder="••••••••"/></div>
+              <div class="fg"><label>Nouveau mot de passe *</label><input id="mp-new" type="password" placeholder="Minimum 8 caractères"/></div>
+              <div class="fg"><label>Confirmer le nouveau mot de passe *</label><input id="mp-conf" type="password" placeholder="Répétez le mot de passe"/></div>
+              <button class="btn btn-g" onclick="changePassword()" style="width:100%;margin-top:4px">Changer le mot de passe</button>
+            </div>
+          </div>
+
+          <div class="card" id="mc-create-card" style="display:none">
+            <div class="ch"><div class="ct">Créer un nouveau compte agent</div><span class="b bb">Directeur uniquement</span></div>
+            <div style="padding:20px">
+              <div class="frow">
+                <div class="fg"><label>Prénom *</label><input id="nc-pre" placeholder="Marie"/></div>
+                <div class="fg"><label>Nom *</label><input id="nc-nom" placeholder="Dupont"/></div>
+              </div>
+              <div class="frow">
+                <div class="fg"><label>Nom d'utilisateur *</label><input id="nc-user" placeholder="mdupont"/></div>
+                <div class="fg"><label>Mot de passe initial *</label><input id="nc-pass" type="password" placeholder="Min. 8 caractères"/></div>
+              </div>
+              <div class="fg"><label>Rôle *</label>
+                <select id="nc-role">
+                  <option value="agent_credit">Agent crédit</option>
+                  <option value="caissier">Caissier</option>
+                  <option value="auditeur">Auditeur</option>
+                  <option value="directeur">Directeur</option>
+                </select>
+              </div>
+              <button class="btn btn-g" onclick="createAccount()" style="width:100%;margin-top:4px">Créer le compte</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /content -->
   </div><!-- /main -->
 </div><!-- /app -->
@@ -548,6 +655,33 @@ function applyRoles() {
     el.style.display = el.getAttribute('data-roles').split(',').includes(r) ? '' : 'none';
   });
   if (r === 'aud') document.querySelectorAll('.btn-g').forEach(b => b.style.display = 'none');
+  // Redirect to first allowed page
+  if (r === 'cai') {
+    const ep = document.querySelector('.ni[data-p="epargne"]');
+    go('epargne', ep);
+  } else {
+    const dash = document.querySelector('.ni[data-p="dashboard"]');
+    go('dashboard', dash);
+  }
+});
+
+  // Auditeur: lecture seule — cacher tous les boutons d'action
+  if (r === 'aud') {
+    document.querySelectorAll('.btn-g').forEach(b => b.style.display = 'none');
+  }
+
+  // Directeur: afficher le panneau de création de compte
+  const createCard = document.getElementById('mc-create-card');
+  if (createCard) createCard.style.display = r === 'dir' ? '' : 'none';
+
+  // Rediriger caissier vers épargne (sa page d'accueil)
+  if (r === 'cai') {
+    const epNav = document.querySelector('.ni[data-p="epargne"]');
+    go('epargne', epNav);
+  } else {
+    const dashNav = document.querySelector('.ni[data-p="dashboard"]');
+    if (dashNav && dashNav.style.display !== 'none') go('dashboard', dashNav);
+  }
 }
 
 // ── Utils ─────────────────────────────────────────────────
@@ -573,7 +707,7 @@ function go(id, el) {
   if(pg) pg.classList.add('on');
   if(el) el.classList.add('on');
   document.getElementById('pgtitle').textContent = pgTitles[id]||id;
-  const fns={dashboard:loadDashboard,clients:loadClients,prets:loadPrets,epargne:loadEpargne,remboursements:loadRembours,rapports:loadRapports,parametres:loadParams};
+  const fns={dashboard:loadDashboard,clients:loadClients,prets:loadPrets,epargne:loadEpargne,remboursements:loadRembours,rapports:loadRapports,parametres:loadParams,moncompte:loadMonCompte};
   if(fns[id]) fns[id]();
 }
 
@@ -972,6 +1106,71 @@ async function exportCSV(){
   } catch(e){toast('Erreur export: '+e.message,'err');}
 }
 
+
+// ════════════════════════════════════════════════════════════
+// GESTION DE COMPTE
+// ════════════════════════════════════════════════════════════
+function loadMonCompte() {
+  if (!CU) return;
+  const rLabels = {dir:'Directeur', age:'Agent crédit', cai:'Caissier', aud:'Auditeur'};
+  const rColors = {dir:'bp', age:'bb', cai:'bg', aud:'ba'};
+  document.getElementById('mc-avatar').textContent = CU.nc.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  document.getElementById('mc-nom').textContent = CU.nc;
+  document.getElementById('mc-username').textContent = '@' + CU.username;
+  document.getElementById('mc-nom-inp').value = CU.nc;
+  document.getElementById('mc-role-badge').textContent = rLabels[CU.role] || CU.role;
+  document.getElementById('mc-role-badge').className = 'b ' + (rColors[CU.role] || 'bx');
+  const createCard = document.getElementById('mc-create-card');
+  if (createCard) createCard.style.display = CU.role === 'dir' ? '' : 'none';
+}
+
+async function saveProfile() {
+  const nom = document.getElementById('mc-nom-inp').value.trim();
+  if (!nom) { toast('Entrez votre nom complet', 'err'); return; }
+  try {
+    await gsPost('updateUser', {username: CU.username, data: {nom_complet: nom}});
+    CU.nc = nom;
+    document.getElementById('unom').textContent = nom;
+    document.getElementById('mc-nom').textContent = nom;
+    document.getElementById('mc-avatar').textContent = nom.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    document.getElementById('uav').textContent = nom.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    toast('Profil mis à jour !', 'ok');
+  } catch(e) { toast('Erreur: ' + e.message, 'err'); }
+}
+
+async function changePassword() {
+  const actuel  = document.getElementById('mp-actuel').value;
+  const nouveau = document.getElementById('mp-nouveau').value;
+  const confirm = document.getElementById('mp-confirm').value;
+  if (!actuel || !nouveau || !confirm) { toast('Remplissez tous les champs', 'err'); return; }
+  if (nouveau !== confirm) { toast('Les mots de passe ne correspondent pas', 'err'); return; }
+  if (nouveau.length < 6) { toast('Le mot de passe doit avoir au moins 6 caractères', 'err'); return; }
+  try {
+    await gsPost('changePassword', {username: CU.username, old_pass: actuel, new_pass: nouveau});
+    document.getElementById('mp-actuel').value = '';
+    document.getElementById('mp-nouveau').value = '';
+    document.getElementById('mp-confirm').value = '';
+    toast('Mot de passe changé avec succès !', 'ok');
+  } catch(e) { toast('Erreur: ' + e.message, 'err'); }
+}
+
+async function createAccount() {
+  if (CU?.role !== 'dir') { toast('Accès refusé', 'err'); return; }
+  const nom  = document.getElementById('nc-nom').value.trim();
+  const user = document.getElementById('nc-user').value.trim().toLowerCase();
+  const pass = document.getElementById('nc-pass').value;
+  const role = document.getElementById('nc-role').value;
+  if (!nom || !user || !pass) { toast('Remplissez tous les champs', 'err'); return; }
+  if (pass.length < 6) { toast('Mot de passe trop court (min 6 caractères)', 'err'); return; }
+  try {
+    await gsPost('createUser', {data: {nom_complet: nom, username: user, password: pass, role}});
+    document.getElementById('nc-nom').value = '';
+    document.getElementById('nc-user').value = '';
+    document.getElementById('nc-pass').value = '';
+    toast('Compte de ' + nom + ' créé avec succès !', 'ok');
+  } catch(e) { toast('Erreur: ' + e.message, 'err'); }
+}
+
 function toast(msg,type='ok'){
   const t=document.createElement('div');
   t.className='toast '+(type==='ok'?'ok':'err');
@@ -988,6 +1187,67 @@ function saveParams(){toast('Paramètres sauvegardés !','ok');}
 // ════════════════════════════════════════════════════════════
 document.getElementById('tbdate').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'long',year:'numeric'});
 simCalc();
+
+// ════════════════════════════════════════════════════════════
+// MON COMPTE
+// ════════════════════════════════════════════════════════════
+function loadMonCompte() {
+  if (!CU) return;
+  const initials = CU.nc.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  document.getElementById('mc-avatar').textContent = initials;
+  document.getElementById('mc-nom').textContent = CU.nc;
+  document.getElementById('mc-nom-input').value = CU.nc;
+  document.getElementById('mc-role').textContent = USERS[CU.role]?.lab || CU.role;
+  document.getElementById('mc-user').textContent = '@' + CU.username;
+  // Show create account only for directeur
+  document.getElementById('mc-create-card').style.display = CU.role === 'dir' ? '' : 'none';
+}
+
+async function updateProfil() {
+  const nom = document.getElementById('mc-nom-input').value.trim();
+  if (!nom) { toast('Entrez votre nom complet', 'err'); return; }
+  try {
+    await gsPost('updateUser', {username: CU.username, data: {nom_complet: nom}});
+    CU.nc = nom;
+    document.getElementById('unom').textContent = nom;
+    document.getElementById('mc-nom').textContent = nom;
+    document.getElementById('mc-avatar').textContent = nom.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    document.getElementById('uav').textContent = nom.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    toast('Profil mis à jour !', 'ok');
+  } catch(e) { toast('Erreur: ' + e.message, 'err'); }
+}
+
+async function changePassword() {
+  const old = document.getElementById('mp-old').value;
+  const nw  = document.getElementById('mp-new').value;
+  const cf  = document.getElementById('mp-conf').value;
+  if (!old || !nw || !cf) { toast('Remplissez tous les champs', 'err'); return; }
+  if (nw.length < 8) { toast('Le mot de passe doit avoir au moins 8 caractères', 'err'); return; }
+  if (nw !== cf) { toast('Les mots de passe ne correspondent pas', 'err'); return; }
+  try {
+    await gsPost('changePassword', {username: CU.username, old_password: old, new_password: nw});
+    document.getElementById('mp-old').value = '';
+    document.getElementById('mp-new').value = '';
+    document.getElementById('mp-conf').value = '';
+    toast('Mot de passe changé avec succès !', 'ok');
+  } catch(e) { toast('Erreur: ' + e.message, 'err'); }
+}
+
+async function createAccount() {
+  const pre  = document.getElementById('nc-pre').value.trim();
+  const nom  = document.getElementById('nc-nom').value.trim();
+  const user = document.getElementById('nc-user').value.trim().toLowerCase();
+  const pass = document.getElementById('nc-pass').value;
+  const role = document.getElementById('nc-role').value;
+  if (!pre || !nom || !user || !pass) { toast('Remplissez tous les champs', 'err'); return; }
+  if (pass.length < 8) { toast('Mot de passe: minimum 8 caractères', 'err'); return; }
+  try {
+    const res = await gsPost('createUser', {data: {nom_complet: pre+' '+nom, username: user, password: pass, role}});
+    ['nc-pre','nc-nom','nc-user','nc-pass'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    toast(res.message || 'Compte créé pour ' + pre + ' ' + nom + ' !', 'ok');
+  } catch(e) { toast('Erreur: ' + e.message, 'err'); }
+}
+
 
 </script>
 </body>
